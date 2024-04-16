@@ -2,8 +2,9 @@
 title: Firmware
 type: docs
 prev: /
-next: docs/folder/
+next: docs/hardware/
 ---
 
-A simple demo page.
+### Programming Devboards
+1. Plug in the devboard to your computer via USB-c.
 

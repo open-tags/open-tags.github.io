@@ -2,7 +2,7 @@
 title: iOS
 type: docs
 prev: /
-next: docs/folder/
+next: /
 ---
 
 A simple demo page.

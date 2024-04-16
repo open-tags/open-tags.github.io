@@ -1,7 +1,6 @@
 ---
 title: Documentation
-type: docs
-next: first-page
+next: docs/firmware/
 ---
 
 We split the documentation into several sections:

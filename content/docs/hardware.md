@@ -2,7 +2,7 @@
 title: Hardware
 type: docs
 prev: /
-next: docs/folder/
+next: docs/ios/
 ---
 
 The goal for the hardware is to have a fully integrated: 
