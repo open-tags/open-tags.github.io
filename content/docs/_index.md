@@ -1,5 +1,6 @@
 ---
 title: Documentation
+type: docs
 next: first-page
 ---
 
