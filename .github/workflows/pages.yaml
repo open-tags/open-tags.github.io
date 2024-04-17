@@ -36,12 +36,12 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
         with:
-          fetch-depth: 0  # fetch all history for .GitInfo and .Lastmod
+          fetch-depth: 0 # fetch all history for .GitInfo and .Lastmod
           submodules: recursive
       - name: Setup Go
         uses: actions/setup-go@v5
         with:
-          go-version: '1.21'
+          go-version: "1.21"
       - name: Setup Pages
         id: pages
         uses: actions/configure-pages@v4
@@ -62,6 +62,13 @@ jobs:
         uses: actions/upload-pages-artifact@v3
         with:
           path: ./public
+      - step:
+        name: Clone with lfs on
+        clone:
+          lfs: true
+        script:
+          - curl -s https://packagecloud.io/install/repositories/github/git-lfs/script.deb.sh | bash
+          - apt-get install -y git-lfs
 
   # Deployment job
   deploy:
