@@ -1,9 +1,8 @@
 ---
 title: iOS
 type: docs
-prev: /
-next: /
+prev: /docs/hardware/
+next: docs/resources/
 ---
 
 A simple demo page.
-

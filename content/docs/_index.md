@@ -1,13 +1,14 @@
 ---
 title: Documentation
-next: docs/firmware/
+next: /docs/hardware/
 ---
 
 We split the documentation into several sections:
 
-- [Firmware](/docs/firmware/)
 - [Hardware](/docs/hardware/)
+- [Firmware](/docs/firmware/)
 - [iOS](/docs/ios/)
+- [Resources](/docs/resources/)
 
 A super high-level overview of Opentags is as follows:
 
