@@ -62,13 +62,11 @@ jobs:
         uses: actions/upload-pages-artifact@v3
         with:
           path: ./public
-      - step:
-        name: Clone with lfs on
-        clone:
-          lfs: true
-        script:
-          - curl -s https://packagecloud.io/install/repositories/github/git-lfs/script.deb.sh | bash
-          - apt-get install -y git-lfs
+      
+      - name: Setup Git LFS
+        run: |
+          sudo apt-get install git-lfs
+          git lfs install
 
   # Deployment job
   deploy:
