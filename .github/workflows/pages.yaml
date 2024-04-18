@@ -62,11 +62,6 @@ jobs:
         uses: actions/upload-pages-artifact@v3
         with:
           path: ./public
-      
-      - name: Setup Git LFS
-        run: |
-          sudo apt-get install git-lfs
-          git lfs install
 
   # Deployment job
   deploy:
