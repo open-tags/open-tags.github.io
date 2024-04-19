@@ -5,11 +5,11 @@ prev: /docs/ios/
 next: /docs/firmware
 ---
 
-[Download DW3xxx Chip Vendor Guides](../static/DW3xxx_QM33_XR6.0C.zip)
+[Download DW3xxx Chip Vendor Guides](/static/DW3xxx_QM33_XR6.0C.zip)
 
 - This includes Qorvo's DW3000 API, ST & Nordic software development kits, schematics, and user guides for the DW3xxx IC
 
-[Nearby Intereaction Demo from Qorvo](../static/Qorvo_Nearby_Interaction_3_2_0.zip)
+[Nearby Intereaction Demo from Qorvo](/static/Qorvo_Nearby_Interaction_3_2_0.zip)
 
 - Demo Qorvo software connecting U1 to DWM3000
 
