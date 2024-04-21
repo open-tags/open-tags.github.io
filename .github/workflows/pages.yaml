@@ -38,6 +38,7 @@ jobs:
         with:
           fetch-depth: 0 # fetch all history for .GitInfo and .Lastmod
           submodules: recursive
+          lfs: true
       - name: Setup Go
         uses: actions/setup-go@v5
         with:
