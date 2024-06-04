@@ -30,6 +30,8 @@ Using the AR Kit, we utilize the camera to give the user a different perspective
 
 ## Current Demo
 
+Our application is still a work-in-progress. We are left with adding the Camera AR Assistance!
+
 ![NINearbyAccessorySample](./images/NINearbyDemo.gif?width=50)
 
 Currently, we are using the NINearbyAccessorySample demo as a UI in order to test the establishment of the Nearby Interaction Protocol specified in the Apple Nearby Interaction Accessory Protocol Specification - Release 2
