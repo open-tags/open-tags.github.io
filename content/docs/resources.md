@@ -20,3 +20,7 @@ next: /docs/firmware
 [Research Paper Implementing ESP32-DWM3000 by Sebastian Krebs, Tom Herter](https://github.com/krebsbstn/uwb-tracking/tree/master)
 
 - End to End solution for using ESP32 with DWM3000 as tags/anchors
+
+[Apple Nearby Interaction Accessory Protocol Specification](./static/Nearby-Interaction-Accessory-Protocol-Specification-Release-R2.pdf)
+
+- Apple's Nearby Interaction Accessory Protocol used to establish a connection between U1 on iPhone and Third Party Accessories
