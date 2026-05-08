@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="description"
+      content="OpenTag Pro is a compact UWB development tag for ranging, localization, firmware bringup, and robotics experiments."
+    />
+    <title>OpenTag Pro</title>
+    <link rel="stylesheet" href="/assets/site.css" />
+  </head>
+  <body>
+    <header class="site-header">
+      <a class="brand" href="/">opentag</a>
+      <nav aria-label="Primary">
+        <a href="/">home</a>
+        <a aria-current="page" href="/pro/">pro</a>
+        <a href="/firmware/">firmware</a>
+        <a href="https://github.com/open-tags" rel="noreferrer">github</a>
+      </nav>
+    </header>
+
+    <main>
+      <section class="product-hero">
+        <div class="product-copy">
+          <p class="eyebrow">opentag pro</p>
+          <h1>UWB tag hardware for serious localization experiments.</h1>
+          <p class="intro">
+            A compact enclosed tag platform for two-way ranging, anchor testing,
+            firmware development, and robotic positioning workflows.
+          </p>
+          <div class="hero-actions">
+            <a class="button primary" href="/firmware/">open firmware console</a>
+            <a class="button" href="#specs">view specs</a>
+          </div>
+        </div>
+        <div class="product-media">
+          <img src="/assets/images/pro/opentag_pro_2.png" alt="OpenTag Pro angled enclosure render" />
+        </div>
+      </section>
+
+      <section id="specs" class="band product-specs">
+        <div class="section-head">
+          <p class="eyebrow">key specs</p>
+          <h2>Built for bringup, measurement, and iteration.</h2>
+        </div>
+        <div class="spec-list">
+          <div><span>radio</span><strong>DW3000 UWB module</strong></div>
+          <div><span>controller</span><strong>STM32 firmware target</strong></div>
+          <div><span>usb</span><strong>USB-C power, serial, and DFU flashing</strong></div>
+          <div><span>firmware</span><strong>Rust ranging firmware with browser tools</strong></div>
+          <div><span>i/o</span><strong>Debug header and field connector access</strong></div>
+          <div><span>enclosure</span><strong>Screw-mounted protective case</strong></div>
+        </div>
+      </section>
+
+      <section class="band gallery-band">
+        <div class="section-head">
+          <p class="eyebrow">views</p>
+          <h2>Designed to expose the useful parts.</h2>
+        </div>
+        <div class="product-gallery">
+          <img src="/assets/images/pro/opentag_pro_4.png" alt="OpenTag Pro internal board view" />
+          <img src="/assets/images/pro/opentag_pro_3.png" alt="OpenTag Pro USB-C side view" />
+          <img src="/assets/images/pro/opentag_pro_1.png" alt="OpenTag Pro connector side view" />
+        </div>
+      </section>
+
+      <section class="band">
+        <div class="section-head">
+          <p class="eyebrow">example uses</p>
+          <h2>Where OpenTag Pro fits.</h2>
+        </div>
+        <div class="grid use-grid">
+          <article>
+            <h3>robotics labs</h3>
+            <p>
+              Track robots, carts, or test fixtures indoors where GPS is not
+              available and repeatable ranging data matters.
+            </p>
+          </article>
+          <article>
+            <h3>anchor networks</h3>
+            <p>
+              Build and debug UWB anchor layouts, timing assumptions, sync
+              behavior, and TDOA/TWR experiments.
+            </p>
+          </article>
+          <article>
+            <h3>firmware bringup</h3>
+            <p>
+              Flash builds, inspect serial logs, collect live distance samples,
+              and calibrate pairs from the browser.
+            </p>
+          </article>
+          <article>
+            <h3>asset tracking</h3>
+            <p>
+              Prototype tags for equipment, tools, and moving objects before
+              committing to a custom enclosure or deployment design.
+            </p>
+          </article>
+          <article>
+            <h3>education</h3>
+            <p>
+              Make RF ranging, embedded Rust, USB device modes, and sensor
+              fusion visible enough to teach and modify.
+            </p>
+          </article>
+          <article>
+            <h3>field testing</h3>
+            <p>
+              Carry a self-contained tag to compare antennas, placement,
+              line-of-sight behavior, and calibration drift.
+            </p>
+          </article>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <span>&copy; 2026 OpenTag</span>
+    </footer>
+  </body>
+</html>

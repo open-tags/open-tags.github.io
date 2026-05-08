@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="description"
+      content="OpenTag is an open ultra-wideband tag platform for ranging, localization, firmware experiments, and hardware iteration."
+    />
+    <title>OpenTag</title>
+    <link rel="stylesheet" href="assets/site.css" />
+  </head>
+  <body>
+    <header class="site-header">
+      <a class="brand" href="/">opentag</a>
+      <nav aria-label="Primary">
+        <a href="/pro/">pro</a>
+        <a href="/firmware/">firmware</a>
+        <a href="https://github.com/open-tags" rel="noreferrer">github</a>
+      </nav>
+    </header>
+
+    <main>
+      <section class="hero">
+        <h1>Small tags for measuring where things are.</h1>
+        <p class="intro">
+          OpenTag is an open hardware and firmware project for ultra-wideband
+          ranging, anchor timing, and real-world localization experiments.
+        </p>
+        <div class="hero-actions" aria-label="Primary actions">
+          <a class="button primary" href="/pro/">view opentag pro</a>
+          <a class="button primary" href="/firmware/">open firmware console</a>
+          <a class="button" href="https://github.com/open-tags" rel="noreferrer">view repos</a>
+        </div>
+      </section>
+
+      <section class="band">
+        <div class="section-head">
+          <p class="eyebrow">basics</p>
+          <h2>One platform, three loops.</h2>
+        </div>
+        <div class="grid">
+          <article>
+            <h3>hardware</h3>
+            <p>
+              STM32 control, DW3000 UWB radio, USB-C bringup, CAN-friendly
+              power and connectors, and board revisions meant to be built on.
+            </p>
+          </article>
+          <article>
+            <h3>firmware</h3>
+            <p>
+              Rust firmware for two-way ranging, responder streams, calibration,
+              and tag roles that can be flashed from the browser.
+            </p>
+          </article>
+          <article>
+            <h3>experiments</h3>
+            <p>
+              Measure distance, tune antenna delay, test timing assumptions, and
+              turn raw tag behavior into useful location data.
+            </p>
+          </article>
+        </div>
+      </section>
+
+      <section class="band split">
+        <div>
+          <p class="eyebrow">current tool</p>
+          <h2>Browser-based firmware console.</h2>
+        </div>
+        <div>
+          <p>
+            The firmware page keeps the practical bits close: WebUSB flashing,
+            Web Serial logs, live distance plotting, and pair calibration for
+            two tags.
+          </p>
+          <a class="inline-link" href="/firmware/">go to /firmware</a>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <span>&copy; 2026 OpenTag</span>
+    </footer>
+  </body>
+</html>

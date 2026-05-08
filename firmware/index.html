@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>OpenTag Firmware</title>
+    <link rel="stylesheet" href="/assets/site.css" />
+  </head>
+  <body>
+    <header class="site-header">
+      <a class="brand" href="/">opentag</a>
+      <nav aria-label="Primary">
+        <a href="/">home</a>
+        <a href="/pro/">pro</a>
+        <a aria-current="page" href="/firmware/">firmware</a>
+        <a href="https://github.com/open-tags" rel="noreferrer">github</a>
+      </nav>
+    </header>
+
+    <main>
+      <section class="page-title">
+        <p class="eyebrow">firmware console</p>
+        <h1>Flash, connect, range, calibrate.</h1>
+        <p class="hint">
+          Hold <strong>BOOT0</strong> on the tag, plug it in as STM32 DFU, then
+          flash a role. Replug normally to connect over serial.
+          <a class="text-link" href="build-firmware.md">Build notes</a>.
+        </p>
+      </section>
+
+      <div class="tags">
+        <section class="panel tag" data-slot="A" data-role="I">
+          <h2>Tag A: Initiator</h2>
+          <div class="info-line">
+            <span>status: <code class="status-pill">disconnected</code></span>
+            <span>mode: <code class="info-mode">-</code></span>
+            <span>calib: <code class="info-calib">-</code> dtu</span>
+            <span>fw: <code class="info-fw">-</code></span>
+          </div>
+          <div class="row">
+            <button class="connect-btn">Connect serial</button>
+            <button class="disconnect-btn" disabled>Disconnect</button>
+            <button class="info-btn" disabled>INFO</button>
+            <button class="flash-btn" data-fw="bins/twr_init.bin">Flash Initiator</button>
+          </div>
+          <div class="flash-progress">
+            <div class="bar"></div><span class="msg"></span>
+          </div>
+          <pre class="tag-log"></pre>
+        </section>
+
+        <section class="panel tag" data-slot="B" data-role="R">
+          <h2>Tag B: Responder</h2>
+          <div class="info-line">
+            <span>status: <code class="status-pill">disconnected</code></span>
+            <span>mode: <code class="info-mode">-</code></span>
+            <span>calib: <code class="info-calib">-</code> dtu</span>
+            <span>fw: <code class="info-fw">-</code></span>
+          </div>
+          <div class="row">
+            <button class="connect-btn">Connect serial</button>
+            <button class="disconnect-btn" disabled>Disconnect</button>
+            <button class="info-btn" disabled>INFO</button>
+            <button class="flash-btn" data-fw="bins/twr_resp.bin">Flash Responder</button>
+          </div>
+          <div class="flash-progress">
+            <div class="bar"></div><span class="msg"></span>
+          </div>
+          <pre class="tag-log"></pre>
+        </section>
+      </div>
+
+      <section class="panel">
+        <h2>Live Distance</h2>
+        <div class="row">
+          <button id="pause" disabled>Pause</button>
+          <button id="clear" disabled>Clear</button>
+          <button id="export" disabled>Export CSV</button>
+          <span class="stats">
+            last: <code id="stat-last">-</code> mm /
+            mean: <code id="stat-mean">-</code> mm /
+            stdev: <code id="stat-std">-</code> mm /
+            n: <code id="stat-n">0</code>
+          </span>
+        </div>
+        <canvas id="chart" width="900" height="320"></canvas>
+      </section>
+
+      <section class="panel">
+        <h2>Pair Calibration</h2>
+        <p class="hint">
+          Connect both tags, place them at a known distance with clear line of
+          sight, then collect samples and write a new antenna-delay offset to
+          the responder.
+        </p>
+        <div class="row">
+          <label>true distance
+            <input id="cal-dist" type="number" value="3048" min="1" /> mm
+          </label>
+          <label>samples
+            <input id="cal-n" type="number" value="100" min="10" max="1000" />
+          </label>
+        </div>
+        <div class="row">
+          <span>responder slot:</span>
+          <label><input type="radio" name="cal-resp" value="A" /> A</label>
+          <label><input type="radio" name="cal-resp" value="B" checked /> B</label>
+        </div>
+        <div class="row">
+          <button id="cal-start" disabled>Start calibration</button>
+        </div>
+        <div id="cal-status" class="cal-status">idle</div>
+      </section>
+    </main>
+
+    <script type="module" src="app.js"></script>
+    <footer>
+      <span>&copy; 2026 OpenTag</span>
+    </footer>
+  </body>
+</html>
