@@ -3,18 +3,15 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta
-      name="description"
-      content="opentag one is a compact UWB development tag for ranging, localization, firmware bringup, and robotics experiments."
-    />
+    <meta name="description" content="opentag one &mdash; compact UWB development tag." />
     <title>opentag one</title>
     <meta property="og:title" content="opentag one" />
-    <meta property="og:description" content="compact UWB development tag for ranging, localization, firmware bringup, and robotics experiments." />
+    <meta property="og:description" content="compact UWB development tag." />
     <meta property="og:type" content="website" />
     <meta property="og:image" content="/favicon.png" />
     <meta name="twitter:card" content="summary" />
     <meta name="twitter:title" content="opentag one" />
-    <meta name="twitter:description" content="compact UWB development tag for ranging, localization, firmware bringup, and robotics experiments." />
+    <meta name="twitter:description" content="compact UWB development tag." />
     <link rel="icon" type="image/png" href="/favicon.png" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <link rel="stylesheet" href="/assets/site.css" />
@@ -37,195 +34,171 @@
       <section class="product-hero">
         <div class="product-copy">
           <p class="eyebrow">opentag one</p>
-          <h1>UWB tag hardware for serious localization experiments.</h1>
-          <p class="intro">
-            A compact enclosed tag platform for two-way ranging, anchor testing,
-            firmware development, and robotic positioning workflows.
-          </p>
-          <div class="hero-actions">
-            <a class="button primary" href="/firmware/">open firmware console</a>
-            <a class="button" href="#specs">view specs</a>
-            <a class="button" href="#cad">cad files</a>
+          <h1>UWB tag, fully open.</h1>
+          <p class="intro">compact ranging hardware. STM32, DW3000, USB-C, CAN FD.</p>
+          <div class="hero-actions desktop-only">
+            <a class="button primary" href="/firmware/">firmware</a>
+            <a class="button" href="#specs">specs</a>
+            <a class="button" href="#cad">cad</a>
           </div>
         </div>
         <div class="product-media">
-          <img src="/assets/images/one/bringup/can_fd.jpg" alt="Two opentag one units wired together for CAN FD bringup" />
+          <img src="/assets/images/one/bringup/can_fd.jpg" alt="opentag one pair under bringup" />
+        </div>
+      </section>
+
+      <section class="band">
+        <div class="section-head">
+          <p class="eyebrow">how it works</p>
+          <h2>ranging, two ways.</h2>
+        </div>
+        <div class="ranging-grid">
+          <figure class="ranging-card">
+            <figcaption>
+              <strong>TWR</strong>
+              <span>two-way ranging. one tag pings, the other replies. distance from round-trip time.</span>
+            </figcaption>
+            <svg class="ranging-svg" viewBox="0 0 400 220" role="img" aria-label="Two-way ranging animation">
+              <line x1="94" y1="110" x2="306" y2="110" class="ranging-link" />
+              <circle cx="80" cy="110" r="60" class="ranging-pulse ranging-pulse-a" fill="none" />
+              <circle cx="320" cy="110" r="60" class="ranging-pulse ranging-pulse-b" fill="none" />
+              <circle cx="80" cy="110" r="13" class="ranging-tag" />
+              <circle cx="320" cy="110" r="13" class="ranging-tag" />
+              <text x="80" y="160" class="ranging-label" text-anchor="middle">A</text>
+              <text x="320" y="160" class="ranging-label" text-anchor="middle">B</text>
+              <text x="200" y="100" class="ranging-distance" text-anchor="middle">d = c &middot; t / 2</text>
+            </svg>
+          </figure>
+          <figure class="ranging-card">
+            <figcaption>
+              <strong>TDOA</strong>
+              <span>time-difference of arrival. one tag pings, many anchors listen. position from arrival deltas.</span>
+            </figcaption>
+            <svg class="ranging-svg" viewBox="0 0 400 220" role="img" aria-label="TDOA animation">
+              <line x1="160" y1="60" x2="60" y2="190" class="ranging-link" />
+              <line x1="160" y1="60" x2="200" y2="190" class="ranging-link" />
+              <line x1="160" y1="60" x2="340" y2="190" class="ranging-link" />
+              <circle cx="160" cy="60" r="120" class="ranging-pulse ranging-pulse-t" fill="none" />
+              <circle cx="160" cy="60" r="13" class="ranging-tag" />
+              <circle cx="60" cy="190" r="10" class="ranging-anchor ranging-anchor-1" />
+              <circle cx="200" cy="190" r="10" class="ranging-anchor ranging-anchor-2" />
+              <circle cx="340" cy="190" r="10" class="ranging-anchor ranging-anchor-3" />
+              <text x="160" y="40" class="ranging-label" text-anchor="middle">T</text>
+              <text x="60" y="212" class="ranging-label" text-anchor="middle">a1</text>
+              <text x="200" y="212" class="ranging-label" text-anchor="middle">a2</text>
+              <text x="340" y="212" class="ranging-label" text-anchor="middle">a3</text>
+            </svg>
+          </figure>
         </div>
       </section>
 
       <section id="specs" class="band product-specs">
         <div class="section-head">
-          <p class="eyebrow">key specs</p>
-          <h2>Built for bringup, measurement, and iteration.</h2>
+          <p class="eyebrow">specs</p>
+          <h2>the board.</h2>
         </div>
         <dl class="spec-list">
-          <div><dt>radio</dt><dd>DWM3000 UWB module</dd></div>
-          <div><dt>controller</dt><dd>STM32-M4 MCU, 256KB flash, 128KB RAM, 170 MHz</dd></div>
-          <div><dt>programming</dt><dd>SWD, USB-C via web firmware console</dd></div>
-          <div><dt>power</dt><dd>6-24V, reverse-polarity protection</dd></div>
-          <div><dt>i/o</dt><dd>USB-C Serial, CAN, CAN FD</dd></div>
+          <div><dt>radio</dt><dd>DWM3000 UWB</dd></div>
+          <div><dt>mcu</dt><dd>STM32-M4 &middot; 170 MHz &middot; 256K flash &middot; 128K RAM</dd></div>
+          <div><dt>programming</dt><dd>SWD &middot; USB-C via web console</dd></div>
+          <div><dt>power</dt><dd>6&ndash;24V &middot; reverse-polarity protected</dd></div>
+          <div><dt>i/o</dt><dd>USB-C, CAN, CAN FD</dd></div>
           <div><dt>firmware</dt><dd>Embassy (Rust)</dd></div>
-          <div><dt>enclosure</dt><dd>PETG case with acrylic lids</dd></div>
+          <div><dt>enclosure</dt><dd>PETG case &middot; acrylic lid</dd></div>
         </dl>
       </section>
 
       <section class="band lab-band">
         <div class="section-head">
-          <p class="eyebrow">bringup bench</p>
-          <h2>Real hardware running CAN FD and UWB ranging tests.</h2>
+          <p class="eyebrow">bench</p>
+          <h2>real hardware.</h2>
         </div>
         <div class="lab-slideshow" data-slideshow tabindex="0">
           <div class="lab-viewport">
             <div class="lab-track">
               <figure class="lab-slide">
-                <img src="/assets/images/one/bringup/can_fd.jpg" alt="Two opentag one units connected with CAN wiring" />
-                <figcaption>CAN FD link test between two enclosed tags.</figcaption>
+                <img src="/assets/images/one/bringup/can_fd.jpg" alt="CAN FD link" />
+                <figcaption>CAN FD link.</figcaption>
               </figure>
               <figure class="lab-slide">
-                <img src="/assets/images/one/bringup/twr_double_blink.jpg" alt="Two opentag one units running two-way ranging with status LEDs lit" />
-                <figcaption>TWR pair with radio and status LEDs visible.</figcaption>
+                <img src="/assets/images/one/bringup/twr_double_blink.jpg" alt="TWR pair" />
+                <figcaption>TWR pair.</figcaption>
               </figure>
               <figure class="lab-slide">
-                <img src="/assets/images/one/bringup/twr_double.jpg" alt="Two opentag one units connected over USB for UWB ranging bringup" />
-                <figcaption>Paired UWB ranging bringup on the bench.</figcaption>
+                <img src="/assets/images/one/bringup/twr_double.jpg" alt="paired ranging" />
+                <figcaption>paired ranging.</figcaption>
               </figure>
               <figure class="lab-slide">
-                <img src="/assets/images/one/bringup/twr_solo.jpg" alt="Single opentag one running with green and white LEDs under the clear lid" />
-                <figcaption>Single tag firmware and radio status indicators.</figcaption>
+                <img src="/assets/images/one/bringup/twr_solo.jpg" alt="single tag" />
+                <figcaption>single tag.</figcaption>
               </figure>
               <figure class="lab-slide">
-                <img src="/assets/images/one/bringup/twr_solo_2.jpg" alt="Close-up of an opentag one board through the clear acrylic lid" />
-                <figcaption>Close-up through the clear acrylic lid.</figcaption>
+                <img src="/assets/images/one/bringup/twr_solo_2.jpg" alt="board close-up" />
+                <figcaption>through the lid.</figcaption>
               </figure>
             </div>
-            <button class="slide-button slide-prev" type="button" data-slide-prev aria-label="Previous photo">‹</button>
-            <button class="slide-button slide-next" type="button" data-slide-next aria-label="Next photo">›</button>
+            <button class="slide-button slide-prev" type="button" data-slide-prev aria-label="Previous">&lsaquo;</button>
+            <button class="slide-button slide-next" type="button" data-slide-next aria-label="Next">&rsaquo;</button>
           </div>
-          <div class="slide-thumbs" aria-label="Bringup photo selector">
-            <button class="active" type="button" data-slide-to="0" aria-label="Show CAN FD link photo">
-              <img src="/assets/images/one/bringup/can_fd.jpg" alt="" />
-            </button>
-            <button type="button" data-slide-to="1" aria-label="Show TWR LEDs photo">
-              <img src="/assets/images/one/bringup/twr_double_blink.jpg" alt="" />
-            </button>
-            <button type="button" data-slide-to="2" aria-label="Show paired ranging photo">
-              <img src="/assets/images/one/bringup/twr_double.jpg" alt="" />
-            </button>
-            <button type="button" data-slide-to="3" aria-label="Show single tag status photo">
-              <img src="/assets/images/one/bringup/twr_solo.jpg" alt="" />
-            </button>
-            <button type="button" data-slide-to="4" aria-label="Show close-up tag photo">
-              <img src="/assets/images/one/bringup/twr_solo_2.jpg" alt="" />
-            </button>
+          <div class="slide-thumbs" aria-label="Photo selector">
+            <button class="active" type="button" data-slide-to="0"><img src="/assets/images/one/bringup/can_fd.jpg" alt="" /></button>
+            <button type="button" data-slide-to="1"><img src="/assets/images/one/bringup/twr_double_blink.jpg" alt="" /></button>
+            <button type="button" data-slide-to="2"><img src="/assets/images/one/bringup/twr_double.jpg" alt="" /></button>
+            <button type="button" data-slide-to="3"><img src="/assets/images/one/bringup/twr_solo.jpg" alt="" /></button>
+            <button type="button" data-slide-to="4"><img src="/assets/images/one/bringup/twr_solo_2.jpg" alt="" /></button>
           </div>
         </div>
       </section>
 
       <section id="cad" class="band cad-band">
         <div class="section-head">
-          <p class="eyebrow">cad + enclosure</p>
-          <h2>Inspect the assembly or download the V2 mechanical files.</h2>
+          <p class="eyebrow">cad</p>
+          <h2>v2 mechanicals.</h2>
         </div>
         <div class="download-grid cad-card-grid">
-          <article
-            class="download-card cad-viewer"
-            data-step-url="/assets/cad/opentag_one_v2_full_assembly.step"
-            data-label="V2 full assembly"
-            data-transparent="lid"
-          >
+          <article class="download-card cad-viewer" data-step-url="/assets/cad/opentag_one_v2_full_assembly.step" data-label="assembly" data-transparent="lid">
             <a href="/assets/cad/opentag_one_v2_full_assembly.step" download>
               <span>step</span>
-              <strong>V2 full assembly</strong>
+              <strong>assembly</strong>
             </a>
-            <div class="viewer-canvas" role="img" aria-label="Interactive 3D viewer for the V2 full assembly">
+            <div class="viewer-canvas" role="img" aria-label="3D viewer">
               <p class="viewer-status">loading</p>
             </div>
           </article>
-          <article
-            class="download-card cad-viewer"
-            data-step-url="/assets/cad/opentag_one_v2_case.step"
-            data-label="V2 case"
-          >
+          <article class="download-card cad-viewer" data-step-url="/assets/cad/opentag_one_v2_case.step" data-label="case">
             <a href="/assets/cad/opentag_one_v2_case.step" download>
               <span>step</span>
-              <strong>V2 case</strong>
+              <strong>case</strong>
             </a>
-            <div class="viewer-canvas" role="img" aria-label="Interactive 3D viewer for the V2 case">
+            <div class="viewer-canvas" role="img" aria-label="3D viewer">
               <p class="viewer-status">loading</p>
             </div>
           </article>
-          <article
-            class="download-card cad-viewer"
-            data-step-url="/assets/cad/opentag_one_v2_lid.step"
-            data-label="V2 lid"
-            data-transparent="all"
-          >
+          <article class="download-card cad-viewer" data-step-url="/assets/cad/opentag_one_v2_lid.step" data-label="lid" data-transparent="all">
             <a href="/assets/cad/opentag_one_v2_lid.step" download>
               <span>step</span>
-              <strong>V2 lid</strong>
+              <strong>lid</strong>
             </a>
-            <div class="viewer-canvas" role="img" aria-label="Interactive 3D viewer for the V2 lid">
+            <div class="viewer-canvas" role="img" aria-label="3D viewer">
               <p class="viewer-status">loading</p>
             </div>
           </article>
         </div>
-        <a
-          class="onshape-link"
-          href="https://cad.onshape.com/documents/432dec42a257744f3b8f22d9/w/829cba9d7a4b997211a6277e/e/23eb042ed87c06c15fa7c407?renderMode=0&leftPanel=false&uiState=6a0c8f4fbfe51bee1b264aeb"
-          rel="noreferrer"
-        >
-          Open in Onshape
-        </a>
+        <a class="onshape-link" href="https://cad.onshape.com/documents/432dec42a257744f3b8f22d9/w/829cba9d7a4b997211a6277e/e/23eb042ed87c06c15fa7c407?renderMode=0&leftPanel=false&uiState=6a0c8f4fbfe51bee1b264aeb" rel="noreferrer">open in onshape</a>
       </section>
 
       <section class="band">
         <div class="section-head">
-          <p class="eyebrow">example uses</p>
-          <h2>Where opentag one fits.</h2>
+          <p class="eyebrow">uses</p>
+          <h2>where it fits.</h2>
         </div>
         <div class="grid use-grid">
-          <article>
-            <h3>robotics labs</h3>
-            <p>
-              Track robots, carts, or test fixtures indoors where GPS is not
-              available and repeatable ranging data matters.
-            </p>
-          </article>
-          <article>
-            <h3>anchor networks</h3>
-            <p>
-              Build and debug UWB anchor layouts, timing assumptions, sync
-              behavior, and TDOA/TWR experiments.
-            </p>
-          </article>
-          <article>
-            <h3>firmware bringup</h3>
-            <p>
-              Flash builds, inspect serial logs, collect live distance samples,
-              and calibrate pairs from the browser.
-            </p>
-          </article>
-          <article>
-            <h3>asset tracking</h3>
-            <p>
-              Prototype tags for equipment, tools, and moving objects before
-              committing to a custom enclosure or deployment design.
-            </p>
-          </article>
-          <article>
-            <h3>education</h3>
-            <p>
-              Make RF ranging, embedded Rust, USB device modes, and sensor
-              fusion visible enough to teach and modify.
-            </p>
-          </article>
-          <article>
-            <h3>field testing</h3>
-            <p>
-              Carry a self-contained tag to compare antennas, placement,
-              line-of-sight behavior, and calibration drift.
-            </p>
-          </article>
+          <article><h3>robotics</h3><p>indoor tracking where GPS won't reach.</p></article>
+          <article><h3>anchor nets</h3><p>build, debug, and time UWB anchor layouts.</p></article>
+          <article><h3>bringup</h3><p>flash, log, and calibrate from the browser.</p></article>
+          <article><h3>asset tracking</h3><p>prototype tags before a custom design.</p></article>
+          <article><h3>education</h3><p>RF, Rust, and sensor fusion you can read.</p></article>
+          <article><h3>field testing</h3><p>antennas, placement, calibration drift.</p></article>
         </div>
       </section>
     </main>

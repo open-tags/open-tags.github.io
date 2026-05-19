@@ -3,18 +3,15 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta
-      name="description"
-      content="opentag is an open ultra-wideband tag platform for ranging, localization, firmware experiments, and hardware iteration."
-    />
+    <meta name="description" content="open UWB tags for ranging and localization." />
     <title>opentag</title>
     <meta property="og:title" content="opentag" />
-    <meta property="og:description" content="open ultra-wideband tag platform for ranging, localization, firmware experiments, and hardware iteration." />
+    <meta property="og:description" content="open UWB tags for ranging and localization." />
     <meta property="og:type" content="website" />
     <meta property="og:image" content="/favicon.png" />
     <meta name="twitter:card" content="summary" />
     <meta name="twitter:title" content="opentag" />
-    <meta name="twitter:description" content="open ultra-wideband tag platform for ranging, localization, firmware experiments, and hardware iteration." />
+    <meta name="twitter:description" content="open UWB tags for ranging and localization." />
     <link rel="icon" type="image/png" href="/favicon.png" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <link rel="stylesheet" href="assets/site.css" />
@@ -34,60 +31,80 @@
 
     <main>
       <section class="hero">
-        <h1>Small tags for measuring where things are.</h1>
-        <p class="intro">
-          opentag is an open hardware and firmware project for ultra-wideband
-          ranging, anchor timing, and real-world localization experiments.
-        </p>
+        <h1>small tags. real distance.</h1>
+        <p class="intro">open ultra-wideband hardware and firmware for ranging.</p>
         <div class="hero-actions" aria-label="Primary actions">
-          <a class="button primary" href="/one/">view opentag one</a>
-          <a class="button primary" href="/firmware/">open firmware console</a>
-          <a class="button" href="https://github.com/open-tags" rel="noreferrer">view repos</a>
+          <a class="button primary" href="/one/">opentag one</a>
+          <a class="button" href="/firmware/">firmware</a>
+          <a class="button" href="https://github.com/open-tags" rel="noreferrer">github</a>
+        </div>
+      </section>
+
+      <section class="band split learn-one">
+        <div class="learn-media">
+          <img src="/assets/images/one/opentag_one_2.png" alt="opentag one render" />
+        </div>
+        <div>
+          <p class="eyebrow">opentag one</p>
+          <h2>the hardware.</h2>
+          <p>STM32 + DW3000 UWB radio. USB-C, CAN FD, 6&ndash;24V in. Rust firmware. PETG enclosure with clear lid.</p>
+          <a class="inline-link" href="/one/">see one &rarr;</a>
         </div>
       </section>
 
       <section class="band">
         <div class="section-head">
-          <p class="eyebrow">basics</p>
-          <h2>One platform, three loops.</h2>
+          <p class="eyebrow">how it works</p>
+          <h2>ranging, two ways.</h2>
         </div>
-        <div class="grid">
-          <article>
-            <h3>hardware</h3>
-            <p>
-              STM32 control, DW3000 UWB radio, USB-C bringup, CAN-friendly
-              power and connectors, and board revisions meant to be built on.
-            </p>
-          </article>
-          <article>
-            <h3>firmware</h3>
-            <p>
-              Rust firmware for two-way ranging, responder streams, calibration,
-              and tag roles that can be flashed from the browser.
-            </p>
-          </article>
-          <article>
-            <h3>experiments</h3>
-            <p>
-              Measure distance, tune antenna delay, test timing assumptions, and
-              turn raw tag behavior into useful location data.
-            </p>
-          </article>
+        <div class="ranging-grid">
+          <figure class="ranging-card">
+            <figcaption>
+              <strong>TWR</strong>
+              <span>two-way ranging. one tag pings, the other replies. distance from round-trip time.</span>
+            </figcaption>
+            <svg class="ranging-svg" viewBox="0 0 400 220" role="img" aria-label="Two-way ranging animation">
+              <line x1="94" y1="110" x2="306" y2="110" class="ranging-link" />
+              <circle cx="80" cy="110" r="60" class="ranging-pulse ranging-pulse-a" fill="none" />
+              <circle cx="320" cy="110" r="60" class="ranging-pulse ranging-pulse-b" fill="none" />
+              <circle cx="80" cy="110" r="13" class="ranging-tag" />
+              <circle cx="320" cy="110" r="13" class="ranging-tag" />
+              <text x="80" y="160" class="ranging-label" text-anchor="middle">A</text>
+              <text x="320" y="160" class="ranging-label" text-anchor="middle">B</text>
+              <text x="200" y="100" class="ranging-distance" text-anchor="middle">d = c &middot; t / 2</text>
+            </svg>
+          </figure>
+          <figure class="ranging-card">
+            <figcaption>
+              <strong>TDOA</strong>
+              <span>time-difference of arrival. one tag pings, many anchors listen. position from arrival deltas.</span>
+            </figcaption>
+            <svg class="ranging-svg" viewBox="0 0 400 220" role="img" aria-label="TDOA animation">
+              <line x1="160" y1="60" x2="60" y2="190" class="ranging-link" />
+              <line x1="160" y1="60" x2="200" y2="190" class="ranging-link" />
+              <line x1="160" y1="60" x2="340" y2="190" class="ranging-link" />
+              <circle cx="160" cy="60" r="120" class="ranging-pulse ranging-pulse-t" fill="none" />
+              <circle cx="160" cy="60" r="13" class="ranging-tag" />
+              <circle cx="60" cy="190" r="10" class="ranging-anchor ranging-anchor-1" />
+              <circle cx="200" cy="190" r="10" class="ranging-anchor ranging-anchor-2" />
+              <circle cx="340" cy="190" r="10" class="ranging-anchor ranging-anchor-3" />
+              <text x="160" y="40" class="ranging-label" text-anchor="middle">T</text>
+              <text x="60" y="212" class="ranging-label" text-anchor="middle">a1</text>
+              <text x="200" y="212" class="ranging-label" text-anchor="middle">a2</text>
+              <text x="340" y="212" class="ranging-label" text-anchor="middle">a3</text>
+            </svg>
+          </figure>
         </div>
       </section>
 
       <section class="band split">
         <div>
-          <p class="eyebrow">current tool</p>
-          <h2>Browser-based firmware console.</h2>
+          <p class="eyebrow">firmware</p>
+          <h2>browser console.</h2>
         </div>
         <div>
-          <p>
-            The firmware page keeps the practical bits close: WebUSB flashing,
-            Web Serial logs, live distance plotting, and pair calibration for
-            two tags.
-          </p>
-          <a class="inline-link" href="/firmware/">go to /firmware</a>
+          <p>flash, log, plot distance, calibrate &mdash; all over WebUSB and Web Serial.</p>
+          <a class="inline-link" href="/firmware/">/firmware &rarr;</a>
         </div>
       </section>
     </main>

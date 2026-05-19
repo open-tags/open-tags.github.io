@@ -969,3 +969,144 @@ label {
   0% { transform: translateX(-100%); }
   100% { transform: translateX(250%); }
 }
+
+.desktop-only { display: flex; }
+@media (max-width: 560px) {
+  .desktop-only { display: none !important; }
+}
+
+.learn-one {
+  align-items: center;
+}
+
+.learn-media {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  overflow: hidden;
+  background: #000;
+}
+
+.learn-media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.ranging-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
+}
+
+@media (max-width: 720px) {
+  .ranging-grid { grid-template-columns: 1fr; }
+}
+
+.ranging-card {
+  margin: 0;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--panel);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.ranging-card figcaption {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 14px 16px;
+  border-bottom: 1px solid var(--line);
+}
+
+.ranging-card figcaption strong {
+  font-size: 13px;
+  color: var(--accent);
+}
+
+.ranging-card figcaption span {
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.45;
+}
+
+.ranging-svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  background: #050505;
+}
+
+.ranging-tag {
+  fill: var(--accent);
+}
+
+.ranging-anchor {
+  fill: #1a1a1a;
+  stroke: var(--muted);
+  stroke-width: 1.5;
+}
+
+.ranging-link {
+  stroke: var(--line);
+  stroke-width: 1;
+  stroke-dasharray: 2 4;
+}
+
+.ranging-label {
+  font-family: var(--font-body);
+  font-size: 12px;
+  fill: var(--muted);
+}
+
+.ranging-distance {
+  font-family: var(--font-body);
+  font-size: 11px;
+  fill: var(--accent);
+  letter-spacing: 0.04em;
+}
+
+.ranging-pulse {
+  stroke: var(--accent);
+  stroke-width: 1.5;
+  transform-box: fill-box;
+  transform-origin: center;
+  opacity: 0;
+}
+
+.ranging-pulse-a { animation: ranging-twr 3s linear infinite; }
+.ranging-pulse-b { stroke: #fff; animation: ranging-twr 3s linear infinite; animation-delay: 1.5s; }
+
+@keyframes ranging-twr {
+  0%   { transform: scale(0.22); opacity: 0.95; }
+  45%  { transform: scale(2.05); opacity: 0; }
+  100% { transform: scale(2.05); opacity: 0; }
+}
+
+.ranging-pulse-t { animation: ranging-tdoa 3s linear infinite; }
+
+@keyframes ranging-tdoa {
+  0%   { transform: scale(0.12); opacity: 0.95; }
+  70%  { transform: scale(1.55); opacity: 0; }
+  100% { transform: scale(1.55); opacity: 0; }
+}
+
+.ranging-anchor-2 { animation: ranging-flash 3s linear infinite; animation-delay: 1.0s; }
+.ranging-anchor-1 { animation: ranging-flash 3s linear infinite; animation-delay: 1.2s; }
+.ranging-anchor-3 { animation: ranging-flash 3s linear infinite; animation-delay: 1.6s; }
+
+@keyframes ranging-flash {
+  0%, 10%, 100% { fill: #1a1a1a; stroke: var(--muted); }
+  2% { fill: var(--accent); stroke: var(--accent); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ranging-pulse, .ranging-anchor-1, .ranging-anchor-2, .ranging-anchor-3 {
+    animation: none;
+  }
+  .ranging-pulse { opacity: 0.4; }
+}
