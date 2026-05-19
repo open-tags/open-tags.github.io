@@ -37,7 +37,7 @@
           </div>
         </div>
         <div class="product-media">
-          <img src="/assets/images/pro/opentag_pro_2.png" alt="OpenTag Pro angled enclosure render" />
+          <img src="/assets/images/pro/bringup/can_fd.jpg" alt="Two OpenTag Pro units wired together for CAN FD bringup" />
         </div>
       </section>
 
@@ -57,15 +57,55 @@
         </dl>
       </section>
 
-      <section class="band gallery-band">
+      <section class="band lab-band">
         <div class="section-head">
-          <p class="eyebrow">views</p>
-          <h2>Designed to expose the useful parts.</h2>
+          <p class="eyebrow">bringup bench</p>
+          <h2>Real hardware running CAN FD and UWB ranging tests.</h2>
         </div>
-        <div class="product-gallery">
-          <img src="/assets/images/pro/opentag_pro_4.png" alt="OpenTag Pro internal board view" />
-          <img src="/assets/images/pro/opentag_pro_3.png" alt="OpenTag Pro USB-C side view" />
-          <img src="/assets/images/pro/opentag_pro_1.png" alt="OpenTag Pro connector side view" />
+        <div class="lab-slideshow" data-slideshow tabindex="0">
+          <div class="lab-viewport">
+            <div class="lab-track">
+              <figure class="lab-slide">
+                <img src="/assets/images/pro/bringup/can_fd.jpg" alt="Two OpenTag Pro units connected with CAN wiring" />
+                <figcaption>CAN FD link test between two enclosed tags.</figcaption>
+              </figure>
+              <figure class="lab-slide">
+                <img src="/assets/images/pro/bringup/twr_double_blink.jpg" alt="Two OpenTag Pro units running two-way ranging with status LEDs lit" />
+                <figcaption>TWR pair with radio and status LEDs visible.</figcaption>
+              </figure>
+              <figure class="lab-slide">
+                <img src="/assets/images/pro/bringup/twr_double.jpg" alt="Two OpenTag Pro units connected over USB for UWB ranging bringup" />
+                <figcaption>Paired UWB ranging bringup on the bench.</figcaption>
+              </figure>
+              <figure class="lab-slide">
+                <img src="/assets/images/pro/bringup/twr_solo.jpg" alt="Single OpenTag Pro running with green and white LEDs under the clear lid" />
+                <figcaption>Single tag firmware and radio status indicators.</figcaption>
+              </figure>
+              <figure class="lab-slide">
+                <img src="/assets/images/pro/bringup/twr_solo_2.jpg" alt="Close-up of an OpenTag Pro board through the clear acrylic lid" />
+                <figcaption>Close-up through the clear acrylic lid.</figcaption>
+              </figure>
+            </div>
+            <button class="slide-button slide-prev" type="button" data-slide-prev aria-label="Previous photo">‹</button>
+            <button class="slide-button slide-next" type="button" data-slide-next aria-label="Next photo">›</button>
+          </div>
+          <div class="slide-thumbs" aria-label="Bringup photo selector">
+            <button class="active" type="button" data-slide-to="0" aria-label="Show CAN FD link photo">
+              <img src="/assets/images/pro/bringup/can_fd.jpg" alt="" />
+            </button>
+            <button type="button" data-slide-to="1" aria-label="Show TWR LEDs photo">
+              <img src="/assets/images/pro/bringup/twr_double_blink.jpg" alt="" />
+            </button>
+            <button type="button" data-slide-to="2" aria-label="Show paired ranging photo">
+              <img src="/assets/images/pro/bringup/twr_double.jpg" alt="" />
+            </button>
+            <button type="button" data-slide-to="3" aria-label="Show single tag status photo">
+              <img src="/assets/images/pro/bringup/twr_solo.jpg" alt="" />
+            </button>
+            <button type="button" data-slide-to="4" aria-label="Show close-up tag photo">
+              <img src="/assets/images/pro/bringup/twr_solo_2.jpg" alt="" />
+            </button>
+          </div>
         </div>
       </section>
 
@@ -190,6 +230,7 @@
       }
     </script>
     <script src="https://cdn.jsdelivr.net/npm/occt-import-js@0.0.23/dist/occt-import-js.js"></script>
+    <script type="module" src="/assets/pro-slideshow.js"></script>
     <script type="module" src="/assets/cad-viewer.js"></script>
   </body>
 </html>

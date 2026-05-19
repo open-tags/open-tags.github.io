@@ -306,6 +306,7 @@ strong {
   object-fit: cover;
   object-position: center bottom;
   display: block;
+  border-radius: 8px;
 }
 
 .spec-list {
@@ -362,6 +363,106 @@ strong {
   object-position: center bottom;
   display: block;
   background: #000;
+}
+
+.lab-slideshow {
+  display: grid;
+  gap: 12px;
+}
+
+.lab-viewport {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #000;
+}
+
+.lab-track {
+  display: flex;
+  transform: translateX(calc(var(--slide-index, 0) * -100%));
+  transition: transform 280ms ease;
+}
+
+.lab-slide {
+  position: relative;
+  flex: 0 0 100%;
+  margin: 0;
+  min-width: 0;
+}
+
+.lab-slide img {
+  width: 100%;
+  height: min(62vw, 620px);
+  min-height: 340px;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+}
+
+.lab-slide figcaption {
+  position: absolute;
+  left: 14px;
+  bottom: 14px;
+  max-width: min(520px, calc(100% - 28px));
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 6px;
+  background: rgba(0, 0, 0, 0.72);
+  color: var(--fg);
+  font-size: 12px;
+  line-height: 1.45;
+  padding: 8px 10px;
+}
+
+.slide-button {
+  position: absolute;
+  top: 50%;
+  width: 38px;
+  min-height: 38px;
+  height: 38px;
+  border-radius: 999px;
+  background: rgba(0, 0, 0, 0.7);
+  font-size: 24px;
+  line-height: 1;
+  padding: 0;
+  transform: translateY(-50%);
+}
+
+.slide-prev {
+  left: 14px;
+}
+
+.slide-next {
+  right: 14px;
+}
+
+.slide-thumbs {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.slide-thumbs button {
+  min-width: 0;
+  height: auto;
+  min-height: 0;
+  border-radius: 8px;
+  padding: 0;
+  overflow: hidden;
+  background: #000;
+  opacity: 0.58;
+}
+
+.slide-thumbs button.active {
+  opacity: 1;
+  border-color: var(--accent);
+}
+
+.slide-thumbs img {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  display: block;
 }
 
 .use-grid {
@@ -694,6 +795,37 @@ label {
 
   .viewer-canvas {
     height: 220px;
+  }
+
+  .lab-slide img {
+    height: 360px;
+    min-height: 0;
+  }
+
+  .lab-slide figcaption {
+    position: static;
+    max-width: none;
+    border: 0;
+    border-top: 1px solid var(--line);
+    border-radius: 0;
+    background: #000;
+    color: var(--muted);
+  }
+
+  .slide-button {
+    top: calc(180px - 19px);
+  }
+
+  .slide-thumbs {
+    display: flex;
+    overflow-x: auto;
+    padding-bottom: 2px;
+    scroll-snap-type: x mandatory;
+  }
+
+  .slide-thumbs button {
+    flex: 0 0 96px;
+    scroll-snap-align: start;
   }
 
   .spec-list div {
