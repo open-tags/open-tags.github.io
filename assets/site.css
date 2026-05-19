@@ -365,6 +365,40 @@ strong {
   grid-template-columns: repeat(3, minmax(0, 1fr));
 }
 
+.download-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 1px;
+  background: var(--line);
+  border: 1px solid var(--line);
+}
+
+.download-grid a {
+  display: flex;
+  min-height: 138px;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 28px;
+  background: var(--bg);
+  padding: 20px;
+  text-decoration: none;
+}
+
+.download-grid a:hover strong {
+  color: var(--accent);
+}
+
+.download-grid span {
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.download-grid strong {
+  color: var(--fg);
+  font-size: 14px;
+  font-weight: 400;
+}
+
 .tags {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -562,7 +596,8 @@ label {
   .tags,
   .spec-list,
   .product-gallery,
-  .use-grid {
+  .use-grid,
+  .download-grid {
     grid-template-columns: 1fr;
   }
 
