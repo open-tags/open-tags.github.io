@@ -40,10 +40,48 @@
             <a class="button primary" href="/firmware/">firmware</a>
             <a class="button" href="#specs">specs</a>
             <a class="button" href="#cad">cad</a>
+            <a class="button" href="#buy">buy</a>
           </div>
         </div>
         <div class="product-media">
           <img src="/assets/images/one/bringup/can_fd.jpg" alt="opentag one pair under bringup" />
+        </div>
+      </section>
+
+      <section id="buy" class="band buy-band">
+        <div class="section-head">
+          <p class="eyebrow">buy</p>
+          <h2>choose a kit.</h2>
+        </div>
+        <div class="buy-grid">
+          <article class="buy-card">
+            <div>
+              <span class="buy-kicker">TWR</span>
+              <h3>opentag one TWR</h3>
+              <p>2 tags for two-way ranging bringup, pair calibration, and distance experiments.</p>
+            </div>
+            <div class="stripe-buy-frame">
+              <stripe-buy-button
+                buy-button-id="buy_btn_1TYwlwCJ07lOkLzsetbPlAsN"
+                publishable-key="pk_live_51PB3zUCJ07lOkLzsUiWON6eaKhTOT2ykpo2hQprF88V2EIuR8MO16ay9H9adAFjqgPoaezeSokIpqqtizxAz7gcl00TKsDTDIZ"
+              >
+              </stripe-buy-button>
+            </div>
+          </article>
+          <article class="buy-card">
+            <div>
+              <span class="buy-kicker">TDOA</span>
+              <h3>opentag one TDOA</h3>
+              <p>5 tags for anchor layout testing, time-difference experiments, and room-scale localization.</p>
+            </div>
+            <div class="stripe-buy-frame">
+              <stripe-buy-button
+                buy-button-id="buy_btn_1TYwuoCJ07lOkLzsuzAt0wZX"
+                publishable-key="pk_live_51PB3zUCJ07lOkLzsUiWON6eaKhTOT2ykpo2hQprF88V2EIuR8MO16ay9H9adAFjqgPoaezeSokIpqqtizxAz7gcl00TKsDTDIZ"
+              >
+              </stripe-buy-button>
+            </div>
+          </article>
         </div>
       </section>
 
@@ -210,6 +248,8 @@
 
     <footer>
       <span>&copy; 2026 opentag</span>
+      <span>designed &middot; assembled in San Diego, CA</span>
+      <a href="mailto:hello@open-tags.com">hello@open-tags.com</a>
     </footer>
     <script type="importmap">
       {
@@ -219,6 +259,7 @@
         }
       }
     </script>
+    <script async src="https://js.stripe.com/v3/buy-button.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/occt-import-js@0.0.23/dist/occt-import-js.js"></script>
     <script type="module" src="/assets/site.js"></script>
     <script type="module" src="/assets/one-slideshow.js"></script>
