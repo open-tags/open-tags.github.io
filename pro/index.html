@@ -46,14 +46,15 @@
           <p class="eyebrow">key specs</p>
           <h2>Built for bringup, measurement, and iteration.</h2>
         </div>
-        <div class="spec-list">
-          <div><span>radio</span><strong>DW3000 UWB module</strong></div>
-          <div><span>controller</span><strong>STM32 firmware target</strong></div>
-          <div><span>usb</span><strong>USB-C power, serial, and DFU flashing</strong></div>
-          <div><span>firmware</span><strong>Rust ranging firmware with browser tools</strong></div>
-          <div><span>i/o</span><strong>Debug header and field connector access</strong></div>
-          <div><span>enclosure</span><strong>Screw-mounted protective case</strong></div>
-        </div>
+        <dl class="spec-list">
+          <div><dt>radio</dt><dd>DWM3000 UWB module</dd></div>
+          <div><dt>controller</dt><dd>STM32-M4 MCU, 256KB flash, 128KB RAM, 170 MHz</dd></div>
+          <div><dt>programming</dt><dd>SWD, USB-C via web firmware console</dd></div>
+          <div><dt>power</dt><dd>6-24V, reverse-polarity protection</dd></div>
+          <div><dt>i/o</dt><dd>USB-C Serial, CAN, CAN FD</dd></div>
+          <div><dt>firmware</dt><dd>Embassy (Rust)</dd></div>
+          <div><dt>enclosure</dt><dd>PETG case with acrylic lids</dd></div>
+        </dl>
       </section>
 
       <section class="band gallery-band">
@@ -73,27 +74,56 @@
           <p class="eyebrow">cad + enclosure</p>
           <h2>Inspect the assembly or download the V2 mechanical files.</h2>
         </div>
-        <div class="download-grid">
-          <a
-            href="https://cad.onshape.com/documents/432dec42a257744f3b8f22d9/w/829cba9d7a4b997211a6277e/e/23eb042ed87c06c15fa7c407?renderMode=0&leftPanel=false&uiState=6a0c8f4fbfe51bee1b264aeb"
-            rel="noreferrer"
+        <div class="download-grid cad-card-grid">
+          <article
+            class="download-card cad-viewer"
+            data-step-url="/assets/cad/opentag_pro_v2_full_assembly.step"
+            data-label="V2 full assembly"
+            data-transparent="lid"
           >
-            <span>onshape</span>
-            <strong>Open assembly</strong>
-          </a>
-          <a href="/assets/cad/opentag_pro_v2_full_assembly.step" download>
-            <span>step</span>
-            <strong>V2 full assembly</strong>
-          </a>
-          <a href="/assets/cad/opentag_pro_v2_case.step" download>
-            <span>step</span>
-            <strong>V2 case</strong>
-          </a>
-          <a href="/assets/cad/opentag_pro_v2_lid.step" download>
-            <span>step</span>
-            <strong>V2 lid</strong>
-          </a>
+            <a href="/assets/cad/opentag_pro_v2_full_assembly.step" download>
+              <span>step</span>
+              <strong>V2 full assembly</strong>
+            </a>
+            <div class="viewer-canvas" role="img" aria-label="Interactive 3D viewer for the V2 full assembly">
+              <p class="viewer-status">loading</p>
+            </div>
+          </article>
+          <article
+            class="download-card cad-viewer"
+            data-step-url="/assets/cad/opentag_pro_v2_case.step"
+            data-label="V2 case"
+          >
+            <a href="/assets/cad/opentag_pro_v2_case.step" download>
+              <span>step</span>
+              <strong>V2 case</strong>
+            </a>
+            <div class="viewer-canvas" role="img" aria-label="Interactive 3D viewer for the V2 case">
+              <p class="viewer-status">loading</p>
+            </div>
+          </article>
+          <article
+            class="download-card cad-viewer"
+            data-step-url="/assets/cad/opentag_pro_v2_lid.step"
+            data-label="V2 lid"
+            data-transparent="all"
+          >
+            <a href="/assets/cad/opentag_pro_v2_lid.step" download>
+              <span>step</span>
+              <strong>V2 lid</strong>
+            </a>
+            <div class="viewer-canvas" role="img" aria-label="Interactive 3D viewer for the V2 lid">
+              <p class="viewer-status">loading</p>
+            </div>
+          </article>
         </div>
+        <a
+          class="onshape-link"
+          href="https://cad.onshape.com/documents/432dec42a257744f3b8f22d9/w/829cba9d7a4b997211a6277e/e/23eb042ed87c06c15fa7c407?renderMode=0&leftPanel=false&uiState=6a0c8f4fbfe51bee1b264aeb"
+          rel="noreferrer"
+        >
+          Open in Onshape
+        </a>
       </section>
 
       <section class="band">
@@ -151,5 +181,15 @@
     <footer>
       <span>&copy; 2026 OpenTag</span>
     </footer>
+    <script type="importmap">
+      {
+        "imports": {
+          "three": "https://cdn.jsdelivr.net/npm/three@0.160.1/build/three.module.js",
+          "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.1/examples/jsm/"
+        }
+      }
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/occt-import-js@0.0.23/dist/occt-import-js.js"></script>
+    <script type="module" src="/assets/cad-viewer.js"></script>
   </body>
 </html>

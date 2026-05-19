@@ -310,38 +310,41 @@ strong {
 
 .spec-list {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: 1fr;
   border: 1px solid var(--line);
+  margin: 0;
 }
 
 .spec-list div {
   display: grid;
-  grid-template-columns: 140px minmax(0, 1fr);
-  gap: 16px;
-  min-height: 78px;
+  grid-template-columns: minmax(150px, 0.28fr) minmax(0, 1fr);
+  gap: 20px;
+  min-height: 46px;
   align-items: center;
-  padding: 18px 20px;
-  border-right: 1px solid var(--line);
+  padding: 10px 14px;
   border-bottom: 1px solid var(--line);
 }
 
-.spec-list div:nth-child(2n) {
-  border-right: 0;
-}
-
-.spec-list div:nth-last-child(-n + 2) {
+.spec-list div:last-child {
   border-bottom: 0;
 }
 
-.spec-list span {
-  color: var(--muted);
-  font-size: 12px;
+.spec-list dt,
+.spec-list dd {
+  margin: 0;
 }
 
-.spec-list strong {
+.spec-list dt {
+  color: var(--muted);
+  font-size: 12px;
+  text-transform: uppercase;
+}
+
+.spec-list dd {
   color: var(--fg);
   font-size: 13px;
   font-weight: 400;
+  text-align: right;
 }
 
 .product-gallery {
@@ -367,36 +370,98 @@ strong {
 
 .download-grid {
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 1px;
   background: var(--line);
   border: 1px solid var(--line);
 }
 
-.download-grid a {
+.download-card {
   display: flex;
-  min-height: 138px;
+  min-height: 270px;
   flex-direction: column;
   justify-content: space-between;
-  gap: 28px;
+  gap: 12px;
   background: var(--bg);
-  padding: 20px;
+  padding: 18px 20px 20px;
+  text-decoration: none;
+  min-width: 0;
+}
+
+.download-card > a,
+.onshape-card {
   text-decoration: none;
 }
 
-.download-grid a:hover strong {
+.download-card > a {
+  display: flex;
+  min-height: 54px;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.onshape-card {
+  justify-content: space-between;
+}
+
+.download-card:hover strong,
+.download-card > a:hover strong {
   color: var(--accent);
 }
 
-.download-grid span {
+.download-card span {
   color: var(--muted);
   font-size: 12px;
 }
 
-.download-grid strong {
+.download-card strong {
   color: var(--fg);
   font-size: 14px;
   font-weight: 400;
+}
+
+.viewer-canvas {
+  height: 154px;
+  position: relative;
+  overflow: hidden;
+  background: transparent;
+}
+
+.viewer-canvas canvas {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.viewer-status {
+  position: absolute;
+  left: 10px;
+  bottom: 8px;
+  z-index: 1;
+  background: rgba(0, 0, 0, 0.72);
+  border: 1px solid var(--line);
+  border-radius: 2px;
+  color: var(--muted);
+  font-size: 12px;
+  padding: 3px 7px;
+}
+
+.viewer-status[data-ready="true"] {
+  opacity: 0;
+  color: var(--accent);
+}
+
+.onshape-link {
+  display: inline-block;
+  margin-top: 14px;
+  color: var(--accent);
+  font-size: 12px;
+  text-decoration: none;
+}
+
+.onshape-link:hover {
+  text-decoration: underline;
 }
 
 .tags {
@@ -605,16 +670,6 @@ label {
     min-height: 0;
   }
 
-  .spec-list div,
-  .spec-list div:nth-child(2n),
-  .spec-list div:nth-last-child(-n + 2) {
-    border-right: 0;
-    border-bottom: 1px solid var(--line);
-  }
-
-  .spec-list div:last-child {
-    border-bottom: 0;
-  }
 }
 
 @media (max-width: 560px) {
@@ -637,8 +692,16 @@ label {
     width: 100%;
   }
 
+  .viewer-canvas {
+    height: 220px;
+  }
+
   .spec-list div {
     grid-template-columns: 1fr;
     gap: 4px;
+  }
+
+  .spec-list dd {
+    text-align: left;
   }
 }
