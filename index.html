@@ -13,8 +13,11 @@
     <link rel="stylesheet" href="assets/site.css" />
   </head>
   <body>
-    <header class="site-header">
+    <header class="site-header" data-site-header>
       <a class="brand" href="/">opentag</a>
+      <button class="nav-toggle" type="button" data-nav-toggle aria-label="Open menu" aria-expanded="false">
+        <span class="nav-toggle-icon" aria-hidden="true"></span>
+      </button>
       <nav aria-label="Primary">
         <a href="/pro/">pro</a>
         <a href="/firmware/">firmware</a>
@@ -85,5 +88,6 @@
     <footer>
       <span>&copy; 2026 OpenTag</span>
     </footer>
+    <script type="module" src="/assets/site.js"></script>
   </body>
 </html>

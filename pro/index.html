@@ -13,8 +13,11 @@
     <link rel="stylesheet" href="/assets/site.css" />
   </head>
   <body>
-    <header class="site-header">
+    <header class="site-header" data-site-header>
       <a class="brand" href="/">opentag</a>
+      <button class="nav-toggle" type="button" data-nav-toggle aria-label="Open menu" aria-expanded="false">
+        <span class="nav-toggle-icon" aria-hidden="true"></span>
+      </button>
       <nav aria-label="Primary">
         <a href="/">home</a>
         <a aria-current="page" href="/pro/">pro</a>
@@ -232,6 +235,7 @@
       }
     </script>
     <script src="https://cdn.jsdelivr.net/npm/occt-import-js@0.0.23/dist/occt-import-js.js"></script>
+    <script type="module" src="/assets/site.js"></script>
     <script type="module" src="/assets/pro-slideshow.js"></script>
     <script type="module" src="/assets/cad-viewer.js"></script>
   </body>

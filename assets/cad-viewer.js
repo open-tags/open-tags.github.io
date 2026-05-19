@@ -25,6 +25,9 @@ async function initViewer(viewer, occt) {
   const label = viewer.dataset.label;
   const transparentMode = viewer.dataset.transparent || "";
 
+  const loader = createLoader(canvasHost);
+  loader.setProgress(0, "fetching");
+
   const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
   renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
   renderer.outputColorSpace = THREE.SRGBColorSpace;
@@ -50,9 +53,10 @@ async function initViewer(viewer, occt) {
   fill.position.set(-5, 4, 3);
   scene.add(fill);
 
-  const model = await loadStepModel(stepUrl, occt, transparentMode);
+  const model = await loadStepModel(stepUrl, occt, transparentMode, loader);
   scene.add(model);
   frameModel(model, camera, controls);
+  loader.done();
   setStatus(viewer, `${label} loaded`);
 
   const resize = () => {
@@ -76,13 +80,17 @@ async function initViewer(viewer, occt) {
   status.dataset.ready = "true";
 }
 
-async function loadStepModel(url, occt, transparentMode) {
+async function loadStepModel(url, occt, transparentMode, loader) {
   const response = await fetch(url);
   if (!response.ok) {
     throw new Error(`${url} returned ${response.status}`);
   }
 
-  const fileBuffer = new Uint8Array(await response.arrayBuffer());
+  const total = Number(response.headers.get("Content-Length")) || 0;
+  const fileBuffer = await readWithProgress(response, total, loader);
+
+  loader?.setProgress(0.92, "parsing");
+  await new Promise((r) => requestAnimationFrame(() => r()));
   const result = occt.ReadStepFile(fileBuffer, null);
   if (!result?.meshes?.length) {
     throw new Error(`no meshes in ${url}`);
@@ -178,4 +186,68 @@ function frameModel(model, camera, controls) {
 
 function setStatus(viewer, text) {
   viewer.querySelector(".viewer-status").textContent = text;
+}
+
+async function readWithProgress(response, total, loader) {
+  if (!response.body || !response.body.getReader) {
+    const buf = new Uint8Array(await response.arrayBuffer());
+    loader?.setProgress(0.9, "fetched");
+    return buf;
+  }
+
+  const reader = response.body.getReader();
+  const chunks = [];
+  let received = 0;
+
+  while (true) {
+    const { done, value } = await reader.read();
+    if (done) break;
+    chunks.push(value);
+    received += value.length;
+    if (total > 0) {
+      const ratio = Math.min(0.9, (received / total) * 0.9);
+      loader?.setProgress(ratio, `${Math.round((received / total) * 100)}%`);
+    } else {
+      loader?.setProgress(null, `${(received / 1024 / 1024).toFixed(1)} MB`);
+    }
+  }
+
+  const buf = new Uint8Array(received);
+  let offset = 0;
+  for (const chunk of chunks) {
+    buf.set(chunk, offset);
+    offset += chunk.length;
+  }
+  return buf;
+}
+
+function createLoader(host) {
+  const overlay = document.createElement("div");
+  overlay.className = "viewer-loader";
+  overlay.innerHTML = `
+    <div class="viewer-loader-inner">
+      <div class="viewer-loader-label">loading</div>
+      <div class="viewer-loader-track"><div class="viewer-loader-bar"></div></div>
+    </div>
+  `;
+  host.appendChild(overlay);
+
+  const bar = overlay.querySelector(".viewer-loader-bar");
+  const label = overlay.querySelector(".viewer-loader-label");
+
+  return {
+    setProgress(ratio, text) {
+      if (ratio === null) {
+        overlay.classList.add("indeterminate");
+      } else {
+        overlay.classList.remove("indeterminate");
+        bar.style.width = `${Math.max(0, Math.min(1, ratio)) * 100}%`;
+      }
+      if (text) label.textContent = text;
+    },
+    done() {
+      overlay.classList.add("is-done");
+      setTimeout(() => overlay.remove(), 420);
+    }
+  };
 }

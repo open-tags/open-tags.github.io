@@ -31,5 +31,39 @@ if (slideshow) {
     if (event.key === "ArrowRight") show(index + 1);
   });
 
+  const viewport = slideshow.querySelector(".lab-viewport") || slideshow;
+  let touchStartX = null;
+  let touchStartY = null;
+  let touchMoved = false;
+
+  viewport.addEventListener("touchstart", (event) => {
+    if (event.touches.length !== 1) return;
+    touchStartX = event.touches[0].clientX;
+    touchStartY = event.touches[0].clientY;
+    touchMoved = false;
+  }, { passive: true });
+
+  viewport.addEventListener("touchmove", (event) => {
+    if (touchStartX === null) return;
+    const dx = event.touches[0].clientX - touchStartX;
+    const dy = event.touches[0].clientY - touchStartY;
+    if (Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > 8) {
+      touchMoved = true;
+    }
+  }, { passive: true });
+
+  viewport.addEventListener("touchend", (event) => {
+    if (touchStartX === null) return;
+    const endX = event.changedTouches[0].clientX;
+    const dx = endX - touchStartX;
+    if (touchMoved && Math.abs(dx) > 40) {
+      if (dx < 0) show(index + 1);
+      else show(index - 1);
+    }
+    touchStartX = null;
+    touchStartY = null;
+    touchMoved = false;
+  });
+
   show(0);
 }
