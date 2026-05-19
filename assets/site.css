@@ -785,7 +785,7 @@ label {
     align-items: center;
   }
 
-  .nav-toggle {
+  .site-header .nav-toggle {
     display: inline-flex;
   }
 
