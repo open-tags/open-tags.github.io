@@ -1045,7 +1045,7 @@ label {
   fill: var(--accent);
 }
 
-.ranging-anchor {
+.ranging-anchor-pulse {
   fill: #1a1a1a;
   stroke: var(--muted);
   stroke-width: 1.5;
@@ -1087,25 +1087,30 @@ label {
   100% { transform: scale(2.05); opacity: 0; }
 }
 
-.ranging-pulse-t { animation: ranging-tdoa 3s linear infinite; }
+.ranging-pulse-a1 { animation: ranging-tdoa 4s linear infinite; animation-delay: 0s; }
+.ranging-pulse-a2 { animation: ranging-tdoa 4s linear infinite; animation-delay: 0.5s; }
+.ranging-pulse-a3 { animation: ranging-tdoa 4s linear infinite; animation-delay: 1.0s; }
+.ranging-pulse-a4 { animation: ranging-tdoa 4s linear infinite; animation-delay: 1.5s; }
 
 @keyframes ranging-tdoa {
-  0%   { transform: scale(0.12); opacity: 0.95; }
-  70%  { transform: scale(1.55); opacity: 0; }
-  100% { transform: scale(1.55); opacity: 0; }
+  0%   { transform: scale(0.16); opacity: 0.9; }
+  35%  { transform: scale(1.5); opacity: 0; }
+  100% { transform: scale(1.5); opacity: 0; }
 }
 
-.ranging-anchor-2 { animation: ranging-flash 3s linear infinite; animation-delay: 1.0s; }
-.ranging-anchor-1 { animation: ranging-flash 3s linear infinite; animation-delay: 1.2s; }
-.ranging-anchor-3 { animation: ranging-flash 3s linear infinite; animation-delay: 1.6s; }
+.ranging-anchor-1 { animation: ranging-anchor-emit 4s linear infinite; animation-delay: 0s; }
+.ranging-anchor-2 { animation: ranging-anchor-emit 4s linear infinite; animation-delay: 0.5s; }
+.ranging-anchor-3 { animation: ranging-anchor-emit 4s linear infinite; animation-delay: 1.0s; }
+.ranging-anchor-4 { animation: ranging-anchor-emit 4s linear infinite; animation-delay: 1.5s; }
 
-@keyframes ranging-flash {
-  0%, 10%, 100% { fill: #1a1a1a; stroke: var(--muted); }
-  2% { fill: var(--accent); stroke: var(--accent); }
+@keyframes ranging-anchor-emit {
+  0%, 12%, 100% { fill: #1a1a1a; stroke: var(--muted); }
+  3%, 6% { fill: var(--accent); stroke: var(--accent); }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .ranging-pulse, .ranging-anchor-1, .ranging-anchor-2, .ranging-anchor-3 {
+  .ranging-pulse,
+  .ranging-anchor-1, .ranging-anchor-2, .ranging-anchor-3, .ranging-anchor-4 {
     animation: none;
   }
   .ranging-pulse { opacity: 0.4; }

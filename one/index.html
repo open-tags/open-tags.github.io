@@ -34,7 +34,7 @@
       <section class="product-hero">
         <div class="product-copy">
           <p class="eyebrow">opentag one</p>
-          <h1>UWB tag, fully open.</h1>
+          <h1>Location, made easy.</h1>
           <p class="intro">compact ranging hardware. STM32, DW3000, USB-C, CAN FD.</p>
           <div class="hero-actions desktop-only">
             <a class="button primary" href="/firmware/">firmware</a>
@@ -74,19 +74,25 @@
               <strong>TDOA</strong>
               <span>time-difference of arrival. one tag pings, many anchors listen. position from arrival deltas.</span>
             </figcaption>
-            <svg class="ranging-svg" viewBox="0 0 400 220" role="img" aria-label="TDOA animation">
-              <line x1="160" y1="60" x2="60" y2="190" class="ranging-link" />
-              <line x1="160" y1="60" x2="200" y2="190" class="ranging-link" />
-              <line x1="160" y1="60" x2="340" y2="190" class="ranging-link" />
-              <circle cx="160" cy="60" r="120" class="ranging-pulse ranging-pulse-t" fill="none" />
-              <circle cx="160" cy="60" r="13" class="ranging-tag" />
-              <circle cx="60" cy="190" r="10" class="ranging-anchor ranging-anchor-1" />
-              <circle cx="200" cy="190" r="10" class="ranging-anchor ranging-anchor-2" />
-              <circle cx="340" cy="190" r="10" class="ranging-anchor ranging-anchor-3" />
-              <text x="160" y="40" class="ranging-label" text-anchor="middle">T</text>
-              <text x="60" y="212" class="ranging-label" text-anchor="middle">a1</text>
-              <text x="200" y="212" class="ranging-label" text-anchor="middle">a2</text>
-              <text x="340" y="212" class="ranging-label" text-anchor="middle">a3</text>
+            <svg class="ranging-svg" viewBox="0 0 400 220" role="img" aria-label="TDOA animation with four anchors">
+              <line x1="70" y1="50" x2="330" y2="50" class="ranging-link" />
+              <line x1="330" y1="50" x2="330" y2="190" class="ranging-link" />
+              <line x1="330" y1="190" x2="70" y2="190" class="ranging-link" />
+              <line x1="70" y1="190" x2="70" y2="50" class="ranging-link" />
+              <circle cx="70" cy="50" r="80" class="ranging-pulse ranging-pulse-a1" fill="none" />
+              <circle cx="330" cy="50" r="80" class="ranging-pulse ranging-pulse-a2" fill="none" />
+              <circle cx="330" cy="190" r="80" class="ranging-pulse ranging-pulse-a3" fill="none" />
+              <circle cx="70" cy="190" r="80" class="ranging-pulse ranging-pulse-a4" fill="none" />
+              <circle cx="70" cy="50" r="11" class="ranging-anchor-pulse ranging-anchor-1" />
+              <circle cx="330" cy="50" r="11" class="ranging-anchor-pulse ranging-anchor-2" />
+              <circle cx="330" cy="190" r="11" class="ranging-anchor-pulse ranging-anchor-3" />
+              <circle cx="70" cy="190" r="11" class="ranging-anchor-pulse ranging-anchor-4" />
+              <circle cx="160" cy="100" r="9" class="ranging-tag" />
+              <text x="70" y="36" class="ranging-label" text-anchor="middle">a1</text>
+              <text x="330" y="36" class="ranging-label" text-anchor="middle">a2</text>
+              <text x="330" y="212" class="ranging-label" text-anchor="middle">a3</text>
+              <text x="70" y="212" class="ranging-label" text-anchor="middle">a4</text>
+              <text x="160" y="89" class="ranging-label" text-anchor="middle">T</text>
             </svg>
           </figure>
         </div>
