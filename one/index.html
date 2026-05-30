@@ -31,56 +31,77 @@
     </header>
 
     <main>
-      <section class="product-hero">
-        <div class="product-copy">
-          <p class="eyebrow">opentag one</p>
-          <h1>Location, made easy.</h1>
-          <p class="intro">compact ranging hardware. STM32, DW3000, USB-C, CAN FD.</p>
-          <div class="hero-actions desktop-only">
-            <a class="button primary" href="/firmware/">firmware</a>
-            <a class="button" href="#specs">specs</a>
-            <a class="button" href="#cad">cad</a>
-            <a class="button" href="#buy">buy</a>
+      <section id="buy" class="store-hero">
+        <div class="store-gallery" aria-label="opentag one product photos">
+          <figure class="store-gallery-main">
+            <img src="/assets/images/one/bringup/can_fd.jpg" alt="opentag one hardware pair" />
+          </figure>
+          <div class="store-thumbs" aria-hidden="true">
+            <img src="/assets/images/one/bringup/twr_double_blink.jpg" alt="" />
+            <img src="/assets/images/one/bringup/twr_double.jpg" alt="" />
+            <img src="/assets/images/one/bringup/twr_solo.jpg" alt="" />
+            <img src="/assets/images/one/bringup/twr_solo_2.jpg" alt="" />
           </div>
         </div>
-        <div class="product-media">
-          <img src="/assets/images/one/bringup/can_fd.jpg" alt="opentag one pair under bringup" />
-        </div>
+
+        <aside class="purchase-panel" aria-label="Buy opentag one">
+          <p class="eyebrow">opentag one</p>
+          <h1>Location, made easy.</h1>
+          <p class="intro">compact UWB ranging hardware for robotics, labs, and indoor localization experiments.</p>
+          <p class="store-price">from $249</p>
+
+          <div class="purchase-badges" aria-label="Product highlights">
+            <span>DWM3000 UWB</span>
+            <span>STM32</span>
+            <span>USB-C</span>
+            <span>CAN FD</span>
+          </div>
+
+          <div class="variant-stack" aria-label="Choose a kit">
+            <article class="variant-card">
+              <div class="variant-copy">
+                <span class="buy-kicker">TWR kit</span>
+                <h2>2 tags <span>$249</span></h2>
+                <p>for two-way ranging bringup, pair calibration, and distance experiments.</p>
+              </div>
+              <a class="button primary checkout-button" href="https://buy.stripe.com/6oU8wOazx25cbkpgyQg7e0f" rel="noreferrer">buy TWR kit</a>
+            </article>
+
+            <article class="variant-card featured">
+              <div class="variant-copy">
+                <span class="buy-kicker">TDOA kit</span>
+                <h2>5 tags <span>$499</span></h2>
+                <p>for anchor layout testing, time-difference experiments, and room-scale localization.</p>
+              </div>
+              <a class="button primary checkout-button" href="https://buy.stripe.com/5kQ14m5fdcJQagleqIg7e0g" rel="noreferrer">buy TDOA kit</a>
+            </article>
+          </div>
+
+          <dl class="purchase-details">
+            <div><dt>status</dt><dd>small-batch hardware</dd></div>
+            <div><dt>ships from</dt><dd>San Diego, CA</dd></div>
+            <div><dt>docs</dt><dd><a href="/firmware/">browser firmware console</a></dd></div>
+          </dl>
+        </aside>
       </section>
 
-      <section id="buy" class="band buy-band">
+      <section class="band included-band">
         <div class="section-head">
-          <p class="eyebrow">buy</p>
-          <h2>choose a kit.</h2>
+          <p class="eyebrow">included</p>
+          <h2>hardware first, docs close by.</h2>
         </div>
-        <div class="buy-grid">
-          <article class="buy-card">
-            <div>
-              <span class="buy-kicker">TWR</span>
-              <h3>opentag one TWR</h3>
-              <p>2 tags for two-way ranging bringup, pair calibration, and distance experiments.</p>
-            </div>
-            <div class="stripe-buy-frame">
-              <stripe-buy-button
-                buy-button-id="buy_btn_1TYwlwCJ07lOkLzsetbPlAsN"
-                publishable-key="pk_live_51PB3zUCJ07lOkLzsUiWON6eaKhTOT2ykpo2hQprF88V2EIuR8MO16ay9H9adAFjqgPoaezeSokIpqqtizxAz7gcl00TKsDTDIZ"
-              >
-              </stripe-buy-button>
-            </div>
+        <div class="included-grid">
+          <article>
+            <h3>tags</h3>
+            <p>assembled opentag one boards for TWR or TDOA experiments.</p>
           </article>
-          <article class="buy-card">
-            <div>
-              <span class="buy-kicker">TDOA</span>
-              <h3>opentag one TDOA</h3>
-              <p>5 tags for anchor layout testing, time-difference experiments, and room-scale localization.</p>
-            </div>
-            <div class="stripe-buy-frame">
-              <stripe-buy-button
-                buy-button-id="buy_btn_1TYwuoCJ07lOkLzsuzAt0wZX"
-                publishable-key="pk_live_51PB3zUCJ07lOkLzsUiWON6eaKhTOT2ykpo2hQprF88V2EIuR8MO16ay9H9adAFjqgPoaezeSokIpqqtizxAz7gcl00TKsDTDIZ"
-              >
-              </stripe-buy-button>
-            </div>
+          <article>
+            <h3>firmware path</h3>
+            <p>browser-based flashing, serial logs, ranging, and calibration tools.</p>
+          </article>
+          <article>
+            <h3>open files</h3>
+            <p>CAD, firmware, and design notes stay available for inspection and modification.</p>
           </article>
         </div>
       </section>
@@ -244,6 +265,31 @@
           <article><h3>field testing</h3><p>antennas, placement, calibration drift.</p></article>
         </div>
       </section>
+
+      <section class="band faq-band">
+        <div class="section-head">
+          <p class="eyebrow">faq</p>
+          <h2>before you buy.</h2>
+        </div>
+        <div class="faq-list">
+          <details>
+            <summary>Is this a finished consumer tracker?</summary>
+            <p>No. opentag one is small-batch development hardware for ranging and localization experiments.</p>
+          </details>
+          <details>
+            <summary>What do I need for TDOA?</summary>
+            <p>Use multiple tags as anchors plus one mobile tag. The 5-tag kit is the intended starting point.</p>
+          </details>
+          <details>
+            <summary>Can I flash it from the browser?</summary>
+            <p>Yes. The firmware page supports flashing and ranging workflows through browser tooling.</p>
+          </details>
+          <details>
+            <summary>Is the design open?</summary>
+            <p>Yes. Hardware files, firmware, and CAD are published through the OpenTags project.</p>
+          </details>
+        </div>
+      </section>
     </main>
 
     <footer>
@@ -259,7 +305,6 @@
         }
       }
     </script>
-    <script async src="https://js.stripe.com/v3/buy-button.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/occt-import-js@0.0.23/dist/occt-import-js.js"></script>
     <script type="module" src="/assets/site.js"></script>
     <script type="module" src="/assets/one-slideshow.js"></script>
