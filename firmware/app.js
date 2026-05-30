@@ -495,7 +495,7 @@ $("#export").addEventListener("click", () => {
   const blob = new Blob([lines.join("\n")], { type: "text/csv" });
   const a = document.createElement("a");
   a.href = URL.createObjectURL(blob);
-  a.download = `opentags-${new Date().toISOString().replace(/[:.]/g, "-")}.csv`;
+  a.download = `opentag-${new Date().toISOString().replace(/[:.]/g, "-")}.csv`;
   a.click();
 });
 
