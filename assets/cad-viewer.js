@@ -5,7 +5,7 @@ const viewerEls = [...document.querySelectorAll(".cad-viewer")];
 
 if (viewerEls.length) {
   initCadViewers().catch((error) => {
-    viewerEls.forEach((viewer) => setStatus(viewer, `viewer unavailable: ${error.message}`));
+    viewerEls.forEach((viewer) => setStatus(viewer, `Viewer unavailable: ${error.message}`));
   });
 }
 
@@ -26,7 +26,7 @@ async function initViewer(viewer, occt) {
   const transparentMode = viewer.dataset.transparent || "";
 
   const loader = createLoader(canvasHost);
-  loader.setProgress(0, "fetching");
+  loader.setProgress(0, "Fetching");
 
   const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
   renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
@@ -57,7 +57,7 @@ async function initViewer(viewer, occt) {
   scene.add(model);
   frameModel(model, camera, controls);
   loader.done();
-  setStatus(viewer, `${label} loaded`);
+  setStatus(viewer, `${titleCase(label)} Loaded`);
 
   const resize = () => {
     const rect = canvasHost.getBoundingClientRect();
@@ -83,17 +83,17 @@ async function initViewer(viewer, occt) {
 async function loadStepModel(url, occt, transparentMode, loader) {
   const response = await fetch(url);
   if (!response.ok) {
-    throw new Error(`${url} returned ${response.status}`);
+    throw new Error(`${url} Returned ${response.status}`);
   }
 
   const total = Number(response.headers.get("Content-Length")) || 0;
   const fileBuffer = await readWithProgress(response, total, loader);
 
-  loader?.setProgress(0.92, "parsing");
+  loader?.setProgress(0.92, "Parsing");
   await new Promise((r) => requestAnimationFrame(() => r()));
   const result = occt.ReadStepFile(fileBuffer, null);
   if (!result?.meshes?.length) {
-    throw new Error(`no meshes in ${url}`);
+    throw new Error(`No meshes in ${url}`);
   }
 
   const group = new THREE.Group();
@@ -191,7 +191,7 @@ function setStatus(viewer, text) {
 async function readWithProgress(response, total, loader) {
   if (!response.body || !response.body.getReader) {
     const buf = new Uint8Array(await response.arrayBuffer());
-    loader?.setProgress(0.9, "fetched");
+    loader?.setProgress(0.9, "Fetched");
     return buf;
   }
 
@@ -226,7 +226,7 @@ function createLoader(host) {
   overlay.className = "viewer-loader";
   overlay.innerHTML = `
     <div class="viewer-loader-inner">
-      <div class="viewer-loader-label">loading</div>
+      <div class="viewer-loader-label">Loading</div>
       <div class="viewer-loader-track"><div class="viewer-loader-bar"></div></div>
     </div>
   `;
@@ -250,4 +250,8 @@ function createLoader(host) {
       setTimeout(() => overlay.remove(), 420);
     }
   };
+}
+
+function titleCase(text) {
+  return String(text || "").replace(/\b\w/g, (letter) => letter.toUpperCase());
 }

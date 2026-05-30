@@ -3,36 +3,35 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>opentag firmware</title>
-    <meta name="description" content="flash, connect, range, and calibrate opentag hardware from the browser." />
-    <meta property="og:title" content="opentag firmware" />
-    <meta property="og:description" content="flash, connect, range, and calibrate opentag hardware from the browser." />
+    <title>opentags Firmware</title>
+    <meta name="description" content="Flash, connect, range, and calibrate opentags hardware from the browser." />
+    <meta property="og:title" content="opentags Firmware" />
+    <meta property="og:description" content="Flash, connect, range, and calibrate opentags hardware from the browser." />
     <meta property="og:type" content="website" />
     <meta property="og:image" content="/favicon.png?v=2" />
     <meta name="twitter:card" content="summary" />
-    <meta name="twitter:title" content="opentag firmware" />
-    <meta name="twitter:description" content="flash, connect, range, and calibrate opentag hardware from the browser." />
+    <meta name="twitter:title" content="opentags Firmware" />
+    <meta name="twitter:description" content="Flash, connect, range, and calibrate opentags hardware from the browser." />
     <link rel="icon" type="image/png" href="/favicon.png?v=2" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png?v=2" />
     <link rel="stylesheet" href="/assets/site.css" />
   </head>
   <body>
     <header class="site-header" data-site-header>
-      <a class="brand" href="/">opentag</a>
+      <a class="brand" href="/" aria-label="opentags home">opentags</a>
       <button class="nav-toggle" type="button" data-nav-toggle aria-label="Open menu" aria-expanded="false">
         <span class="nav-toggle-icon" aria-hidden="true"></span>
       </button>
       <nav aria-label="Primary">
-        <a href="/">home</a>
-        <a href="/one/">one</a>
-        <a aria-current="page" href="/firmware/">firmware</a>
-        <a href="https://github.com/open-tags" rel="noreferrer">github</a>
+        <a href="/one/">One</a>
+        <a aria-current="page" href="/firmware/">Firmware</a>
+        <a href="https://github.com/open-tags" rel="noreferrer">GitHub</a>
       </nav>
     </header>
 
     <main>
       <section class="page-title">
-        <p class="eyebrow">firmware console</p>
+        <p class="eyebrow">Firmware Console</p>
         <h1>Flash, connect, range, calibrate.</h1>
         <p class="hint">
           Hold <strong>BOOT0</strong> on the tag, plug it in as STM32 DFU, then
@@ -45,10 +44,10 @@
         <section class="panel tag" data-slot="A" data-role="I">
           <h2>Tag A: Initiator</h2>
           <div class="info-line">
-            <span>status: <code class="status-pill">disconnected</code></span>
-            <span>mode: <code class="info-mode">-</code></span>
-            <span>calib: <code class="info-calib">-</code> dtu</span>
-            <span>fw: <code class="info-fw">-</code></span>
+            <span>Status: <code class="status-pill">Disconnected</code></span>
+            <span>Mode: <code class="info-mode">-</code></span>
+            <span>Calib: <code class="info-calib">-</code> dtu</span>
+            <span>FW: <code class="info-fw">-</code></span>
           </div>
           <div class="row">
             <button class="connect-btn">Connect serial</button>
@@ -65,10 +64,10 @@
         <section class="panel tag" data-slot="B" data-role="R">
           <h2>Tag B: Responder</h2>
           <div class="info-line">
-            <span>status: <code class="status-pill">disconnected</code></span>
-            <span>mode: <code class="info-mode">-</code></span>
-            <span>calib: <code class="info-calib">-</code> dtu</span>
-            <span>fw: <code class="info-fw">-</code></span>
+            <span>Status: <code class="status-pill">Disconnected</code></span>
+            <span>Mode: <code class="info-mode">-</code></span>
+            <span>Calib: <code class="info-calib">-</code> dtu</span>
+            <span>FW: <code class="info-fw">-</code></span>
           </div>
           <div class="row">
             <button class="connect-btn">Connect serial</button>
@@ -90,10 +89,10 @@
           <button id="clear" disabled>Clear</button>
           <button id="export" disabled>Export CSV</button>
           <span class="stats">
-            last: <code id="stat-last">-</code> mm /
-            mean: <code id="stat-mean">-</code> mm /
-            stdev: <code id="stat-std">-</code> mm /
-            n: <code id="stat-n">0</code>
+            Last: <code id="stat-last">-</code> mm /
+            Mean: <code id="stat-mean">-</code> mm /
+            Stdev: <code id="stat-std">-</code> mm /
+            N: <code id="stat-n">0</code>
           </span>
         </div>
         <canvas id="chart" width="900" height="320"></canvas>
@@ -107,30 +106,30 @@
           the responder.
         </p>
         <div class="row">
-          <label>true distance
+          <label>True Distance
             <input id="cal-dist" type="number" value="3048" min="1" /> mm
           </label>
-          <label>samples
+          <label>Samples
             <input id="cal-n" type="number" value="100" min="10" max="1000" />
           </label>
         </div>
         <div class="row">
-          <span>responder slot:</span>
+          <span>Responder Slot:</span>
           <label><input type="radio" name="cal-resp" value="A" /> A</label>
           <label><input type="radio" name="cal-resp" value="B" checked /> B</label>
         </div>
         <div class="row">
           <button id="cal-start" disabled>Start calibration</button>
         </div>
-        <div id="cal-status" class="cal-status">idle</div>
+        <div id="cal-status" class="cal-status">Idle</div>
       </section>
     </main>
 
     <script type="module" src="app.js"></script>
     <script type="module" src="/assets/site.js"></script>
     <footer>
-      <span>&copy; 2026 opentag</span>
-      <span>designed &middot; assembled in San Diego, CA</span>
+      <span>&copy; 2026 opentags</span>
+      <span>Designed &middot; assembled in San Diego, CA</span>
       <a href="mailto:hello@open-tags.com">hello@open-tags.com</a>
     </footer>
   </body>

@@ -134,15 +134,15 @@ class TagConnection {
       this.port = await navigator.serial.requestPort();
       await this.port.open({ baudRate: 115200 });
       this.writer = this.port.writable.getWriter();
-      this.setStatus("connected", "connected");
+      this.setStatus("Connected", "connected");
       this.setButtons();
-      this.log("port opened");
+      this.log("Port opened");
       this.readLoopP = this.readLoop();
       setTimeout(() => this.send("INFO"), 200);
     } catch (e) {
-      this.log(`connect failed: ${e.message}`);
+      this.log(`Connect failed: ${e.message}`);
       this.port = null;
-      this.setStatus("disconnected", "");
+      this.setStatus("Disconnected", "");
       this.setButtons();
     }
   }
@@ -158,12 +158,12 @@ class TagConnection {
       this.reader = null;
       this.writer = null;
       this.readLoopP = null;
-      this.setStatus("disconnected", "");
+      this.setStatus("Disconnected", "");
       this.setModeIndicator("—");
       $(".info-calib", this.root).textContent = "—";
       $(".info-fw", this.root).textContent = "—";
       this.setButtons();
-      this.log("disconnected");
+      this.log("Disconnected");
     }
   }
 
@@ -223,7 +223,7 @@ class TagConnection {
       this.calib = parseInt(line.slice(9).trim(), 10);
       $(".info-calib", this.root).textContent = this.calib;
       rememberCalib(this.calib);
-      this.log(`saved calib=${this.calib} to local storage`);
+      this.log(`Saved calib=${this.calib} to local storage`);
       return;
     }
     if (line.startsWith("D ")) {
@@ -250,9 +250,9 @@ class TagConnection {
     const msg = $(".msg", prog);
     prog.classList.add("active");
     bar.style.setProperty("--p", "0%");
-    msg.textContent = `loading ${label}…`;
-    this.setStatus("flashing", "dfu");
-    this.log(`flashing ${label} from ${fwUrl}`);
+    msg.textContent = `Loading ${label}…`;
+    this.setStatus("Flashing", "dfu");
+    this.log(`Flashing ${label} from ${fwUrl}`);
 
     try {
       let fw = await loadFirmware(fwUrl);
@@ -264,29 +264,29 @@ class TagConnection {
         const patched = patchFirmware(fw, saved);
         if (patched) {
           fw = patched;
-          this.log(`patched ${label} with saved calib=${saved}`);
+          this.log(`Patched ${label} with saved calib=${saved}`);
         }
       }
-      msg.textContent = `${label} (${(fw.byteLength / 1024).toFixed(1)} KB) — pick DFU device`;
+      msg.textContent = `${label} (${(fw.byteLength / 1024).toFixed(1)} KB) — Pick DFU device`;
       const dev = await detectDfu();
-      msg.textContent = `device opened — ${dev.productName ?? "STM32 DFU"}`;
+      msg.textContent = `Device opened — ${dev.productName ?? "STM32 DFU"}`;
       await dfuFlash(
         dev,
         fw,
         0x08000000,
         (p) => {
           bar.style.setProperty("--p", `${(p * 100).toFixed(1)}%`);
-          msg.textContent = `flashing ${label}… ${(p * 100).toFixed(1)}%`;
+          msg.textContent = `Flashing ${label}… ${(p * 100).toFixed(1)}%`;
         },
         (m) => this.log(`DFU ${m}`)
       );
       bar.style.setProperty("--p", "100%");
       msg.textContent = `${label} done. Unplug, release BOOT0, replug.`;
-      this.setStatus("flashed", "connected");
+      this.setStatus("Flashed", "connected");
     } catch (e) {
       this.log(`DFU error: ${e.message}`);
-      msg.textContent = `error: ${e.message}`;
-      this.setStatus("error", "error");
+      msg.textContent = `Error: ${e.message}`;
+      this.setStatus("Error", "error");
     }
   }
 }
@@ -302,7 +302,7 @@ function onDistance(slot, seq, mm) {
   if (calibActive && slot === calibRespSlot) {
     calibCollected.push(mm);
     $("#cal-status").textContent =
-      `collecting… ${calibCollected.length} / ${calibNeeded}`;
+      `Collecting… ${calibCollected.length} / ${calibNeeded}`;
     if (calibCollected.length >= calibNeeded) finishCalibration();
   }
 }
@@ -355,7 +355,7 @@ function drawChart() {
     ctx.fillStyle = "#777";
     ctx.font = "12px ui-monospace, monospace";
     ctx.fillText(
-      "waiting for distance samples — set one tag I, the other R…",
+      "Waiting for distance samples — set one tag I, the other R…",
       padL + 8,
       padT + 18
     );
@@ -405,7 +405,7 @@ function drawChart() {
   ctx.textAlign = "left";
   ctx.fillStyle = "#777";
   ctx.fillText("mm", 8, padT + 12);
-  ctx.fillText(`from ${last.src}`, padL + innerW - 70, padT + 12);
+  ctx.fillText(`From ${last.src}`, padL + innerW - 70, padT + 12);
 }
 
 // ─── Calibration ──────────────────────────────────────────────────────────────
@@ -414,18 +414,18 @@ async function startCalibration() {
   const resp = tags[respSlot];
 
   if (!tags.A.port || !tags.B.port) {
-    setCalStatus("error", `both slots must be connected (A: ${!!tags.A.port}, B: ${!!tags.B.port})`);
+    setCalStatus("error", `Both slots must be connected (A: ${!!tags.A.port}, B: ${!!tags.B.port})`);
     return;
   }
   if (resp.calib === null) {
-    setCalStatus("error", `slot ${respSlot} hasn't reported calib yet — press its INFO`);
+    setCalStatus("error", `Slot ${respSlot} hasn't reported calib yet — press its INFO`);
     return;
   }
 
   calibTarget = parseInt($("#cal-dist").value, 10);
   calibNeeded = parseInt($("#cal-n").value, 10);
   if (!isFinite(calibTarget) || calibTarget <= 0 || !isFinite(calibNeeded) || calibNeeded < 10) {
-    setCalStatus("error", "bad inputs");
+    setCalStatus("error", "Bad inputs");
     return;
   }
 
@@ -433,7 +433,7 @@ async function startCalibration() {
   calibRespSlot = respSlot;
   calibActive = true;
   $("#cal-start").disabled = true;
-  setCalStatus("running", `collecting 0 / ${calibNeeded}…`);
+  setCalStatus("running", `Collecting 0 / ${calibNeeded}…`);
 }
 
 function finishCalibration() {
@@ -451,7 +451,7 @@ function finishCalibration() {
 
   setCalStatus(
     "done",
-    `slot ${calibRespSlot}: mean=${mean.toFixed(1)} mm  true=${calibTarget} mm  ` +
+    `Slot ${calibRespSlot}: Mean=${mean.toFixed(1)} mm  True=${calibTarget} mm  ` +
       `Δ=${delta.toFixed(1)} dtu  →  calib=${newOffset} (was ${resp.calib})`
   );
   resp.send(`CALIB ${newOffset}`);
@@ -495,7 +495,7 @@ $("#export").addEventListener("click", () => {
   const blob = new Blob([lines.join("\n")], { type: "text/csv" });
   const a = document.createElement("a");
   a.href = URL.createObjectURL(blob);
-  a.download = `opentag-${new Date().toISOString().replace(/[:.]/g, "-")}.csv`;
+  a.download = `opentags-${new Date().toISOString().replace(/[:.]/g, "-")}.csv`;
   a.click();
 });
 
