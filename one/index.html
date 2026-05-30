@@ -49,19 +49,12 @@
           <p class="intro">Compact UWB ranging hardware for robotics, labs, and indoor localization experiments.</p>
           <p class="store-price">From $249</p>
 
-          <div class="purchase-badges" aria-label="Product highlights">
-            <span>DWM3000 UWB</span>
-            <span>STM32</span>
-            <span>USB-C</span>
-            <span>CAN FD</span>
-          </div>
-
           <div class="variant-stack" aria-label="Choose a kit">
             <article class="variant-card">
               <div class="variant-copy">
                 <span class="buy-kicker">TWR kit</span>
                 <h2>2 Tags <span>$249</span></h2>
-                <p>For two-way ranging bringup, pair calibration, and distance experiments.</p>
+                <p>Get 1-dimensional (x) distance between the tags. Just a scalar distance.</p>
               </div>
               <a class="button primary checkout-button" href="https://buy.stripe.com/6oU8wOazx25cbkpgyQg7e0f" rel="noreferrer">Buy</a>
             </article>
@@ -70,7 +63,7 @@
               <div class="variant-copy">
                 <span class="buy-kicker">TDOA kit</span>
                 <h2>5 Tags <span>$499</span></h2>
-                <p>For anchor layout testing, time-difference experiments, and room-scale localization.</p>
+                <p>With 4 tags as anchors, you can get 3-dimensional (x,y,z) positioning for your tag.</p>
               </div>
               <a class="button primary checkout-button" href="https://buy.stripe.com/5kQ14m5fdcJQagleqIg7e0g" rel="noreferrer">Buy</a>
             </article>
@@ -147,48 +140,6 @@
           <div><dt>Firmware</dt><dd>Embassy (Rust)</dd></div>
           <div><dt>Enclosure</dt><dd>PETG case &middot; acrylic lid</dd></div>
         </dl>
-      </section>
-
-      <section class="band lab-band">
-        <div class="section-head">
-          <p class="eyebrow">Bench</p>
-          <h2>Real hardware.</h2>
-        </div>
-        <div class="lab-slideshow" data-slideshow tabindex="0">
-          <div class="lab-viewport">
-            <div class="lab-track">
-              <figure class="lab-slide">
-                <img src="/assets/images/one/bringup/can_fd.jpg" alt="CAN FD link" />
-                <figcaption>CAN FD link.</figcaption>
-              </figure>
-              <figure class="lab-slide">
-                <img src="/assets/images/one/bringup/twr_double_blink.jpg" alt="TWR pair" />
-                <figcaption>TWR pair.</figcaption>
-              </figure>
-              <figure class="lab-slide">
-                <img src="/assets/images/one/bringup/twr_double.jpg" alt="Paired ranging" />
-                <figcaption>Paired ranging.</figcaption>
-              </figure>
-              <figure class="lab-slide">
-                <img src="/assets/images/one/bringup/twr_solo.jpg" alt="Single tag" />
-                <figcaption>Single tag.</figcaption>
-              </figure>
-              <figure class="lab-slide">
-                <img src="/assets/images/one/bringup/twr_solo_2.jpg" alt="Board close-up" />
-                <figcaption>Through the lid.</figcaption>
-              </figure>
-            </div>
-            <button class="slide-button slide-prev" type="button" data-slide-prev aria-label="Previous">&lsaquo;</button>
-            <button class="slide-button slide-next" type="button" data-slide-next aria-label="Next">&rsaquo;</button>
-          </div>
-          <div class="slide-thumbs" aria-label="Photo selector">
-            <button class="active" type="button" data-slide-to="0"><img src="/assets/images/one/bringup/can_fd.jpg" alt="" /></button>
-            <button type="button" data-slide-to="1"><img src="/assets/images/one/bringup/twr_double_blink.jpg" alt="" /></button>
-            <button type="button" data-slide-to="2"><img src="/assets/images/one/bringup/twr_double.jpg" alt="" /></button>
-            <button type="button" data-slide-to="3"><img src="/assets/images/one/bringup/twr_solo.jpg" alt="" /></button>
-            <button type="button" data-slide-to="4"><img src="/assets/images/one/bringup/twr_solo_2.jpg" alt="" /></button>
-          </div>
-        </div>
       </section>
 
       <section id="cad" class="band cad-band">
@@ -280,7 +231,6 @@
     </script>
     <script src="https://cdn.jsdelivr.net/npm/occt-import-js@0.0.23/dist/occt-import-js.js"></script>
     <script type="module" src="/assets/site.js"></script>
-    <script type="module" src="/assets/one-slideshow.js"></script>
     <script type="module" src="/assets/cad-viewer.js"></script>
   </body>
 </html>
