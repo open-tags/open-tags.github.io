@@ -1,18 +1,18 @@
 @import url("https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Roboto:wght@300;400;500;700&display=swap");
 
 :root {
-  --bg: #000;
-  --fg: #fff;
-  --muted: #8d8d8d;
-  --faint: #151515;
-  --panel: #070707;
-  --panel-2: #0d0d0d;
-  --line: #242424;
-  --accent: #b8ff36;
-  --bad: #ff5c5c;
+  --bg: #fff;
+  --fg: #111;
+  --muted: #6e6e73;
+  --faint: #f5f5f7;
+  --panel: #fbfbfd;
+  --panel-2: #f5f5f7;
+  --line: #d8d8de;
+  --accent: #111;
+  --bad: #b00020;
   --font-body: "Roboto", system-ui, -apple-system, "Segoe UI", Helvetica, Arial, sans-serif;
   --font-display: "Instrument Serif", "Times New Roman", Georgia, serif;
-  color-scheme: dark;
+  color-scheme: light;
   font-family: var(--font-body);
 }
 
@@ -39,10 +39,10 @@ body::before {
   inset: 0;
   pointer-events: none;
   background:
-    linear-gradient(rgba(184, 255, 54, 0.035) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(184, 255, 54, 0.025) 1px, transparent 1px);
+    linear-gradient(rgba(17, 17, 17, 0.025) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(17, 17, 17, 0.018) 1px, transparent 1px);
   background-size: 42px 42px;
-  mask-image: linear-gradient(to bottom, #000, transparent 68%);
+  mask-image: linear-gradient(to bottom, #000, transparent 58%);
 }
 
 a {
@@ -64,6 +64,9 @@ footer {
   gap: 16px;
   padding: 22px 0;
   border-bottom: 1px solid var(--line);
+  background: rgba(255, 255, 255, 0.78);
+  backdrop-filter: blur(18px);
+  z-index: 10;
 }
 
 .brand,
@@ -73,7 +76,7 @@ nav a {
 
 .brand {
   font-weight: 700;
-  color: var(--accent);
+  color: var(--fg);
 }
 
 nav {
@@ -148,7 +151,7 @@ button {
   justify-content: center;
   min-height: 38px;
   border: 1px solid var(--line);
-  border-radius: 4px;
+  border-radius: 999px;
   background: transparent;
   color: var(--fg);
   padding: 7px 14px;
@@ -162,18 +165,18 @@ button {
 .button:hover,
 button:hover:not(:disabled) {
   border-color: var(--accent);
-  color: var(--accent);
+  color: var(--fg);
 }
 
 .button.primary,
 button.active {
   background: var(--accent);
   border-color: var(--accent);
-  color: #000;
+  color: var(--bg);
 }
 
 .button.primary:hover {
-  color: #000;
+  color: var(--bg);
 }
 
 button:disabled {
@@ -189,6 +192,11 @@ button:disabled {
 .section-head {
   max-width: 700px;
   margin-bottom: 28px;
+}
+
+.centered-head {
+  margin-inline: auto;
+  text-align: center;
 }
 
 h2 {
@@ -321,6 +329,10 @@ strong {
   border-bottom: 1px solid var(--line);
 }
 
+.apple-home {
+  align-items: center;
+}
+
 .home-store-copy h1 {
   font-size: clamp(46px, 7.8vw, 104px);
 }
@@ -331,7 +343,7 @@ strong {
   grid-template-columns: minmax(0, 0.92fr) minmax(280px, 0.72fr);
   gap: 1px;
   border: 1px solid var(--line);
-  border-radius: 8px;
+  border-radius: 18px;
   background: var(--line);
   overflow: hidden;
   padding: 0;
@@ -340,7 +352,7 @@ strong {
 .home-product-media {
   display: block;
   min-height: 520px;
-  background: #000;
+  background: var(--panel);
 }
 
 .home-product-media img {
@@ -355,7 +367,7 @@ strong {
   display: grid;
   align-content: space-between;
   gap: 24px;
-  background: #000;
+  background: var(--bg);
   padding: 22px;
 }
 
@@ -382,7 +394,7 @@ strong {
   justify-content: space-between;
   gap: 14px;
   border: 1px solid var(--line);
-  border-radius: 5px;
+  border-radius: 999px;
   color: inherit;
   padding: 12px;
   text-decoration: none;
@@ -417,6 +429,7 @@ strong {
   display: grid;
   align-content: start;
   gap: 12px;
+  background: var(--bg);
 }
 
 .home-shop-grid h3 {
@@ -429,6 +442,47 @@ strong {
   align-self: end;
   margin-top: 14px;
   width: 100%;
+}
+
+.product-nav-bar {
+  position: sticky;
+  top: 0;
+  z-index: 8;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  min-height: 48px;
+  border-bottom: 1px solid var(--line);
+  background: rgba(255, 255, 255, 0.82);
+  backdrop-filter: blur(18px);
+}
+
+.product-nav-bar strong {
+  color: var(--fg);
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.product-nav-bar div {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.product-nav-bar a {
+  color: var(--muted);
+  font-size: 12px;
+  text-decoration: none;
+}
+
+.product-nav-bar a:hover {
+  color: var(--fg);
+}
+
+.product-nav-bar .button {
+  min-height: 28px;
+  padding: 4px 12px;
 }
 
 .store-hero {
@@ -451,9 +505,9 @@ strong {
 .store-gallery-main {
   margin: 0;
   border: 1px solid var(--line);
-  border-radius: 8px;
+  border-radius: 18px;
   overflow: hidden;
-  background: #000;
+  background: var(--panel);
 }
 
 .store-gallery-main img {
@@ -477,15 +531,15 @@ strong {
   object-fit: cover;
   display: block;
   border: 1px solid var(--line);
-  border-radius: 6px;
-  background: #000;
+  border-radius: 12px;
+  background: var(--panel);
 }
 
 .purchase-panel {
   align-self: start;
   border: 1px solid var(--line);
-  border-radius: 8px;
-  background: rgba(7, 7, 7, 0.92);
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.92);
   padding: 24px;
 }
 
@@ -532,13 +586,13 @@ strong {
   grid-template-columns: minmax(0, 1fr);
   gap: 16px;
   border: 1px solid var(--line);
-  border-radius: 6px;
-  background: #000;
+  border-radius: 14px;
+  background: var(--bg);
   padding: 16px;
 }
 
 .variant-card.featured {
-  border-color: rgba(184, 255, 54, 0.46);
+  border-color: var(--fg);
 }
 
 .variant-copy h2 {
@@ -661,7 +715,7 @@ strong {
   object-fit: cover;
   object-position: center bottom;
   display: block;
-  background: #000;
+  background: var(--panel);
 }
 
 .lab-slideshow {
@@ -673,8 +727,8 @@ strong {
   position: relative;
   overflow: hidden;
   border: 1px solid var(--line);
-  border-radius: 8px;
-  background: #000;
+  border-radius: 18px;
+  background: var(--panel);
   touch-action: pan-y;
 }
 
@@ -705,9 +759,9 @@ strong {
   left: 14px;
   bottom: 14px;
   max-width: min(520px, calc(100% - 28px));
-  border: 1px solid rgba(255, 255, 255, 0.14);
-  border-radius: 6px;
-  background: rgba(0, 0, 0, 0.72);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.82);
   color: var(--fg);
   font-size: 12px;
   line-height: 1.45;
@@ -721,7 +775,7 @@ strong {
   min-height: 38px;
   height: 38px;
   border-radius: 999px;
-  background: rgba(0, 0, 0, 0.7);
+  background: rgba(255, 255, 255, 0.86);
   font-size: 24px;
   line-height: 1;
   padding: 0;
@@ -746,10 +800,10 @@ strong {
   min-width: 0;
   height: auto;
   min-height: 0;
-  border-radius: 8px;
+  border-radius: 12px;
   padding: 0;
   overflow: hidden;
-  background: #000;
+  background: var(--panel);
   opacity: 0.58;
 }
 
@@ -885,7 +939,7 @@ strong {
   left: 10px;
   bottom: 8px;
   z-index: 1;
-  background: rgba(0, 0, 0, 0.72);
+  background: rgba(255, 255, 255, 0.86);
   border: 1px solid var(--line);
   border-radius: 2px;
   color: var(--muted);
@@ -916,7 +970,7 @@ strong {
 }
 
 .faq-list details {
-  background: #000;
+  background: var(--bg);
   border-bottom: 1px solid var(--line);
 }
 
@@ -1051,7 +1105,7 @@ label {
   height: 150px;
   overflow-y: auto;
   white-space: pre-wrap;
-  background: #030303;
+  background: var(--panel);
   border: 1px solid var(--line);
   border-radius: 3px;
   color: var(--fg);
@@ -1093,7 +1147,7 @@ label {
   display: block;
   width: 100%;
   height: 320px;
-  background: #030303;
+  background: var(--panel);
   border: 1px solid var(--line);
   border-radius: 3px;
 }
@@ -1115,7 +1169,7 @@ label {
 
 ::selection {
   background: var(--accent);
-  color: #000;
+  color: var(--bg);
 }
 
 @media (max-width: 980px) {
@@ -1310,7 +1364,7 @@ label {
     border: 0;
     border-top: 1px solid var(--line);
     border-radius: 0;
-    background: #000;
+    background: var(--bg);
     color: var(--muted);
   }
 
@@ -1391,7 +1445,7 @@ label {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: rgba(0, 0, 0, 0.72);
+  background: rgba(255, 255, 255, 0.82);
   backdrop-filter: blur(2px);
   transition: opacity 0.35s ease;
   pointer-events: none;
@@ -1455,9 +1509,9 @@ label {
   width: 100%;
   aspect-ratio: 4 / 3;
   border: 1px solid var(--line);
-  border-radius: 8px;
+  border-radius: 18px;
   overflow: hidden;
-  background: #000;
+  background: var(--panel);
 }
 
 .learn-media img {
@@ -1480,7 +1534,7 @@ label {
 .ranging-card {
   margin: 0;
   border: 1px solid var(--line);
-  border-radius: 8px;
+  border-radius: 18px;
   background: var(--panel);
   overflow: hidden;
   display: flex;
@@ -1510,7 +1564,7 @@ label {
   display: block;
   width: 100%;
   height: auto;
-  background: #050505;
+  background: var(--panel);
 }
 
 .ranging-tag {
@@ -1518,7 +1572,7 @@ label {
 }
 
 .ranging-anchor-pulse {
-  fill: #1a1a1a;
+  fill: var(--bg);
   stroke: var(--muted);
   stroke-width: 1.5;
 }
@@ -1551,7 +1605,7 @@ label {
 }
 
 .ranging-pulse-a { animation: ranging-twr 3s linear infinite; }
-.ranging-pulse-b { stroke: #fff; animation: ranging-twr 3s linear infinite; animation-delay: 1.5s; }
+.ranging-pulse-b { stroke: var(--muted); animation: ranging-twr 3s linear infinite; animation-delay: 1.5s; }
 
 @keyframes ranging-twr {
   0%   { transform: scale(0.22); opacity: 0.95; }
@@ -1576,7 +1630,7 @@ label {
 .ranging-anchor-4 { animation: ranging-anchor-emit 4s linear infinite; animation-delay: 1.5s; }
 
 @keyframes ranging-anchor-emit {
-  0%, 12%, 100% { fill: #1a1a1a; stroke: var(--muted); }
+  0%, 12%, 100% { fill: var(--bg); stroke: var(--muted); }
   3%, 6% { fill: var(--accent); stroke: var(--accent); }
 }
 
