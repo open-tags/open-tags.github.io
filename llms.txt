@@ -1,0 +1,30 @@
+# opentag
+
+> opentag makes open ultra-wideband (UWB) hardware for centimeter-level indoor positioning, aimed at robotics. The product, opentag one, is a compact UWB tag (STM32 + Qorvo DWM3000 radio, Rust/Embassy firmware, USB-C, CAN FD, 6–24V input) for ranging and 3D positioning where GPS won't reach. Designed and assembled in San Diego, CA.
+
+Key facts:
+
+- Product: opentag one, a UWB ranging and positioning tag in a PETG enclosure with clear lid
+- Kits: TWR kit (2 tags, $249) gives live point-to-point distance; TDOA kit (5 tags, $499) gives full 3D position (x, y, z) using 4 tags as fixed anchors plus 1 mobile tag
+- Performance (typical, line of sight): ±10 cm ranging accuracy, ±20 cm 3D TDOA position accuracy, up to 50 Hz update rate, up to 60 m range (15–25 m through walls)
+- Interfaces: USB-C serial stream, CAN and CAN FD, 6–24V power input with reverse-polarity protection
+- MCU: STM32 Cortex-M4 at 170 MHz, 256K flash, 128K RAM; radio: Qorvo DWM3000
+- Firmware: open source Rust (Embassy framework), flashable and debuggable entirely from the browser via WebUSB / Web Serial — no toolchain or vendor IDE required
+- Open files: mechanical CAD (STEP) for the full assembly, case, and lid; firmware source on GitHub; schematics/PCB files not currently published
+- Use cases: indoor robot navigation, drone flight without a motion-capture rig, docking and follow-me between machines, UWB anchor network bring-up, asset-tracking prototypes, RF field testing
+- Integration: parse the USB serial stream from any language, or wire into a robot's CAN bus; a ROS 2 driver is on the roadmap
+- Availability: ships in about 1 week from San Diego, CA, USA
+- Contact: hello@open-tags.com
+
+## Pages
+
+- [Home](https://open-tags.github.io/): overview, kit pricing, how UWB ranging works
+- [opentag one](https://open-tags.github.io/one/): product page — kits and checkout, performance numbers, board specs, CAD downloads, applications, FAQ
+- [Firmware console](https://open-tags.github.io/firmware/): flash firmware, log data, plot live distance, and calibrate from the browser over WebUSB / Web Serial
+- [GitHub](https://github.com/open-tags): firmware source, CAD, and roadmap
+
+## Glossary
+
+- TWR (two-way ranging): one tag pings, the other replies; distance is computed from round-trip time
+- TDOA (time-difference of arrival): one mobile tag pings, multiple fixed anchors listen; 3D position is computed from arrival-time deltas
+- UWB (ultra-wideband): short-pulse radio that timestamps signal arrival precisely, making it far more accurate for positioning than Bluetooth or Wi-Fi signal strength
