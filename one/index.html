@@ -3,15 +3,15 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="description" content="opentag one &mdash; compact UWB development tag." />
+    <meta name="description" content="opentag one &mdash; centimeter-level UWB positioning for robots. USB-C, CAN FD, 6&ndash;24V, Rust firmware." />
     <title>opentag one</title>
     <meta property="og:title" content="opentag one" />
-    <meta property="og:description" content="Compact UWB development tag." />
+    <meta property="og:description" content="Centimeter-level UWB positioning for robots. USB-C, CAN FD, 6&ndash;24V, Rust firmware." />
     <meta property="og:type" content="website" />
     <meta property="og:image" content="/favicon.png?v=2" />
     <meta name="twitter:card" content="summary" />
     <meta name="twitter:title" content="opentag one" />
-    <meta name="twitter:description" content="Compact UWB development tag." />
+    <meta name="twitter:description" content="Centimeter-level UWB positioning for robots. USB-C, CAN FD, 6&ndash;24V, Rust firmware." />
     <link rel="icon" type="image/png" href="/favicon.png?v=2" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png?v=2" />
     <link rel="stylesheet" href="/assets/site.css" />
@@ -45,8 +45,8 @@
 
         <aside class="purchase-panel" aria-label="Buy opentag one">
           <p class="eyebrow">opentag one</p>
-          <h1>Location, made easy.</h1>
-          <p class="intro">Compact UWB ranging hardware for robotics, labs, and indoor localization experiments.</p>
+          <h1>Indoor positioning for robots.</h1>
+          <p class="intro">Centimeter-level UWB positioning for robots, drones, and labs &mdash; anywhere GPS won't reach. Powered from your robot's 6&ndash;24V bus, streaming over USB or CAN.</p>
           <p class="store-price">From $249</p>
 
           <div class="variant-stack" aria-label="Choose a kit">
@@ -54,7 +54,7 @@
               <div class="variant-copy">
                 <span class="buy-kicker">TWR kit</span>
                 <h2>2 Tags <span>$249</span></h2>
-                <p>Get 1-dimensional (x) distance between the tags. Just a scalar distance.</p>
+                <p>Live distance between two points, streamed over USB. Docking, follow-me, and proximity between robots.</p>
               </div>
               <a class="button primary checkout-button" href="https://buy.stripe.com/6oU8wOazx25cbkpgyQg7e0f" rel="noreferrer">Buy</a>
             </article>
@@ -63,7 +63,7 @@
               <div class="variant-copy">
                 <span class="buy-kicker">TDOA kit</span>
                 <h2>5 Tags <span>$499</span></h2>
-                <p>With 4 tags as anchors, you can get 3-dimensional (x,y,z) positioning for your tag.</p>
+                <p>Four tags mounted as fixed anchors, one on the robot. Full 3D position (x, y, z) of the moving tag &mdash; a room-scale positioning system.</p>
               </div>
               <a class="button primary checkout-button" href="https://buy.stripe.com/5kQ14m5fdcJQagleqIg7e0g" rel="noreferrer">Buy</a>
             </article>
@@ -74,6 +74,20 @@
             <div><dt>Docs</dt><dd><a href="/firmware/">Browser firmware console</a></dd></div>
           </dl>
         </aside>
+      </section>
+
+      <section class="band">
+        <div class="section-head">
+          <p class="eyebrow">Performance</p>
+          <h2>The numbers.</h2>
+        </div>
+        <dl class="spec-list">
+          <div><dt>Ranging accuracy</dt><dd>&plusmn;10 cm typical, line of sight</dd></div>
+          <div><dt>Position accuracy</dt><dd>&plusmn;20 cm typical, 3D TDOA</dd></div>
+          <div><dt>Update rate</dt><dd>Up to 50 Hz</dd></div>
+          <div><dt>Range</dt><dd>Up to 60 m line of sight &middot; 15&ndash;25 m through walls</dd></div>
+          <div><dt>Coverage</dt><dd>Room to warehouse-bay scale per 4-anchor cell</dd></div>
+        </dl>
       </section>
 
       <section class="band">
@@ -123,6 +137,18 @@
               <text x="160" y="89" class="ranging-label" text-anchor="middle">T</text>
             </svg>
           </figure>
+        </div>
+      </section>
+
+      <section class="band">
+        <div class="section-head">
+          <p class="eyebrow">Integration</p>
+          <h2>Getting data out.</h2>
+        </div>
+        <div class="grid use-grid">
+          <article><h3>USB-C</h3><p>Distances and timestamps as a plain serial stream. Plot live in the <a href="/firmware/">browser console</a> or parse from any language.</p></article>
+          <article><h3>CAN FD</h3><p>Wire tags straight into your robot's bus &mdash; power and data over one harness, 6&ndash;24V in.</p></article>
+          <article><h3>ROS 2</h3><p>Driver on the roadmap &mdash; follow along on <a href="https://github.com/open-tags" rel="noreferrer">GitHub</a>. The serial protocol is simple to wrap in a node today.</p></article>
         </div>
       </section>
 
@@ -185,11 +211,11 @@
           <h2>Applications</h2>
         </div>
         <div class="grid use-grid">
-          <article><h3>Robotics</h3><p>Indoor tracking where GPS won't reach.</p></article>
+          <article><h3>Robot Navigation</h3><p>A position estimate indoors, where GPS won't reach.</p></article>
+          <article><h3>Drones</h3><p>Indoor flight without a $10k mocap rig.</p></article>
+          <article><h3>Docking &amp; Follow-Me</h3><p>Live distance between two moving machines.</p></article>
           <article><h3>Anchor Nets</h3><p>Build, debug, and time UWB anchor layouts.</p></article>
-          <article><h3>Bringup</h3><p>Flash, log, and calibrate from the browser.</p></article>
-          <article><h3>Asset Tracking</h3><p>Prototype tags before a custom design.</p></article>
-          <article><h3>Education</h3><p>RF, Rust, and sensor fusion you can read.</p></article>
+          <article><h3>Asset Tracking</h3><p>Prototype a deployment before a custom design.</p></article>
           <article><h3>Field Testing</h3><p>Antennas, placement, calibration drift.</p></article>
         </div>
       </section>
@@ -201,8 +227,16 @@
         </div>
         <div class="faq-list">
           <details>
+            <summary>How accurate is it?</summary>
+            <p>Typically &plusmn;10 cm for two-tag ranging and &plusmn;20 cm for 3D TDOA positioning, line of sight. Walls, metal, and people degrade this &mdash; UWB handles multipath far better than Bluetooth or Wi-Fi, but it isn't magic.</p>
+          </details>
+          <details>
+            <summary>How do I get position into my robot?</summary>
+            <p>Over USB-C as a serial stream, or over CAN&nbsp;/&nbsp;CAN&nbsp;FD on the same harness that powers the tag. A ROS&nbsp;2 driver is on the roadmap.</p>
+          </details>
+          <details>
             <summary>What do I need for TDOA?</summary>
-            <p>Use multiple tags as anchors plus one mobile tag. The 5-tag kit is the intended starting point.</p>
+            <p>Use multiple tags as anchors plus one mobile tag. The 5-tag kit is the intended starting point: four anchors covering the space, one tag on the robot.</p>
           </details>
           <details>
             <summary>Can I flash it from the browser?</summary>

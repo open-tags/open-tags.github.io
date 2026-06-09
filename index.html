@@ -3,15 +3,15 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="description" content="Open UWB tags for ranging and localization." />
+    <meta name="description" content="Centimeter-level indoor positioning for robots. Open UWB hardware with Rust firmware, USB-C and CAN FD." />
     <title>opentag</title>
     <meta property="og:title" content="opentag" />
-    <meta property="og:description" content="Open UWB tags for ranging and localization." />
+    <meta property="og:description" content="Centimeter-level indoor positioning for robots. Open UWB hardware with Rust firmware, USB-C and CAN FD." />
     <meta property="og:type" content="website" />
     <meta property="og:image" content="/favicon.png?v=2" />
     <meta name="twitter:card" content="summary" />
     <meta name="twitter:title" content="opentag" />
-    <meta name="twitter:description" content="Open UWB tags for ranging and localization." />
+    <meta name="twitter:description" content="Centimeter-level indoor positioning for robots. Open UWB hardware with Rust firmware, USB-C and CAN FD." />
     <link rel="icon" type="image/png" href="/favicon.png?v=2" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png?v=2" />
     <link rel="stylesheet" href="assets/site.css" />
@@ -33,8 +33,8 @@
       <section class="home-store-hero apple-home">
         <div class="home-store-copy">
           <p class="eyebrow">opentag one</p>
-          <h1>Location, made easy.</h1>
-          <p class="intro">Open ultra-wideband hardware and firmware for ranging, robotics, and indoor localization experiments.</p>
+          <h1>Indoor positioning for robots.</h1>
+          <p class="intro">Centimeter-level UWB positioning where GPS won't reach. Mount anchors, power from your robot's 6&ndash;24V bus, stream position over USB or CAN &mdash; running in an afternoon.</p>
           <p class="store-price">From $249</p>
           <div class="hero-actions" aria-label="Primary actions">
             <a class="button primary" href="/one/">Buy</a>
@@ -63,6 +63,19 @@
             </div>
           </div>
         </article>
+      </section>
+
+      <section class="band">
+        <div class="section-head">
+          <p class="eyebrow">Performance</p>
+          <h2>The numbers.</h2>
+        </div>
+        <dl class="spec-list">
+          <div><dt>Ranging accuracy</dt><dd>&plusmn;10 cm typical, line of sight</dd></div>
+          <div><dt>Position accuracy</dt><dd>&plusmn;20 cm typical, 3D TDOA</dd></div>
+          <div><dt>Update rate</dt><dd>Up to 50 Hz</dd></div>
+          <div><dt>Range</dt><dd>Up to 60 m line of sight</dd></div>
+        </dl>
       </section>
 
       <section class="band">
@@ -121,7 +134,7 @@
           <h2>Browser console.</h2>
         </div>
         <div>
-          <p>Flash, log, plot distance, calibrate &mdash; all over WebUSB and Web Serial.</p>
+          <p>Flash, log, plot distance, calibrate &mdash; all over WebUSB and Web Serial. No toolchain install, no vendor IDE.</p>
           <a class="inline-link" href="/firmware/">/firmware &rarr;</a>
         </div>
       </section>
