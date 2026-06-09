@@ -7,7 +7,7 @@ Key facts:
 - Product: opentag one, a UWB ranging and positioning tag in a PETG enclosure with clear lid
 - Kits: TWR kit (2 tags, $249) gives live point-to-point distance; TDOA kit (5 tags, $499) gives full 3D position (x, y, z) using 4 tags as fixed anchors plus 1 mobile tag
 - Performance (typical, line of sight): ±10 cm ranging accuracy, ±20 cm 3D TDOA position accuracy, up to 50 Hz update rate, up to 60 m range (15–25 m through walls)
-- Interfaces: USB-C serial stream, CAN and CAN FD, 6–24V power input with reverse-polarity protection
+- Interfaces: USB-C serial stream, CAN and CAN FD; powered over USB-C or a 6–24V input with reverse-polarity protection
 - MCU: STM32 Cortex-M4 at 170 MHz, 256K flash, 128K RAM; radio: Qorvo DWM3000
 - Firmware: open source Rust (Embassy framework), flashable and debuggable entirely from the browser via WebUSB / Web Serial — no toolchain or vendor IDE required
 - Open files: mechanical CAD (STEP) for the full assembly, case, and lid; firmware source on GitHub; schematics/PCB files not currently published
