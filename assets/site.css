@@ -5,7 +5,8 @@
   --faint: #f5f5f7;
   --panel: #fbfbfd;
   --panel-2: #f5f5f7;
-  --line: #d8d8de;
+  --line: #e8e8ed;
+  --line-strong: #d2d2d7;
   --accent: #1d1d1f;
   --link: #0071e3;
   --link-hover: #0077ed;
@@ -71,9 +72,9 @@ nav a {
 nav {
   display: flex;
   align-items: center;
-  gap: 18px;
+  gap: 22px;
   color: var(--muted);
-  font-size: 12px;
+  font-size: 13px;
 }
 
 nav a:hover,
@@ -99,9 +100,9 @@ p {
 }
 
 .eyebrow {
-  color: var(--link);
+  color: var(--muted);
   font-size: 13px;
-  font-weight: 600;
+  font-weight: 500;
   letter-spacing: 0;
   margin-bottom: 14px;
 }
@@ -140,7 +141,7 @@ button {
   align-items: center;
   justify-content: center;
   min-height: 44px;
-  border: 1px solid var(--line);
+  border: 1px solid var(--line-strong);
   border-radius: 999px;
   background: transparent;
   color: var(--fg);
@@ -178,13 +179,12 @@ button:disabled {
 }
 
 .band {
-  padding: 76px 0;
-  border-bottom: 1px solid var(--line);
+  padding: 72px 0;
 }
 
 .section-head {
   max-width: 700px;
-  margin-bottom: 28px;
+  margin-bottom: 36px;
 }
 
 .centered-head {
@@ -200,21 +200,21 @@ h2 {
 .grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 1px;
-  background: var(--line);
-  border: 1px solid var(--line);
+  gap: 14px;
 }
 
 article {
-  background: var(--bg);
-  min-height: 220px;
-  padding: 22px;
+  background: var(--faint);
+  border-radius: 18px;
+  min-height: 0;
+  padding: 26px 24px;
 }
 
 h3 {
-  color: var(--accent);
-  font-size: 13px;
-  margin-bottom: 14px;
+  color: var(--fg);
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 8px;
 }
 
 article p,
@@ -447,10 +447,9 @@ strong {
 
 .store-gallery-main {
   margin: 0;
-  border: 1px solid var(--line);
   border-radius: 18px;
   overflow: hidden;
-  background: var(--panel);
+  background: var(--faint);
 }
 
 .store-gallery-main img {
@@ -473,17 +472,13 @@ strong {
   aspect-ratio: 1 / 1;
   object-fit: cover;
   display: block;
-  border: 1px solid var(--line);
   border-radius: 12px;
-  background: var(--panel);
+  background: var(--faint);
 }
 
 .purchase-panel {
   align-self: start;
-  border: 1px solid var(--line);
-  border-radius: 18px;
-  background: rgba(255, 255, 255, 0.92);
-  padding: 24px;
+  padding: 8px 0 0;
 }
 
 .purchase-panel h1 {
@@ -528,14 +523,15 @@ strong {
   display: grid;
   grid-template-columns: minmax(0, 1fr);
   gap: 16px;
-  border: 1px solid var(--line);
+  border: 1px solid var(--line-strong);
   border-radius: 14px;
   background: var(--bg);
-  padding: 16px;
+  padding: 18px;
 }
 
 .variant-card.featured {
-  border-color: var(--fg);
+  border-color: var(--link);
+  box-shadow: 0 0 0 1px var(--link);
 }
 
 .variant-copy h2 {
@@ -587,8 +583,7 @@ strong {
 
 .purchase-details dt {
   color: var(--muted);
-  font-size: 11px;
-  text-transform: uppercase;
+  font-size: 13px;
 }
 
 .purchase-details dd {
@@ -608,7 +603,6 @@ strong {
 .spec-list {
   display: grid;
   grid-template-columns: 1fr;
-  border: 1px solid var(--line);
   margin: 0;
 }
 
@@ -616,14 +610,14 @@ strong {
   display: grid;
   grid-template-columns: minmax(150px, 0.28fr) minmax(0, 1fr);
   gap: 20px;
-  min-height: 46px;
+  min-height: 52px;
   align-items: center;
-  padding: 10px 14px;
+  padding: 12px 0;
   border-bottom: 1px solid var(--line);
 }
 
-.spec-list div:last-child {
-  border-bottom: 0;
+.spec-list div:first-child {
+  border-top: 1px solid var(--line);
 }
 
 .spec-list dt,
@@ -633,13 +627,12 @@ strong {
 
 .spec-list dt {
   color: var(--muted);
-  font-size: 12px;
-  text-transform: uppercase;
+  font-size: 13px;
 }
 
 .spec-list dd {
   color: var(--fg);
-  font-size: 13px;
+  font-size: 14px;
   font-weight: 400;
   text-align: right;
 }
@@ -814,9 +807,7 @@ strong {
 .download-grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 1px;
-  background: var(--line);
-  border: 1px solid var(--line);
+  gap: 14px;
 }
 
 .download-card {
@@ -825,8 +816,9 @@ strong {
   flex-direction: column;
   justify-content: space-between;
   gap: 12px;
-  background: var(--bg);
-  padding: 18px 20px 20px;
+  background: var(--faint);
+  border-radius: 18px;
+  padding: 20px 22px 22px;
   text-decoration: none;
   min-width: 0;
 }
@@ -909,7 +901,6 @@ strong {
 
 .faq-list {
   display: grid;
-  border: 1px solid var(--line);
 }
 
 .faq-list details {
@@ -917,16 +908,17 @@ strong {
   border-bottom: 1px solid var(--line);
 }
 
-.faq-list details:last-child {
-  border-bottom: 0;
+.faq-list details:first-child {
+  border-top: 1px solid var(--line);
 }
 
 .faq-list summary {
   cursor: pointer;
   color: var(--fg);
-  font-size: 14px;
+  font-size: 15px;
+  font-weight: 500;
   list-style: none;
-  padding: 16px;
+  padding: 18px 2px;
 }
 
 .faq-list summary::-webkit-details-marker {
@@ -946,7 +938,7 @@ strong {
 .faq-list p {
   max-width: 760px;
   color: var(--muted);
-  padding: 0 16px 16px;
+  padding: 0 2px 18px;
 }
 
 .tags {
@@ -1281,7 +1273,7 @@ label {
   }
 
   .purchase-panel {
-    padding: 18px;
+    padding: 0;
   }
 
   .purchase-details div {
@@ -1477,9 +1469,8 @@ label {
 
 .ranging-card {
   margin: 0;
-  border: 1px solid var(--line);
   border-radius: 18px;
-  background: var(--panel);
+  background: var(--faint);
   overflow: hidden;
   display: flex;
   flex-direction: column;
@@ -1489,13 +1480,13 @@ label {
   display: flex;
   flex-direction: column;
   gap: 6px;
-  padding: 14px 16px;
-  border-bottom: 1px solid var(--line);
+  padding: 18px 20px 4px;
 }
 
 .ranging-card figcaption strong {
-  font-size: 13px;
-  color: var(--accent);
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--fg);
 }
 
 .ranging-card figcaption span {
@@ -1508,7 +1499,6 @@ label {
   display: block;
   width: 100%;
   height: auto;
-  background: var(--panel);
 }
 
 .ranging-tag {
@@ -1628,20 +1618,20 @@ label {
 }
 
 .hero-band {
-  padding-bottom: 76px;
-  border-bottom: 1px solid var(--line);
+  padding-bottom: 40px;
 }
 
 .stat-row {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 18px;
+  gap: 14px;
   margin: 0;
-  text-align: center;
 }
 
 .stat-row div {
-  padding: 8px 12px;
+  background: var(--faint);
+  border-radius: 18px;
+  padding: 28px 26px;
 }
 
 .stat-row strong {
@@ -1661,10 +1651,9 @@ label {
 }
 
 .stat-note {
-  margin-top: 26px;
+  margin-top: 18px;
   color: #86868b;
-  font-size: 11px;
-  text-align: center;
+  font-size: 12px;
 }
 
 .kit-grid {
@@ -1677,10 +1666,9 @@ label {
   display: flex;
   flex-direction: column;
   min-height: 0;
-  border: 1px solid var(--line);
   border-radius: 24px;
   overflow: hidden;
-  background: var(--bg);
+  background: var(--faint);
   padding: 0;
   text-align: center;
 }
@@ -1740,11 +1728,16 @@ label {
 .store-thumbs button {
   min-height: 0;
   height: auto;
+  border-color: transparent;
   border-radius: 12px;
   padding: 0;
   overflow: hidden;
-  opacity: 0.6;
+  opacity: 0.55;
   transition: opacity 120ms, border-color 120ms;
+}
+
+.store-thumbs button:hover {
+  opacity: 0.85;
 }
 
 .store-thumbs button.active {
