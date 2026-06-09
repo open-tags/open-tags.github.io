@@ -16,3 +16,16 @@ if (header && toggle) {
     });
   });
 }
+
+document.querySelectorAll("[data-gallery]").forEach((gallery) => {
+  const main = gallery.querySelector("[data-gallery-main] img");
+  const thumbs = gallery.querySelectorAll("[data-gallery-thumb]");
+  if (!main || !thumbs.length) return;
+
+  thumbs.forEach((thumb) => {
+    thumb.addEventListener("click", () => {
+      main.src = thumb.dataset.galleryThumb;
+      thumbs.forEach((t) => t.classList.toggle("active", t === thumb));
+    });
+  });
+});

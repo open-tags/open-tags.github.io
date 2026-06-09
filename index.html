@@ -8,8 +8,8 @@
     <meta property="og:title" content="opentag" />
     <meta property="og:description" content="Centimeter-level indoor positioning for robots. Open UWB hardware with Rust firmware, USB-C and CAN FD." />
     <meta property="og:type" content="website" />
-    <meta property="og:image" content="/favicon.png?v=2" />
-    <meta name="twitter:card" content="summary" />
+    <meta property="og:image" content="https://open-tags.github.io/assets/images/one/bringup/twr_double_blink.jpg" />
+    <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="opentag" />
     <meta name="twitter:description" content="Centimeter-level indoor positioning for robots. Open UWB hardware with Rust firmware, USB-C and CAN FD." />
     <link rel="icon" type="image/png" href="/favicon.png?v=2" />
@@ -30,56 +30,73 @@
     </header>
 
     <main>
-      <section class="home-store-hero apple-home">
-        <div class="home-store-copy">
+      <section class="hero-band">
+        <div class="hero-center">
           <p class="eyebrow">opentag one</p>
           <h1>Indoor positioning for robots.</h1>
-          <p class="intro">Centimeter-level UWB positioning where GPS won't reach. Mount anchors, power from your robot's 6&ndash;24V bus, stream position over USB or CAN &mdash; running in an afternoon.</p>
+          <p class="intro">Centimeter-level UWB positioning where GPS won't reach. Mount anchors, power from your robot's 6&ndash;24V bus, stream position over USB or CAN.</p>
           <p class="store-price">From $249</p>
           <div class="hero-actions" aria-label="Primary actions">
-            <a class="button primary" href="/one/">Buy</a>
+            <a class="button primary" href="/one/#buy">Buy</a>
             <a class="button" href="/one/">Learn more</a>
           </div>
         </div>
-        <article class="home-product-card">
-          <a class="home-product-media" href="/one/" aria-label="View opentag one">
-            <img src="/assets/images/one/bringup/twr_double_blink.jpg" alt="opentag one pair running TWR" />
-          </a>
-          <div class="home-product-info">
-            <div>
-              <span class="buy-kicker">Featured</span>
-              <h2>opentag one</h2>
-              <p>STM32 + DWM3000 UWB radio. USB-C, CAN FD, 6&ndash;24V in. Rust firmware. PETG enclosure with clear lid.</p>
-            </div>
-            <div class="home-kit-list">
-              <a href="https://buy.stripe.com/6oU8wOazx25cbkpgyQg7e0f" rel="noreferrer">
-                <span>TWR kit</span>
-                <strong>2 tags · $249</strong>
-              </a>
-              <a href="https://buy.stripe.com/5kQ14m5fdcJQagleqIg7e0g" rel="noreferrer">
-                <span>TDOA kit</span>
-                <strong>5 tags · $499</strong>
-              </a>
-            </div>
-          </div>
-        </article>
+        <figure class="hero-figure">
+          <img src="/assets/images/one/bringup/twr_double_blink.jpg" alt="opentag one pair running two-way ranging" />
+        </figure>
       </section>
 
       <section class="band">
-        <div class="section-head">
+        <div class="section-head centered-head">
           <p class="eyebrow">Performance</p>
           <h2>The numbers.</h2>
         </div>
-        <dl class="spec-list">
-          <div><dt>Ranging accuracy</dt><dd>&plusmn;10 cm typical, line of sight</dd></div>
-          <div><dt>Position accuracy</dt><dd>&plusmn;20 cm typical, 3D TDOA</dd></div>
-          <div><dt>Update rate</dt><dd>Up to 50 Hz</dd></div>
-          <div><dt>Range</dt><dd>Up to 60 m line of sight</dd></div>
-        </dl>
+        <div class="stat-row">
+          <div><strong>&plusmn;10 cm</strong><span>ranging accuracy</span></div>
+          <div><strong>&plusmn;20 cm</strong><span>3D position accuracy</span></div>
+          <div><strong>50 Hz</strong><span>update rate</span></div>
+          <div><strong>60 m</strong><span>line-of-sight range</span></div>
+        </div>
+        <p class="stat-note">Typical figures, measured line of sight. Walls, metal, and people reduce accuracy and range.</p>
       </section>
 
       <section class="band">
-        <div class="section-head">
+        <div class="section-head centered-head">
+          <p class="eyebrow">Kits</p>
+          <h2>Two kits. One afternoon to running.</h2>
+        </div>
+        <div class="kit-grid">
+          <article class="kit-card">
+            <img src="/assets/images/one/bringup/twr_double.jpg" alt="Two opentag one tags for two-way ranging" />
+            <div class="kit-card-body">
+              <span class="buy-kicker">TWR kit</span>
+              <h3>2 tags</h3>
+              <p>Live distance between two points, streamed over USB. Docking, follow-me, and proximity between robots.</p>
+              <p class="kit-price">$249</p>
+              <div class="kit-actions">
+                <a class="button primary" href="https://buy.stripe.com/6oU8wOazx25cbkpgyQg7e0f" rel="noreferrer">Buy</a>
+                <a class="inline-link" href="/one/">Learn more &rsaquo;</a>
+              </div>
+            </div>
+          </article>
+          <article class="kit-card">
+            <img src="/assets/images/one/bringup/can_fd.jpg" alt="opentag one tags wired for CAN FD" />
+            <div class="kit-card-body">
+              <span class="buy-kicker">TDOA kit</span>
+              <h3>5 tags</h3>
+              <p>Four fixed anchors, one tag on the robot. Full 3D position (x, y, z) &mdash; a room-scale positioning system.</p>
+              <p class="kit-price">$499</p>
+              <div class="kit-actions">
+                <a class="button primary" href="https://buy.stripe.com/5kQ14m5fdcJQagleqIg7e0g" rel="noreferrer">Buy</a>
+                <a class="inline-link" href="/one/">Learn more &rsaquo;</a>
+              </div>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <section class="band">
+        <div class="section-head centered-head">
           <p class="eyebrow">How It Works</p>
           <h2>Ranging, two ways.</h2>
         </div>
@@ -141,9 +158,15 @@
     </main>
 
     <footer>
-      <span>&copy; 2026 opentag</span>
-      <span>Designed &middot; assembled in San Diego, CA</span>
-      <a href="mailto:hello@open-tags.com">hello@open-tags.com</a>
+      <div class="footer-legal">
+        <p>Performance figures are typical values measured line of sight. Environment, mounting, and anchor geometry affect accuracy and range.</p>
+        <p>opentag one is sold as a development kit for evaluation by qualified engineers and is not authorized as a finished consumer product under FCC rules. Integrators are responsible for regulatory approval of end products.</p>
+      </div>
+      <div class="footer-row">
+        <span>&copy; 2026 opentag</span>
+        <span>Designed &middot; assembled in San Diego, CA</span>
+        <a href="mailto:hello@open-tags.com">hello@open-tags.com</a>
+      </div>
     </footer>
     <script type="module" src="/assets/site.js"></script>
   </body>

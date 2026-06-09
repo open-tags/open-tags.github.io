@@ -8,13 +8,41 @@
     <meta property="og:title" content="opentag one" />
     <meta property="og:description" content="Centimeter-level UWB positioning for robots. USB-C, CAN FD, 6&ndash;24V, Rust firmware." />
     <meta property="og:type" content="website" />
-    <meta property="og:image" content="/favicon.png?v=2" />
-    <meta name="twitter:card" content="summary" />
+    <meta property="og:image" content="https://open-tags.github.io/assets/images/one/bringup/twr_double_blink.jpg" />
+    <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="opentag one" />
     <meta name="twitter:description" content="Centimeter-level UWB positioning for robots. USB-C, CAN FD, 6&ndash;24V, Rust firmware." />
     <link rel="icon" type="image/png" href="/favicon.png?v=2" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png?v=2" />
     <link rel="stylesheet" href="/assets/site.css" />
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Product",
+      "name": "opentag one",
+      "description": "Compact UWB tag for centimeter-level indoor positioning. STM32 + DWM3000, Rust firmware, USB-C, CAN FD, 6-24V input.",
+      "image": "https://open-tags.github.io/assets/images/one/bringup/twr_double_blink.jpg",
+      "brand": { "@type": "Brand", "name": "opentag" },
+      "offers": [
+        {
+          "@type": "Offer",
+          "name": "TWR kit (2 tags)",
+          "price": "249",
+          "priceCurrency": "USD",
+          "availability": "https://schema.org/InStock",
+          "url": "https://open-tags.github.io/one/"
+        },
+        {
+          "@type": "Offer",
+          "name": "TDOA kit (5 tags)",
+          "price": "499",
+          "priceCurrency": "USD",
+          "availability": "https://schema.org/InStock",
+          "url": "https://open-tags.github.io/one/"
+        }
+      ]
+    }
+    </script>
   </head>
   <body>
     <header class="site-header" data-site-header>
@@ -31,15 +59,23 @@
 
     <main>
       <section id="buy" class="store-hero">
-        <div class="store-gallery" aria-label="opentag one product photos">
-          <figure class="store-gallery-main">
+        <div class="store-gallery" aria-label="opentag one product photos" data-gallery>
+          <figure class="store-gallery-main" data-gallery-main>
             <img src="/assets/images/one/bringup/can_fd.jpg" alt="opentag one hardware pair" />
           </figure>
-          <div class="store-thumbs" aria-hidden="true">
-            <img src="/assets/images/one/bringup/twr_double_blink.jpg" alt="" />
-            <img src="/assets/images/one/bringup/twr_double.jpg" alt="" />
-            <img src="/assets/images/one/bringup/twr_solo.jpg" alt="" />
-            <img src="/assets/images/one/bringup/twr_solo_2.jpg" alt="" />
+          <div class="store-thumbs">
+            <button type="button" class="active" data-gallery-thumb="/assets/images/one/bringup/can_fd.jpg" aria-label="View photo 1">
+              <img src="/assets/images/one/bringup/can_fd.jpg" alt="" />
+            </button>
+            <button type="button" data-gallery-thumb="/assets/images/one/bringup/twr_double_blink.jpg" aria-label="View photo 2">
+              <img src="/assets/images/one/bringup/twr_double_blink.jpg" alt="" />
+            </button>
+            <button type="button" data-gallery-thumb="/assets/images/one/bringup/twr_double.jpg" aria-label="View photo 3">
+              <img src="/assets/images/one/bringup/twr_double.jpg" alt="" />
+            </button>
+            <button type="button" data-gallery-thumb="/assets/images/one/bringup/twr_solo.jpg" aria-label="View photo 4">
+              <img src="/assets/images/one/bringup/twr_solo.jpg" alt="" />
+            </button>
           </div>
         </div>
 
@@ -70,28 +106,30 @@
           </div>
 
           <dl class="purchase-details">
-            <div><dt>Status</dt><dd>Ships in 1 week</dd></div>
+            <div><dt>Shipping</dt><dd>Ships in 1 week from San Diego, CA</dd></div>
+            <div><dt>Returns</dt><dd>30-day returns</dd></div>
+            <div><dt>Warranty</dt><dd>1-year limited warranty</dd></div>
             <div><dt>Docs</dt><dd><a href="/firmware/">Browser firmware console</a></dd></div>
           </dl>
         </aside>
       </section>
 
       <section class="band">
-        <div class="section-head">
+        <div class="section-head centered-head">
           <p class="eyebrow">Performance</p>
           <h2>The numbers.</h2>
         </div>
-        <dl class="spec-list">
-          <div><dt>Ranging accuracy</dt><dd>&plusmn;10 cm typical, line of sight</dd></div>
-          <div><dt>Position accuracy</dt><dd>&plusmn;20 cm typical, 3D TDOA</dd></div>
-          <div><dt>Update rate</dt><dd>Up to 50 Hz</dd></div>
-          <div><dt>Range</dt><dd>Up to 60 m line of sight &middot; 15&ndash;25 m through walls</dd></div>
-          <div><dt>Coverage</dt><dd>Room to warehouse-bay scale per 4-anchor cell</dd></div>
-        </dl>
+        <div class="stat-row">
+          <div><strong>&plusmn;10 cm</strong><span>ranging accuracy</span></div>
+          <div><strong>&plusmn;20 cm</strong><span>3D position accuracy</span></div>
+          <div><strong>50 Hz</strong><span>update rate</span></div>
+          <div><strong>60 m</strong><span>line-of-sight range</span></div>
+        </div>
+        <p class="stat-note">Typical figures, measured line of sight. Expect 15&ndash;25 m through walls; one 4-anchor cell covers a room up to a warehouse bay.</p>
       </section>
 
       <section class="band">
-        <div class="section-head">
+        <div class="section-head centered-head">
           <p class="eyebrow">How It Works</p>
           <h2>Ranging, two ways.</h2>
         </div>
@@ -149,6 +187,18 @@
           <article><h3>USB-C</h3><p>Distances and timestamps as a plain serial stream. Plot live in the <a href="/firmware/">browser console</a> or parse from any language.</p></article>
           <article><h3>CAN FD</h3><p>Wire tags straight into your robot's bus &mdash; power and data over one harness, 6&ndash;24V in.</p></article>
           <article><h3>ROS 2</h3><p>Driver on the roadmap &mdash; follow along on <a href="https://github.com/open-tags" rel="noreferrer">GitHub</a>. The serial protocol is simple to wrap in a node today.</p></article>
+        </div>
+      </section>
+
+      <section class="band">
+        <div class="section-head">
+          <p class="eyebrow">In the box</p>
+          <h2>What you get.</h2>
+        </div>
+        <div class="grid use-grid">
+          <article><h3>Assembled Tags</h3><p>2 or 5 opentag one units in PETG enclosures with clear lids &mdash; built and tested in San Diego.</p></article>
+          <article><h3>Firmware Loaded</h3><p>Every tag ships flashed and ready to range. Update any time from the <a href="/firmware/">browser console</a>.</p></article>
+          <article><h3>Open Files</h3><p>Mechanical CAD (STEP) downloads below, firmware source on <a href="https://github.com/open-tags" rel="noreferrer">GitHub</a>.</p></article>
         </div>
       </section>
 
@@ -246,14 +296,28 @@
             <summary>Is the design open?</summary>
             <p>Mostly. The mechanical CAD files are available, along with the firmware. Schematic / PCB files are not available currently.</p>
           </details>
+          <details>
+            <summary>Shipping, returns, and warranty?</summary>
+            <p>Kits ship in about 1 week from San Diego, CA. Unused kits can be returned within 30 days of delivery for a refund. Manufacturing defects are covered by a 1-year limited warranty &mdash; email <a href="mailto:hello@open-tags.com">hello@open-tags.com</a> and we'll make it right.</p>
+          </details>
+          <details>
+            <summary>Is it FCC certified?</summary>
+            <p>opentag one is sold as a development kit for evaluation by qualified engineers; it is not authorized as a finished consumer product. If you integrate it into a product, end-product certification is your responsibility.</p>
+          </details>
         </div>
       </section>
     </main>
 
     <footer>
-      <span>&copy; 2026 opentag</span>
-      <span>Designed &middot; assembled in San Diego, CA</span>
-      <a href="mailto:hello@open-tags.com">hello@open-tags.com</a>
+      <div class="footer-legal">
+        <p>Performance figures are typical values measured line of sight. Environment, mounting, and anchor geometry affect accuracy and range.</p>
+        <p>opentag one is sold as a development kit for evaluation by qualified engineers and is not authorized as a finished consumer product under FCC rules. Integrators are responsible for regulatory approval of end products.</p>
+      </div>
+      <div class="footer-row">
+        <span>&copy; 2026 opentag</span>
+        <span>Designed &middot; assembled in San Diego, CA</span>
+        <a href="mailto:hello@open-tags.com">hello@open-tags.com</a>
+      </div>
     </footer>
     <script type="importmap">
       {

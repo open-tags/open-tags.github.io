@@ -14,6 +14,7 @@ Key facts:
 - Use cases: indoor robot navigation, drone flight without a motion-capture rig, docking and follow-me between machines, UWB anchor network bring-up, asset-tracking prototypes, RF field testing
 - Integration: parse the USB serial stream from any language, or wire into a robot's CAN bus; a ROS 2 driver is on the roadmap
 - Availability: ships in about 1 week from San Diego, CA, USA
+- Policies: 30-day returns, 1-year limited warranty; sold as a development kit for evaluation (not certified as a finished consumer product)
 - Contact: hello@open-tags.com
 
 ## Pages
