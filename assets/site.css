@@ -452,10 +452,15 @@ strong {
   min-height: calc(100vh - 120px);
   display: grid;
   grid-template-columns: minmax(0, 1.04fr) minmax(380px, 0.96fr);
-  gap: 34px;
+  gap: 26px 34px;
   align-items: start;
-  padding: 42px 0 58px;
-  border-bottom: 1px solid var(--line);
+  padding: 36px 0 58px;
+}
+
+.store-title {
+  grid-column: 1 / -1;
+  font-size: clamp(30px, 4vw, 44px);
+  margin: 0;
 }
 
 .store-gallery {
