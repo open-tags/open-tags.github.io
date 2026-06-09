@@ -1373,16 +1373,15 @@ label {
   justify-content: center;
   width: 36px;
   height: 32px;
+  min-height: 0;
   padding: 0;
   background: transparent;
-  border: 1px solid var(--line);
-  border-radius: 3px;
+  border: 0;
   color: var(--fg);
   cursor: pointer;
 }
 
 .nav-toggle:hover {
-  border-color: var(--accent);
   color: var(--accent);
 }
 
@@ -1648,14 +1647,6 @@ label {
 .hero-center .hero-actions {
   justify-content: center;
   margin-top: 26px;
-}
-
-.hero-meta {
-  margin-top: 30px;
-  color: #86868b;
-  font-family: var(--font-mono);
-  font-size: 11px;
-  letter-spacing: 0.02em;
 }
 
 .hero-figure {
