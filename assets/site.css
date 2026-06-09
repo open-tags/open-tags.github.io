@@ -11,8 +11,8 @@
   --link: #0071e3;
   --link-hover: #0077ed;
   --bad: #b00020;
-  --font-body: "Inter", system-ui, -apple-system, "Segoe UI", Helvetica, Arial, sans-serif;
-  --font-display: "Inter", system-ui, -apple-system, "Segoe UI", Helvetica, Arial, sans-serif;
+  --font-body: system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  --font-display: system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
   color-scheme: light;
   font-family: var(--font-body);
 }
@@ -1625,14 +1625,8 @@ label {
 .stat-row {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 14px;
+  gap: 28px;
   margin: 0;
-}
-
-.stat-row div {
-  background: var(--faint);
-  border-radius: 18px;
-  padding: 28px 26px;
 }
 
 .stat-row strong {
@@ -1676,7 +1670,7 @@ label {
 
 .kit-card img {
   width: 100%;
-  height: 260px;
+  height: 300px;
   object-fit: cover;
   display: block;
   background: var(--faint);
