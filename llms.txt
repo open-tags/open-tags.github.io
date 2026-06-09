@@ -19,9 +19,9 @@ Key facts:
 
 ## Pages
 
-- [Home](https://open-tags.github.io/): overview, kit pricing, how UWB ranging works
-- [opentag one](https://open-tags.github.io/one/): product page — kits and checkout, performance numbers, board specs, CAD downloads, applications, FAQ
-- [Firmware console](https://open-tags.github.io/firmware/): flash firmware, log data, plot live distance, and calibrate from the browser over WebUSB / Web Serial
+- [Home](https://open-tags.com/): overview, kit pricing, how UWB ranging works
+- [opentag one](https://open-tags.com/one/): product page — kits and checkout, performance numbers, board specs, CAD downloads, applications, FAQ
+- [Firmware console](https://open-tags.com/firmware/): flash firmware, log data, plot live distance, and calibrate from the browser over WebUSB / Web Serial
 - [GitHub](https://github.com/open-tags): firmware source, CAD, and roadmap
 
 ## Glossary
