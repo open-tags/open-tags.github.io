@@ -1610,10 +1610,7 @@ label {
 }
 
 .hero-band {
-  margin-top: 14px;
-  background: var(--ink);
-  border-radius: 28px;
-  overflow: hidden;
+  padding-bottom: 36px;
 }
 
 .hero-center {
@@ -1621,33 +1618,26 @@ label {
   flex-direction: column;
   align-items: center;
   text-align: center;
-  padding: 68px 24px 0;
+  padding: 72px 0 0;
 }
 
 .hero-center .eyebrow {
   font-family: var(--font-mono);
   font-size: 12px;
   font-weight: 400;
-  color: #86868b;
 }
 
 .hero-center h1 {
   max-width: 820px;
-  color: #f5f5f7;
 }
 
 .hero-center .intro {
   margin-top: 18px;
   font-size: clamp(17px, 2vw, 21px);
-  color: #a1a1a6;
 }
 
 .hero-center .store-price {
   margin-top: 16px;
-  font-family: var(--font-mono);
-  font-size: 13px;
-  font-weight: 400;
-  color: #86868b;
 }
 
 .hero-center .hero-actions {
@@ -1655,29 +1645,19 @@ label {
   margin-top: 26px;
 }
 
-.hero-band .button {
-  border-color: rgba(255, 255, 255, 0.3);
-  color: #f5f5f7;
-}
-
-.hero-band .button:hover {
-  border-color: #f5f5f7;
-  color: #fff;
-}
-
-.hero-band .button.primary {
-  background: var(--link);
-  border-color: var(--link);
-  color: #fff;
-}
-
-.hero-band .button.primary:hover {
-  background: var(--link-hover);
-  border-color: var(--link-hover);
+.hero-meta {
+  margin-top: 30px;
+  color: #86868b;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.02em;
 }
 
 .hero-figure {
-  margin: 48px 0 0;
+  margin: 52px 0 0;
+  border-radius: 24px;
+  overflow: hidden;
+  background: var(--faint);
 }
 
 .hero-figure img {
