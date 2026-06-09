@@ -1,21 +1,56 @@
-import * as THREE from "three";
-import { OrbitControls } from "three/addons/controls/OrbitControls.js";
+let THREE;
+let OrbitControls;
 
 const viewerEls = [...document.querySelectorAll(".cad-viewer")];
 
 if (viewerEls.length) {
-  initCadViewers().catch((error) => {
-    viewerEls.forEach((viewer) => setStatus(viewer, `Viewer unavailable: ${error.message}`));
-  });
+  const start = () => {
+    initCadViewers().catch((error) => {
+      viewerEls.forEach((viewer) => setStatus(viewer, `Viewer unavailable: ${error.message}`));
+    });
+  };
+
+  if ("IntersectionObserver" in window) {
+    const io = new IntersectionObserver(
+      (entries) => {
+        if (entries.some((entry) => entry.isIntersecting)) {
+          io.disconnect();
+          start();
+        }
+      },
+      { rootMargin: "600px 0px" }
+    );
+    viewerEls.forEach((el) => io.observe(el));
+  } else {
+    start();
+  }
 }
 
 async function initCadViewers() {
-  if (!window.occtimportjs) {
-    throw new Error("STEP importer failed to load");
-  }
+  const [threeModule, controlsModule] = await Promise.all([
+    import("three"),
+    import("three/addons/controls/OrbitControls.js"),
+    loadOcctScript()
+  ]);
+  THREE = threeModule;
+  OrbitControls = controlsModule.OrbitControls;
 
   const occt = await window.occtimportjs();
   await Promise.all(viewerEls.map((viewer) => initViewer(viewer, occt)));
+}
+
+function loadOcctScript() {
+  return new Promise((resolve, reject) => {
+    if (window.occtimportjs) {
+      resolve();
+      return;
+    }
+    const script = document.createElement("script");
+    script.src = "https://cdn.jsdelivr.net/npm/occt-import-js@0.0.23/dist/occt-import-js.js";
+    script.onload = () => resolve();
+    script.onerror = () => reject(new Error("STEP importer failed to load"));
+    document.head.appendChild(script);
+  });
 }
 
 async function initViewer(viewer, occt) {
