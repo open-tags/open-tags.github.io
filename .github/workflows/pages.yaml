@@ -32,7 +32,7 @@ jobs:
       - name: Prepare site
         run: |
           mkdir _site
-          cp -R index.html llms.txt favicon.png favicon-64.png apple-touch-icon.png assets firmware one .nojekyll _site/
+          cp -R index.html llms.txt favicon.png favicon-64.png apple-touch-icon.png assets firmware one branding .nojekyll _site/
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
