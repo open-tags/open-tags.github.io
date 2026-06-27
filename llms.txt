@@ -1,6 +1,6 @@
-# opentag
+# opentags
 
-> opentag makes open ultra-wideband (UWB) hardware for centimeter-level indoor positioning, aimed at robotics. The product, opentag one, is a compact UWB tag (STM32 + Qorvo DWM3000 radio, Rust/Embassy firmware, USB-C, CAN FD, 6–24V input) for ranging and 3D positioning where GPS won't reach. Designed and assembled in San Diego, CA.
+> opentags makes open ultra-wideband (UWB) hardware for centimeter-level indoor positioning, aimed at robotics. The product, opentag one, is a compact UWB tag (STM32 + Qorvo DWM3000 radio, Rust/Embassy firmware, USB-C, CAN FD, 6–24V input) for ranging and 3D positioning where GPS won't reach. Designed and assembled in San Diego, CA.
 
 Key facts:
 

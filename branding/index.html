@@ -1,0 +1,366 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="opentags brand guidelines — naming, voice, wordmark, color, and type." />
+    <title>opentags — Brand</title>
+    <meta property="og:title" content="opentags — Brand" />
+    <meta property="og:description" content="opentags brand guidelines — naming, voice, wordmark, color, and type." />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="/favicon.png?v=2" />
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content="opentags — Brand" />
+    <meta name="twitter:description" content="opentags brand guidelines — naming, voice, wordmark, color, and type." />
+    <link rel="icon" type="image/png" href="/favicon.png?v=2" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png?v=2" />
+    <link rel="stylesheet" href="/assets/site.css" />
+    <style>
+      .brand-page h2 {
+        font-size: clamp(28px, 4vw, 40px);
+      }
+      .brand-lede {
+        max-width: 760px;
+      }
+      .rule-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+        gap: 16px;
+        margin-top: 28px;
+      }
+      .rule-card {
+        border: 1px solid var(--line);
+        border-radius: 14px;
+        padding: 20px 22px;
+        background: var(--panel);
+      }
+      .rule-card .k {
+        color: var(--muted);
+        font-size: 12px;
+        margin-bottom: 6px;
+      }
+      .rule-card .v {
+        font-family: var(--font-display);
+        font-size: 30px;
+        line-height: 1.1;
+      }
+      .rule-card .v small {
+        font-family: var(--font-body);
+        font-size: 13px;
+        color: var(--muted);
+        display: block;
+        margin-top: 8px;
+      }
+      .do-dont {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 16px;
+        margin-top: 24px;
+      }
+      .do-dont ul {
+        margin: 12px 0 0;
+        padding-left: 18px;
+      }
+      .do-dont li {
+        margin-bottom: 6px;
+      }
+      .do-dont .col {
+        border: 1px solid var(--line);
+        border-radius: 14px;
+        padding: 18px 20px;
+      }
+      .do-dont .do {
+        border-color: #cdebd6;
+        background: #f4fbf6;
+      }
+      .do-dont .dont {
+        border-color: #f1d3d3;
+        background: #fdf5f5;
+      }
+      .do-dont h3 {
+        font-family: var(--font-body);
+        font-size: 13px;
+        letter-spacing: 0.02em;
+        text-transform: uppercase;
+        color: var(--muted);
+      }
+      .do-dont .dont s {
+        color: var(--bad);
+        text-decoration-color: var(--bad);
+      }
+      .wordmark-stage {
+        border: 1px solid var(--line);
+        border-radius: 16px;
+        background: var(--panel);
+        padding: 56px 24px;
+        text-align: center;
+        margin-top: 24px;
+      }
+      .wordmark {
+        font-weight: 700;
+        font-size: clamp(40px, 8vw, 84px);
+        letter-spacing: -0.01em;
+        color: var(--fg);
+      }
+      .wordmark .one {
+        color: var(--muted);
+        font-weight: 400;
+      }
+      .swatches {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+        gap: 14px;
+        margin-top: 24px;
+      }
+      .swatch {
+        border: 1px solid var(--line);
+        border-radius: 12px;
+        overflow: hidden;
+      }
+      .swatch .chip {
+        height: 84px;
+      }
+      .swatch .meta {
+        padding: 12px 14px;
+        font-size: 12px;
+      }
+      .swatch .meta strong {
+        display: block;
+        font-size: 13px;
+        margin-bottom: 2px;
+      }
+      .swatch .meta code {
+        color: var(--muted);
+      }
+      .type-row {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+        gap: 16px;
+        margin-top: 24px;
+      }
+      .type-card {
+        border: 1px solid var(--line);
+        border-radius: 14px;
+        padding: 22px;
+      }
+      .type-card .sample-display {
+        font-family: var(--font-display);
+        font-size: 44px;
+        line-height: 1.05;
+      }
+      .type-card .sample-body {
+        font-family: var(--font-body);
+        font-size: 18px;
+      }
+      .type-card .k {
+        color: var(--muted);
+        font-size: 12px;
+        margin-top: 14px;
+      }
+      .code-note {
+        border: 1px solid var(--line);
+        border-radius: 14px;
+        padding: 18px 20px;
+        background: var(--panel);
+        margin-top: 24px;
+      }
+      .code-note code {
+        background: var(--panel-2);
+        border-radius: 5px;
+        padding: 1px 6px;
+      }
+      @media (max-width: 640px) {
+        .do-dont { grid-template-columns: 1fr; }
+      }
+    </style>
+  </head>
+  <body class="brand-page">
+    <header class="site-header" data-site-header>
+      <a class="brand" href="/" aria-label="opentags home">opentags</a>
+      <button class="nav-toggle" type="button" data-nav-toggle aria-label="Open menu" aria-expanded="false">
+        <span class="nav-toggle-icon" aria-hidden="true"></span>
+      </button>
+      <nav aria-label="Primary">
+        <a href="/one/">One</a>
+        <a href="/firmware/">Firmware</a>
+        <a href="/branding/" aria-current="page">Brand</a>
+        <a href="https://github.com/open-tags" rel="noreferrer">GitHub</a>
+      </nav>
+    </header>
+
+    <main>
+      <section class="band">
+        <p class="eyebrow">Brand</p>
+        <h1>opentags</h1>
+        <p class="intro brand-lede">
+          One name, written one way. <strong>opentags</strong> is the company; <strong>opentag one</strong>
+          is the product. This page is the source of truth — match it everywhere.
+        </p>
+      </section>
+
+      <section class="band">
+        <div class="section-head">
+          <p class="eyebrow">Naming</p>
+          <h2>The system.</h2>
+        </div>
+        <div class="rule-grid">
+          <div class="rule-card">
+            <div class="k">Company · header · footer · titles</div>
+            <div class="v">opentags<small>Lowercase. Plural. One word. Even at the start of a sentence.</small></div>
+          </div>
+          <div class="rule-card">
+            <div class="k">Product</div>
+            <div class="v">opentag one<small>Lowercase. Singular “opentag” + “one”. Kits read “opentag one — TWR kit”.</small></div>
+          </div>
+          <div class="rule-card">
+            <div class="k">Domain · GitHub</div>
+            <div class="v">open-tags<small>Hyphen only in URLs (open-tags.com, github.com/open-tags). Never in copy.</small></div>
+          </div>
+        </div>
+
+        <div class="do-dont">
+          <div class="col do">
+            <h3>Do</h3>
+            <ul>
+              <li>opentags ships in June.</li>
+              <li>Flash your opentag one over WebUSB.</li>
+              <li>opentag one — TWR kit · $249</li>
+              <li>hello@open-tags.com</li>
+            </ul>
+          </div>
+          <div class="col dont">
+            <h3>Don't</h3>
+            <ul>
+              <li><s>OpenTags</s> / <s>Opentags</s> / <s>OpenTag</s></li>
+              <li><s>Open Tags</s> (no space)</li>
+              <li><s>opentag</s> for the company (that's the product family)</li>
+              <li><s>opentag ones</s> / <s>opentag-one</s></li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <section class="band">
+        <div class="section-head">
+          <p class="eyebrow">Voice</p>
+          <h2>What we say.</h2>
+        </div>
+        <div class="rule-grid">
+          <div class="rule-card">
+            <div class="k">Tagline</div>
+            <div class="v">Know where your robots are.</div>
+          </div>
+          <div class="rule-card">
+            <div class="k">One-liner</div>
+            <div class="v" style="font-size:20px;line-height:1.35">
+              opentags is open-source ultra-wideband hardware and firmware that gives robots
+              precise indoor location.
+            </div>
+          </div>
+          <div class="rule-card">
+            <div class="k">Who it's for</div>
+            <div class="v" style="font-size:20px;line-height:1.35">
+              Centimeter-grade positioning for robots and machines — open hardware and
+              Rust firmware you can build on.
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="band">
+        <div class="section-head">
+          <p class="eyebrow">Wordmark</p>
+          <h2>The mark.</h2>
+        </div>
+        <div class="wordmark-stage">
+          <span class="wordmark">opentags</span>
+        </div>
+        <div class="wordmark-stage">
+          <span class="wordmark">opentag<span class="one">&nbsp;one</span></span>
+        </div>
+        <p class="intro" style="margin-top:20px">
+          Set in Roboto Bold, lowercase, on white. Keep clear space of one lowercase “o” on every
+          side. The product wordmark sets “one” in regular weight, muted gray.
+        </p>
+      </section>
+
+      <section class="band">
+        <div class="section-head">
+          <p class="eyebrow">Color</p>
+          <h2>Black on white.</h2>
+        </div>
+        <div class="swatches">
+          <div class="swatch">
+            <div class="chip" style="background:#111"></div>
+            <div class="meta"><strong>Ink</strong><code>#111111</code></div>
+          </div>
+          <div class="swatch">
+            <div class="chip" style="background:#fff;border-bottom:1px solid var(--line)"></div>
+            <div class="meta"><strong>Paper</strong><code>#ffffff</code></div>
+          </div>
+          <div class="swatch">
+            <div class="chip" style="background:#6e6e73"></div>
+            <div class="meta"><strong>Muted</strong><code>#6e6e73</code></div>
+          </div>
+          <div class="swatch">
+            <div class="chip" style="background:#f5f5f7"></div>
+            <div class="meta"><strong>Panel</strong><code>#f5f5f7</code></div>
+          </div>
+          <div class="swatch">
+            <div class="chip" style="background:#d8d8de"></div>
+            <div class="meta"><strong>Line</strong><code>#d8d8de</code></div>
+          </div>
+          <div class="swatch">
+            <div class="chip" style="background:#b00020"></div>
+            <div class="meta"><strong>Alert</strong><code>#b00020</code></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="band">
+        <div class="section-head">
+          <p class="eyebrow">Type</p>
+          <h2>Two faces.</h2>
+        </div>
+        <div class="type-row">
+          <div class="type-card">
+            <div class="sample-display">Know where your robots are.</div>
+            <div class="k">Display — Instrument Serif, Regular. Headlines only.</div>
+          </div>
+          <div class="type-card">
+            <div class="sample-body">
+              opentags is open-source ultra-wideband hardware and firmware that gives robots
+              precise indoor location.
+            </div>
+            <div class="k">Body — Roboto, 300–700. Everything else.</div>
+          </div>
+        </div>
+      </section>
+
+      <section class="band">
+        <div class="section-head">
+          <p class="eyebrow">In code &amp; on devices</p>
+          <h2>Same name, everywhere.</h2>
+        </div>
+        <p class="intro">
+          USB descriptors, repos, and docs use <code>opentags</code> as the manufacturer / company
+          and <code>opentag one</code> as the product. Internal namespace keys that are already
+          stable (rerun stream roots like <code>opentag/twr</code>, fabrication archive names like
+          <code>opentags_v2_final</code>) are left as-is — they're machine identifiers, not brand copy.
+        </p>
+        <div class="code-note">
+          USB manufacturer <code>opentags</code> · USB product <code>opentags TWR Node</code> ·
+          email <code>hello@open-tags.com</code> · GitHub <code>github.com/open-tags</code>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <span>&copy; 2026 opentags</span>
+      <span>Designed &middot; assembled in San Diego, CA</span>
+      <a href="/branding/">Brand</a>
+      <a href="mailto:hello@open-tags.com">hello@open-tags.com</a>
+    </footer>
+    <script type="module" src="/assets/site.js"></script>
+  </body>
+</html>

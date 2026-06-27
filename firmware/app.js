@@ -1,4 +1,4 @@
-// OpenTag web console — two-tag operation over Web Serial + WebUSB DFU.
+// opentags web console — two-tag operation over Web Serial + WebUSB DFU.
 //
 // Two tags plugged in via two USB cables. Each "slot" (A, B) tracks one
 // CDC port. The Flash button uses WebUSB to talk to the STM32 ROM bootloader
@@ -495,7 +495,7 @@ $("#export").addEventListener("click", () => {
   const blob = new Blob([lines.join("\n")], { type: "text/csv" });
   const a = document.createElement("a");
   a.href = URL.createObjectURL(blob);
-  a.download = `opentag-${new Date().toISOString().replace(/[:.]/g, "-")}.csv`;
+  a.download = `opentags-${new Date().toISOString().replace(/[:.]/g, "-")}.csv`;
   a.click();
 });
 
