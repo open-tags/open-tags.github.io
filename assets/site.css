@@ -1047,7 +1047,8 @@ code {
   font-size: 12px;
 }
 
-input[type="number"] {
+input[type="number"],
+select {
   width: 100px;
   background: var(--panel-2);
   border: 1px solid var(--line);
@@ -1057,7 +1058,12 @@ input[type="number"] {
   padding: 5px 8px;
 }
 
-input[type="number"]:focus {
+select {
+  width: auto;
+}
+
+input[type="number"]:focus,
+select:focus {
   border-color: var(--accent);
   outline: none;
 }
@@ -1124,18 +1130,23 @@ label {
   border-radius: 3px;
 }
 
-.cal-status {
+.cal-status,
+.test-status {
   margin-top: 10px;
   color: var(--muted);
   font-size: 12px;
 }
 
 .cal-status.running,
-.cal-status.done {
+.cal-status.done,
+.test-status.running,
+.test-status.done,
+.test-status.stopped {
   color: var(--accent);
 }
 
-.cal-status.error {
+.cal-status.error,
+.test-status.error {
   color: var(--bad);
 }
 

@@ -21,6 +21,26 @@ const samples = []; // {seq, mm, t, src}
 const MAX_SAMPLES = 200;
 let paused = false;
 
+// Static test runtime
+const DISTANCE_UNITS = {
+  ft: 304.8,
+  in: 25.4,
+  m: 1000,
+  cm: 10,
+  mm: 1,
+};
+let testActive = false;
+let testTimer = null;
+let testStatusTimer = null;
+let testStartPerf = 0;
+let testStartWall = null;
+let testTargetMs = 0;
+let testInputDistance = 0;
+let testInputUnit = "ft";
+let testTrueMm = 0;
+let testSamples = [];
+let testLastSummary = null;
+
 // Calibration runtime
 let calibActive = false;
 let calibTarget = 0;
@@ -293,12 +313,14 @@ class TagConnection {
 
 // ─── Distance pipeline ────────────────────────────────────────────────────────
 function onDistance(slot, seq, mm) {
+  const now = performance.now();
   if (!paused) {
-    samples.push({ seq, mm, t: performance.now(), src: slot });
+    samples.push({ seq, mm, t: now, src: slot });
     if (samples.length > MAX_SAMPLES) samples.shift();
     drawChart();
     updateStats();
   }
+  if (testActive) recordTestSample(slot, seq, mm, now);
   if (calibActive && slot === calibRespSlot) {
     calibCollected.push(mm);
     $("#cal-status").textContent =
@@ -322,6 +344,45 @@ function updateStats() {
   $("#stat-mean").textContent = mean.toFixed(0);
   $("#stat-std").textContent = Math.sqrt(variance).toFixed(0);
   $("#stat-n").textContent = String(xs.length);
+}
+
+function summarizeValues(xs) {
+  if (xs.length === 0) return null;
+  const sorted = [...xs].sort((a, b) => a - b);
+  const mean = xs.reduce((a, b) => a + b, 0) / xs.length;
+  const variance = xs.reduce((a, b) => a + (b - mean) ** 2, 0) / xs.length;
+  return {
+    n: xs.length,
+    mean,
+    stdev: Math.sqrt(variance),
+    min: sorted[0],
+    max: sorted[sorted.length - 1],
+    p50: percentileSorted(sorted, 0.5),
+    p95: percentileSorted(sorted, 0.95),
+  };
+}
+
+function percentileSorted(sorted, p) {
+  if (sorted.length === 0) return NaN;
+  if (sorted.length === 1) return sorted[0];
+  const idx = (sorted.length - 1) * p;
+  const lo = Math.floor(idx);
+  const hi = Math.ceil(idx);
+  const frac = idx - lo;
+  return sorted[lo] + (sorted[hi] - sorted[lo]) * frac;
+}
+
+function formatMetric(v, digits = 1) {
+  return Number.isFinite(v) ? v.toFixed(digits) : "-";
+}
+
+function escapeCsv(value) {
+  const s = String(value ?? "");
+  return /[",\n]/.test(s) ? `"${s.replace(/"/g, '""')}"` : s;
+}
+
+function csvRow(values) {
+  return values.map(escapeCsv).join(",");
 }
 
 // ─── Tiny canvas chart ────────────────────────────────────────────────────────
@@ -408,6 +469,186 @@ function drawChart() {
   ctx.fillText(`From ${last.src}`, padL + innerW - 70, padT + 12);
 }
 
+// ─── Static test logging ──────────────────────────────────────────────────────
+function distanceInputMm() {
+  const value = parseFloat($("#test-dist").value);
+  const unit = $("#test-unit").value;
+  if (!Number.isFinite(value) || value <= 0 || !DISTANCE_UNITS[unit]) return NaN;
+  return value * DISTANCE_UNITS[unit];
+}
+
+function updateTestDistanceDisplay() {
+  const mm = distanceInputMm();
+  $("#test-dist-mm").textContent = Number.isFinite(mm) ? mm.toFixed(0) : "-";
+}
+
+function startStaticTest() {
+  if (!tags.A.port && !tags.B.port) {
+    setTestStatus("error", "Connect at least one tag before starting a test.");
+    return;
+  }
+
+  const trueMm = distanceInputMm();
+  const durationMin = parseFloat($("#test-duration").value);
+  if (!Number.isFinite(trueMm) || trueMm <= 0 || !Number.isFinite(durationMin) || durationMin <= 0) {
+    setTestStatus("error", "Enter a positive distance and duration.");
+    return;
+  }
+
+  if (testTimer) clearTimeout(testTimer);
+  testActive = true;
+  testStartPerf = performance.now();
+  testStartWall = new Date();
+  testTargetMs = durationMin * 60_000;
+  testInputDistance = parseFloat($("#test-dist").value);
+  testInputUnit = $("#test-unit").value;
+  testTrueMm = trueMm;
+  testSamples = [];
+  testLastSummary = null;
+
+  $("#test-start").disabled = true;
+  $("#test-stop").disabled = false;
+  $("#test-download").disabled = true;
+  testTimer = setTimeout(() => finishStaticTest("done"), testTargetMs);
+  testStatusTimer = setInterval(updateTestStatus, 1000);
+  updateTestStatus();
+}
+
+function stopStaticTest() {
+  if (!testActive) return;
+  finishStaticTest("stopped");
+}
+
+function finishStaticTest(reason) {
+  testActive = false;
+  if (testTimer) clearTimeout(testTimer);
+  if (testStatusTimer) clearInterval(testStatusTimer);
+  testTimer = null;
+  testStatusTimer = null;
+  testLastSummary = computeTestSummary();
+  $("#test-stop").disabled = true;
+  $("#test-download").disabled = testSamples.length === 0;
+  refreshGlobalButtons();
+
+  const prefix = reason === "done" ? "Done" : "Stopped";
+  if (!testLastSummary) {
+    setTestStatus(reason, `${prefix}: no samples collected.`);
+    return;
+  }
+  setTestStatus(
+    reason,
+    `${prefix}: N=${testLastSummary.n}  Mean error=${formatMetric(testLastSummary.meanErrorMm)} mm  ` +
+      `Stdev=${formatMetric(testLastSummary.stdevMm)} mm`
+  );
+}
+
+function recordTestSample(slot, seq, mm, now) {
+  const elapsedMs = now - testStartPerf;
+  const wall = new Date(testStartWall.getTime() + elapsedMs);
+  const errorMm = mm - testTrueMm;
+  testSamples.push({
+    elapsedMs,
+    timestamp: wall.toISOString(),
+    seq,
+    src: slot,
+    measuredMm: mm,
+    trueMm: testTrueMm,
+    errorMm,
+    errorCm: errorMm / 10,
+    errorIn: errorMm / 25.4,
+  });
+  updateTestStatus();
+}
+
+function computeTestSummary() {
+  if (testSamples.length === 0) return null;
+  const measured = testSamples.map((s) => s.measuredMm);
+  const errors = testSamples.map((s) => s.errorMm);
+  const absErrors = errors.map(Math.abs);
+  const measuredSummary = summarizeValues(measured);
+  const errorSummary = summarizeValues(errors);
+  const absErrorSummary = summarizeValues(absErrors);
+  const rmse = Math.sqrt(errors.reduce((sum, e) => sum + e ** 2, 0) / errors.length);
+  return {
+    n: testSamples.length,
+    meanMeasuredMm: measuredSummary.mean,
+    meanErrorMm: errorSummary.mean,
+    stdevMm: errorSummary.stdev,
+    minMeasuredMm: measuredSummary.min,
+    maxMeasuredMm: measuredSummary.max,
+    p50AbsErrorMm: absErrorSummary.p50,
+    p95AbsErrorMm: absErrorSummary.p95,
+    rmseMm: rmse,
+  };
+}
+
+function updateTestStatus() {
+  if (!testActive) return;
+  const elapsed = performance.now() - testStartPerf;
+  const summary = computeTestSummary();
+  const body = summary
+    ? `N=${summary.n}  Mean error=${formatMetric(summary.meanErrorMm)} mm  Stdev=${formatMetric(summary.stdevMm)} mm`
+    : "N=0  Waiting for distance samples";
+  setTestStatus(
+    "running",
+    `Running ${formatMetric(elapsed / 1000, 1)}s / ${formatMetric(testTargetMs / 1000, 1)}s  ${body}`
+  );
+}
+
+function setTestStatus(cls, text) {
+  const el = $("#test-status");
+  el.className = "test-status " + (cls ?? "");
+  el.textContent = text;
+}
+
+function downloadStaticTestCsv() {
+  if (testSamples.length === 0) return;
+  const summary = testLastSummary ?? computeTestSummary();
+  const lines = [
+    csvRow(["section", "field", "value"]),
+    csvRow(["metadata", "start_time", testStartWall.toISOString()]),
+    csvRow(["metadata", "duration_target_ms", testTargetMs.toFixed(0)]),
+    csvRow(["metadata", "distance_input", testInputDistance]),
+    csvRow(["metadata", "distance_unit", testInputUnit]),
+    csvRow(["metadata", "true_distance_mm", testTrueMm.toFixed(1)]),
+    csvRow(["metadata", "sample_count", testSamples.length]),
+    "",
+    csvRow(["section", "metric", "value_mm"]),
+    csvRow(["summary", "mean_measured", formatMetric(summary.meanMeasuredMm)]),
+    csvRow(["summary", "mean_error", formatMetric(summary.meanErrorMm)]),
+    csvRow(["summary", "stdev_error", formatMetric(summary.stdevMm)]),
+    csvRow(["summary", "min_measured", formatMetric(summary.minMeasuredMm)]),
+    csvRow(["summary", "max_measured", formatMetric(summary.maxMeasuredMm)]),
+    csvRow(["summary", "p50_abs_error", formatMetric(summary.p50AbsErrorMm)]),
+    csvRow(["summary", "p95_abs_error", formatMetric(summary.p95AbsErrorMm)]),
+    csvRow(["summary", "rmse", formatMetric(summary.rmseMm)]),
+    "",
+    csvRow(["elapsed_ms", "timestamp_iso", "seq", "src", "measured_mm", "true_mm", "error_mm", "error_cm", "error_in"]),
+  ];
+
+  for (const s of testSamples) {
+    lines.push(csvRow([
+      s.elapsedMs.toFixed(1),
+      s.timestamp,
+      s.seq,
+      s.src,
+      s.measuredMm,
+      s.trueMm.toFixed(1),
+      s.errorMm.toFixed(1),
+      s.errorCm.toFixed(2),
+      s.errorIn.toFixed(3),
+    ]));
+  }
+
+  const blob = new Blob([lines.join("\n")], { type: "text/csv" });
+  const a = document.createElement("a");
+  const url = URL.createObjectURL(blob);
+  a.href = url;
+  a.download = `opentags-static-${testInputDistance}${testInputUnit}-${new Date().toISOString().replace(/[:.]/g, "-")}.csv`;
+  a.click();
+  setTimeout(() => URL.revokeObjectURL(url), 0);
+}
+
 // ─── Calibration ──────────────────────────────────────────────────────────────
 async function startCalibration() {
   const respSlot = document.querySelector('input[name="cal-resp"]:checked').value;
@@ -470,7 +711,9 @@ function refreshGlobalButtons() {
   $("#pause").disabled = !anyConnected;
   $("#clear").disabled = !anyConnected;
   $("#export").disabled = !anyConnected;
-  $("#cal-start").disabled = !bothConnected;
+  $("#test-start").disabled = !anyConnected || testActive;
+  $("#test-stop").disabled = !testActive;
+  $("#cal-start").disabled = !bothConnected || calibActive;
 }
 
 
@@ -499,10 +742,16 @@ $("#export").addEventListener("click", () => {
   a.click();
 });
 
+$("#test-dist").addEventListener("input", updateTestDistanceDisplay);
+$("#test-unit").addEventListener("change", updateTestDistanceDisplay);
+$("#test-start").addEventListener("click", startStaticTest);
+$("#test-stop").addEventListener("click", stopStaticTest);
+$("#test-download").addEventListener("click", downloadStaticTestCsv);
 $("#cal-start").addEventListener("click", startCalibration);
 
 tags.A = new TagConnection("A", $('.tag[data-slot="A"]'));
 tags.B = new TagConnection("B", $('.tag[data-slot="B"]'));
 tags.A.setButtons();
 tags.B.setButtons();
+updateTestDistanceDisplay();
 resizeCanvas();
