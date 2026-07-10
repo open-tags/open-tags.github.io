@@ -278,7 +278,9 @@ class TagConnection {
       return;
     }
     if (line === "OK RESET_STATS") {
-      this.diag = {};
+      this.diag = this.mode === "I"
+        ? { no_resp: 0, bad_resp: 0, seq_resp: 0, rx_err: 0, final_tx_err: 0 }
+        : { no_final: 0, bad_final: 0, seq_final: 0, rx_err: 0, resp_tx_err: 0 };
       this.drops = 0;
       $(".info-drops", this.root).textContent = "0";
       $(".info-diag", this.root).textContent = "clean";
