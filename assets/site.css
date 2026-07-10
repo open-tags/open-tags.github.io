@@ -1484,6 +1484,45 @@ label {
   gap: 60px;
 }
 
+.docs-directory {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1px;
+  background: var(--line);
+  border: 1px solid var(--line);
+  margin-bottom: 18px;
+}
+
+.docs-directory a {
+  min-width: 0;
+  background: var(--bg);
+  padding: 24px;
+  text-decoration: none;
+}
+
+.docs-directory a:hover {
+  background: var(--faint);
+}
+
+.docs-directory span,
+.docs-index span {
+  color: var(--muted);
+  font-family: var(--font-mono);
+  font-size: 11px;
+}
+
+.docs-directory strong {
+  display: block;
+  margin-top: 22px;
+  font-size: 16px;
+}
+
+.docs-directory p {
+  margin-top: 6px;
+  color: var(--muted);
+  font-size: 13px;
+}
+
 .docs-index {
   position: sticky;
   top: 24px;
@@ -1506,6 +1545,10 @@ label {
 
 .docs-index a:hover {
   color: var(--link);
+}
+
+.docs-index span {
+  margin-top: 10px;
 }
 
 .docs-content {
@@ -1630,6 +1673,56 @@ label {
   color: var(--muted);
 }
 
+.evidence-table {
+  overflow-x: auto;
+  border-top: 1px solid var(--line-strong);
+  border-bottom: 1px solid var(--line-strong);
+}
+
+.evidence-table table {
+  width: 100%;
+  min-width: 760px;
+  border-collapse: collapse;
+  text-align: left;
+}
+
+.evidence-table th,
+.evidence-table td {
+  padding: 15px 14px;
+  border-bottom: 1px solid var(--line);
+  white-space: nowrap;
+}
+
+.evidence-table thead th {
+  color: var(--muted);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 400;
+}
+
+.evidence-table tbody th,
+.evidence-table tbody td {
+  font-family: var(--font-mono);
+  font-size: 13px;
+}
+
+.evidence-table tbody tr:last-child th,
+.evidence-table tbody tr:last-child td {
+  border-bottom: 0;
+}
+
+.evidence-notes {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 28px;
+  margin-top: 30px;
+}
+
+.evidence-notes p {
+  color: var(--muted);
+  font-size: 13px;
+}
+
 .protocol-grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -1701,7 +1794,8 @@ label {
 @media (max-width: 700px) {
   .validation-callout,
   .docs-layout,
-  .status-banner {
+  .status-banner,
+  .evidence-notes {
     grid-template-columns: 1fr;
   }
 
@@ -1711,6 +1805,10 @@ label {
     padding: 18px;
     border: 1px solid var(--line);
     border-radius: 6px;
+  }
+
+  .docs-directory {
+    grid-template-columns: 1fr;
   }
 
   .docs-index strong {

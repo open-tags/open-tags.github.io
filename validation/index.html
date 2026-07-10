@@ -11,10 +11,10 @@
     </script>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="description" content="Current opentag one validation status, engineering targets, test protocol, and reproducible CSV workflow." />
+    <meta name="description" content="Preliminary opentag one TWR results, engineering targets, test limitations, and a reproducible CSV validation workflow." />
     <title>Validation | opentags</title>
     <meta property="og:title" content="opentag one validation" />
-    <meta property="og:description" content="Targets, current test status, and the reproducible protocol used to validate opentag one." />
+    <meta property="og:description" content="Preliminary TWR evidence, current limitations, engineering targets, and the reproducible opentag one test protocol." />
     <meta property="og:type" content="article" />
     <meta property="og:image" content="https://open-tags.com/assets/images/one/site/hero.jpg" />
     <meta name="twitter:card" content="summary_large_image" />
@@ -30,7 +30,7 @@
       </button>
       <nav aria-label="Primary">
         <a href="/one/">One</a>
-        <a href="/start/">Start</a>
+        <a href="/docs/">Docs</a>
         <a href="/firmware/">Firmware</a>
         <a href="https://github.com/open-tags" rel="noreferrer">GitHub</a>
       </nav>
@@ -40,15 +40,40 @@
       <section class="page-title validation-title">
         <p class="eyebrow">Validation</p>
         <h1>What is measured, what is targeted, and what is still unknown.</h1>
-        <p class="intro">This page separates engineering goals from published evidence. It will carry the raw datasets and results when the V2 ground-truth runs are complete.</p>
+        <p class="intro">This page separates engineering goals from measured evidence. Early TWR runs are reported here with their hardware, firmware, geometry, and limitations.</p>
       </section>
 
       <section class="status-banner" aria-label="Current benchmark status">
         <span class="status-marker">Current status</span>
         <div>
-          <h2>Ground-truthed benchmark pending</h2>
-          <p>The browser measurement pipeline is operational. Repeated TWR range-and-accuracy testing, TDOA position testing, and laser-measured ground truth are not yet complete. No public dataset is presented as a finished benchmark.</p>
+          <h2>Preliminary TWR evidence collected</h2>
+          <p>One pair has completed repeated indoor line-of-sight runs at 1 m, 3 m, and 5 m. The results below establish a useful baseline, but multi-unit, long-range, temperature, obstruction, and TDOA testing are not complete.</p>
         </div>
+      </section>
+
+      <section class="band evidence-band">
+        <div class="section-head">
+          <p class="eyebrow">July 2026 baseline</p>
+          <h2>What the current runs show</h2>
+        </div>
+        <div class="evidence-table" role="region" aria-label="Preliminary static TWR results" tabindex="0">
+          <table>
+            <thead>
+              <tr><th>Distance</th><th>Valid samples</th><th>Mean error</th><th>P95 absolute error</th><th>Valid rate</th><th>Packet success</th></tr>
+            </thead>
+            <tbody>
+              <tr><th>1 m</th><td>3,125</td><td>+4.9 mm</td><td>28.0 mm</td><td>52.08 Hz</td><td>99.71%</td></tr>
+              <tr><th>3 m</th><td>9,245</td><td>&minus;57.2 mm</td><td>77.9 mm</td><td>~51.4 Hz</td><td>97.70%</td></tr>
+              <tr><th>5 m</th><td>9,256</td><td>+54.8 mm</td><td>77.3 mm</td><td>~51.4 Hz</td><td>97.88%</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="evidence-notes">
+          <p><strong>Conditions:</strong> one hardware pair, indoor clear line of sight, same antenna orientation, tape-measured ground truth, and one responder calibration preserved across the sweep. The 1 m row is the calibration-point run; 3 m and 5 m pool three approximately one-minute runs each.</p>
+          <p><strong>Firmware:</strong> the original <code>twr_init-2</code> / <code>twr_resp-2</code> 50 Hz profile. P95 absolute error means 95% of valid samples were within the stated magnitude of ground truth.</p>
+          <p><strong>Profile experiments:</strong> longer preamble and SFD configurations raised packet delivery to roughly 99&ndash;100% at 40 Hz, but increased static P95 error at 5 m. The current <code>twr-5</code> release is an experimental diagnostic profile, not a new benchmark result.</p>
+        </div>
+        <p class="doc-note">These short runs are preliminary engineering evidence, not a product guarantee or a completed public benchmark. Raw datasets will be linked after the test metadata and naming are normalized.</p>
       </section>
 
       <section class="band">
@@ -74,13 +99,13 @@
           <li><span>01</span><h3>Fix the geometry</h3><p>Mount both tags at the same height with clear line of sight, consistent antenna orientation, and no movement during each run.</p></li>
           <li><span>02</span><h3>Measure ground truth</h3><p>Use a laser distance meter between documented reference points. Record the environment and nearby reflective surfaces.</p></li>
           <li><span>03</span><h3>Calibrate once</h3><p>Calibrate the pair at a known distance, then preserve the same offset across the complete distance sweep.</p></li>
-          <li><span>04</span><h3>Collect repeated runs</h3><p>Use the browser Static Test at 1 m, 5 m, and 15 m. Capture at least 500 valid samples at each distance.</p></li>
+          <li><span>04</span><h3>Collect repeated runs</h3><p>Use the browser Static Test at 1 m, 3 m, 5 m, 10 m, and 15 m. Capture at least three runs and 500 valid samples at each distance.</p></li>
           <li><span>05</span><h3>Export untouched CSV</h3><p>Keep the original timestamped export. It contains measured distance, truth, signed error, RMSE, deviation, and percentile errors.</p></li>
           <li><span>06</span><h3>Report failures too</h3><p>Publish dropped exchanges, obstructions, outliers, firmware identifiers, and anything that changed between runs.</p></li>
         </ol>
         <div class="section-actions">
           <a class="button primary" href="/firmware/">Run a static test</a>
-          <a class="button" href="/start/">Read the quick start</a>
+          <a class="button" href="/docs/#quickstart">Read the quickstart</a>
         </div>
       </section>
 

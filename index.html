@@ -12,15 +12,15 @@
     </script>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="description" content="Centimeter-level indoor positioning for robots. Open UWB hardware with Rust firmware, USB-C and CAN FD." />
+    <meta name="description" content="Open UWB ranging hardware for robots. Browser-flashable Rust firmware, USB-C, CAN FD hardware, and a public validation workflow." />
     <title>opentags</title>
     <meta property="og:title" content="opentags" />
-    <meta property="og:description" content="Centimeter-level indoor positioning for robots. Open UWB hardware with Rust firmware, USB-C and CAN FD." />
+    <meta property="og:description" content="Open UWB ranging hardware for robots with browser-flashable Rust firmware and a public validation workflow." />
     <meta property="og:type" content="website" />
     <meta property="og:image" content="https://open-tags.com/assets/images/one/site/hero.jpg" />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="opentags" />
-    <meta name="twitter:description" content="Centimeter-level indoor positioning for robots. Open UWB hardware with Rust firmware, USB-C and CAN FD." />
+    <meta name="twitter:description" content="Open UWB ranging hardware for robots with browser-flashable Rust firmware and a public validation workflow." />
     <link rel="icon" type="image/png" href="/favicon.png?v=2" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png?v=2" />
     <link rel="stylesheet" href="assets/site.css" />
@@ -33,7 +33,7 @@
       </button>
       <nav aria-label="Primary">
         <a href="/one/">One</a>
-        <a href="/start/">Start</a>
+        <a href="/docs/">Docs</a>
         <a href="/firmware/">Firmware</a>
         <a href="https://github.com/open-tags" rel="noreferrer">GitHub</a>
       </nav>
@@ -71,7 +71,7 @@
               <span class="kit-price">2 tags &middot; $249</span>
               <div class="kit-actions">
                 <a class="button primary" href="/one/#buy">Buy TWR</a>
-                <a class="inline-link" href="/start/">Quick start</a>
+                <a class="inline-link" href="/docs/#quickstart">Quickstart</a>
               </div>
             </div>
           </article>
@@ -79,8 +79,8 @@
             <img src="/assets/images/one/site/kit_tdoa.jpg" alt="Five opentag one units in the TDOA kit" width="1200" height="800" loading="lazy" decoding="async" />
             <div class="kit-card-body">
               <span class="buy-kicker">TDOA kit</span>
-              <h3>Position inside a space</h3>
-              <p>Four fixed anchors locate one mobile tag. Start here for navigation and room-scale tracking.</p>
+              <h3>Develop position inside a space</h3>
+              <p>Five tags for synchronized-anchor and TDOA experiments. Positioning firmware and its benchmark are still in development.</p>
               <span class="kit-price">5 tags &middot; $499</span>
               <div class="kit-actions">
                 <a class="button primary" href="/one/#buy">Buy TDOA</a>
@@ -105,7 +105,7 @@
             <li><span>04</span><div><strong>Export</strong><p>Download every sample and its ground-truth error as CSV.</p></div></li>
           </ol>
           <div class="section-actions">
-            <a class="button primary" href="/start/">Follow the quick start</a>
+            <a class="button primary" href="/docs/#quickstart">Follow the quickstart</a>
             <a class="button" href="/firmware/">Open console</a>
           </div>
         </div>
@@ -114,11 +114,11 @@
       <section class="band validation-callout">
         <div>
           <p class="eyebrow">Validation status</p>
-          <h2>Targets are not test results.</h2>
+          <h2>Preliminary evidence, clearly labeled.</h2>
         </div>
         <div>
-          <p>The current accuracy and range figures are engineering targets for the V2 validation run. A ground-truthed public benchmark has not been completed yet. The test procedure and CSV export are public so the eventual results can be inspected and reproduced.</p>
-          <a class="inline-link" href="/validation/">Read the validation plan &rarr;</a>
+          <p>One hardware pair has now completed repeat indoor line-of-sight runs at 1 m, 3 m, and 5 m. The original 50 Hz profile stayed within 78 mm P95 absolute error across those tests. These are short preliminary runs, not a finished multi-unit benchmark.</p>
+          <a class="inline-link" href="/validation/">See the results and limitations &rarr;</a>
         </div>
       </section>
 
