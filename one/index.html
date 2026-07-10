@@ -12,7 +12,7 @@
     </script>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="description" content="opentag one &mdash; centimeter-level UWB positioning for robots. USB-C, CAN FD, 6&ndash;24V, Rust firmware." />
+    <meta name="description" content="opentag one &mdash; open UWB ranging and indoor positioning hardware for robots. USB-C, CAN FD, 6&ndash;24V, Rust firmware." />
     <title>opentag one</title>
     <meta property="og:title" content="opentag one" />
     <meta property="og:description" content="Centimeter-level UWB positioning for robots. USB-C, CAN FD, 6&ndash;24V, Rust firmware." />
@@ -29,7 +29,7 @@
       "@context": "https://schema.org",
       "@type": "Product",
       "name": "opentag one",
-      "description": "Compact UWB tag for centimeter-level indoor positioning. STM32 + DWM3000, Rust firmware, USB-C, CAN FD, 6-24V input.",
+      "description": "Compact open UWB hardware for real-time ranging and indoor positioning. STM32 + DWM3000, Rust firmware, USB-C, CAN FD, 6-24V input.",
       "image": "https://open-tags.com/assets/images/one/site/hero.jpg",
       "brand": { "@type": "Brand", "name": "opentags" },
       "offers": [
@@ -61,6 +61,7 @@
       </button>
       <nav aria-label="Primary">
         <a aria-current="page" href="/one/">One</a>
+        <a href="/start/">Start</a>
         <a href="/firmware/">Firmware</a>
         <a href="https://github.com/open-tags" rel="noreferrer">GitHub</a>
       </nav>
@@ -114,22 +115,24 @@
             <div><dt>Shipping</dt><dd>Ships in 1 week from San Diego, CA</dd></div>
             <div><dt>Returns</dt><dd>30-day returns</dd></div>
             <div><dt>Warranty</dt><dd>1-year limited warranty</dd></div>
-            <div><dt>Docs</dt><dd><a href="/firmware/">Browser firmware console</a></dd></div>
+            <div><dt>Start</dt><dd><a href="/start/">Quick-start guide</a></dd></div>
           </dl>
         </aside>
       </section>
 
       <section class="band">
         <div class="section-head">
-          <h2>Performance</h2>
+          <p class="eyebrow">V2 validation</p>
+          <h2>Performance targets</h2>
         </div>
         <div class="stat-row">
-          <div><strong>&plusmn;10 cm</strong><span>ranging accuracy</span></div>
-          <div><strong>&plusmn;20 cm</strong><span>3D position accuracy</span></div>
-          <div><strong>50 Hz</strong><span>update rate</span></div>
-          <div><strong>60 m</strong><span>line-of-sight range</span></div>
+          <div><strong>&plusmn;10 cm</strong><span>TWR accuracy target</span></div>
+          <div><strong>&plusmn;20 cm</strong><span>TDOA position target</span></div>
+          <div><strong>50 Hz</strong><span>update-rate target</span></div>
+          <div><strong>60 m</strong><span>line-of-sight target</span></div>
         </div>
-        <p class="stat-note">Typical figures, measured line of sight. Expect 15&ndash;25 m through walls; one 4-anchor cell covers a room up to a warehouse bay.</p>
+        <p class="stat-note">Engineering targets, not published benchmark results. Environment, mounting, and anchor geometry affect performance.</p>
+        <a class="inline-link" href="/validation/">Test protocol and current status &rarr;</a>
       </section>
 
       <section class="band">
@@ -275,7 +278,7 @@
         <div class="faq-list">
           <details>
             <summary>How accurate is it?</summary>
-            <p>Typically &plusmn;10 cm for two-tag ranging and &plusmn;20 cm for 3D TDOA positioning, line of sight. Walls, metal, and people degrade this &mdash; UWB handles multipath far better than Bluetooth or Wi-Fi, but it isn't magic.</p>
+            <p>The V2 targets are &plusmn;10 cm for two-tag ranging and &plusmn;20 cm for TDOA positioning under clear line-of-sight conditions. Ground-truthed benchmark results are still pending; see the <a href="/validation/">validation page</a> for the protocol and current status.</p>
           </details>
           <details>
             <summary>How do I get position into my robot?</summary>
@@ -307,7 +310,7 @@
 
     <footer>
       <div class="footer-legal">
-        <p>Performance figures are typical values measured line of sight. Environment, mounting, and anchor geometry affect accuracy and range.</p>
+        <p>Performance figures are V2 engineering targets pending ground-truthed validation. Environment, mounting, and anchor geometry affect accuracy and range.</p>
         <p>opentag one is sold as a development kit for evaluation by qualified engineers and is not authorized as a finished consumer product under FCC rules. Integrators are responsible for regulatory approval of end products.</p>
       </div>
       <div class="footer-row">

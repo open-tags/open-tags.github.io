@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-JZYWGTNDLG"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-JZYWGTNDLG');
+    </script>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="Current opentag one validation status, engineering targets, test protocol, and reproducible CSV workflow." />
+    <title>Validation | opentags</title>
+    <meta property="og:title" content="opentag one validation" />
+    <meta property="og:description" content="Targets, current test status, and the reproducible protocol used to validate opentag one." />
+    <meta property="og:type" content="article" />
+    <meta property="og:image" content="https://open-tags.com/assets/images/one/site/hero.jpg" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <link rel="icon" type="image/png" href="/favicon.png?v=2" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png?v=2" />
+    <link rel="stylesheet" href="/assets/site.css" />
+  </head>
+  <body>
+    <header class="site-header" data-site-header>
+      <a class="brand" href="/" aria-label="opentags home">opentags</a>
+      <button class="nav-toggle" type="button" data-nav-toggle aria-label="Open menu" aria-expanded="false">
+        <span class="nav-toggle-icon" aria-hidden="true"></span>
+      </button>
+      <nav aria-label="Primary">
+        <a href="/one/">One</a>
+        <a href="/start/">Start</a>
+        <a href="/firmware/">Firmware</a>
+        <a href="https://github.com/open-tags" rel="noreferrer">GitHub</a>
+      </nav>
+    </header>
+
+    <main>
+      <section class="page-title validation-title">
+        <p class="eyebrow">Validation</p>
+        <h1>What is measured, what is targeted, and what is still unknown.</h1>
+        <p class="intro">This page separates engineering goals from published evidence. It will carry the raw datasets and results when the V2 ground-truth runs are complete.</p>
+      </section>
+
+      <section class="status-banner" aria-label="Current benchmark status">
+        <span class="status-marker">Current status</span>
+        <div>
+          <h2>Ground-truthed benchmark pending</h2>
+          <p>The browser measurement pipeline is operational. Repeated TWR range-and-accuracy testing, TDOA position testing, and laser-measured ground truth are not yet complete. No public dataset is presented as a finished benchmark.</p>
+        </div>
+      </section>
+
+      <section class="band">
+        <div class="section-head">
+          <p class="eyebrow">V2 engineering goals</p>
+          <h2>Targets under test</h2>
+        </div>
+        <div class="stat-row">
+          <div><strong>&plusmn;10 cm</strong><span>TWR ranging target</span></div>
+          <div><strong>&plusmn;20 cm</strong><span>TDOA position target</span></div>
+          <div><strong>50 Hz</strong><span>update-rate target</span></div>
+          <div><strong>60 m</strong><span>line-of-sight target</span></div>
+        </div>
+        <p class="stat-note">Targets are acceptance goals, not guarantees. Final results must identify hardware revision, firmware revision, environment, geometry, and sample count.</p>
+      </section>
+
+      <section class="band protocol-band">
+        <div class="section-head">
+          <p class="eyebrow">Reproducible TWR test</p>
+          <h2>Static ranging protocol</h2>
+        </div>
+        <ol class="protocol-grid">
+          <li><span>01</span><h3>Fix the geometry</h3><p>Mount both tags at the same height with clear line of sight, consistent antenna orientation, and no movement during each run.</p></li>
+          <li><span>02</span><h3>Measure ground truth</h3><p>Use a laser distance meter between documented reference points. Record the environment and nearby reflective surfaces.</p></li>
+          <li><span>03</span><h3>Calibrate once</h3><p>Calibrate the pair at a known distance, then preserve the same offset across the complete distance sweep.</p></li>
+          <li><span>04</span><h3>Collect repeated runs</h3><p>Use the browser Static Test at 1 m, 5 m, and 15 m. Capture at least 500 valid samples at each distance.</p></li>
+          <li><span>05</span><h3>Export untouched CSV</h3><p>Keep the original timestamped export. It contains measured distance, truth, signed error, RMSE, deviation, and percentile errors.</p></li>
+          <li><span>06</span><h3>Report failures too</h3><p>Publish dropped exchanges, obstructions, outliers, firmware identifiers, and anything that changed between runs.</p></li>
+        </ol>
+        <div class="section-actions">
+          <a class="button primary" href="/firmware/">Run a static test</a>
+          <a class="button" href="/start/">Read the quick start</a>
+        </div>
+      </section>
+
+      <section class="band split result-schema">
+        <div>
+          <p class="eyebrow">Publication contract</p>
+          <h2>What every result must include</h2>
+        </div>
+        <div>
+          <ul class="check-list">
+            <li>Raw, unedited CSV export</li>
+            <li>True and measured distance</li>
+            <li>Mean signed error and RMSE</li>
+            <li>Standard deviation and P95 absolute error</li>
+            <li>Valid sample count and dropped exchanges</li>
+            <li>Board, firmware, placement, and environment notes</li>
+          </ul>
+          <p class="doc-note">A result is not promoted to the product page until the source data and test conditions are linked here.</p>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <div class="footer-legal">
+        <p>Performance targets are not guarantees. Environment, mounting, obstructions, and anchor geometry affect accuracy and range.</p>
+      </div>
+      <div class="footer-row">
+        <span>&copy; 2026 opentags</span>
+        <span>Designed &middot; assembled in San Diego, CA</span>
+        <a href="mailto:hello@open-tags.com">hello@open-tags.com</a>
+      </div>
+    </footer>
+    <script type="module" src="/assets/site.js"></script>
+  </body>
+</html>

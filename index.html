@@ -33,6 +33,7 @@
       </button>
       <nav aria-label="Primary">
         <a href="/one/">One</a>
+        <a href="/start/">Start</a>
         <a href="/firmware/">Firmware</a>
         <a href="https://github.com/open-tags" rel="noreferrer">GitHub</a>
       </nav>
@@ -43,7 +44,7 @@
         <div class="hero-center">
           <p class="eyebrow">opentag one</p>
           <h1>Know where your robots are.</h1>
-          <p class="intro">Open ultra-wideband tags for centimeter-precise indoor position &mdash; in real time.</p>
+          <p class="intro">Open ultra-wideband hardware for real-time distance and indoor position.</p>
           <p class="store-price">From $249</p>
           <div class="hero-actions" aria-label="Primary actions">
             <a class="button primary" href="/one/#buy">Buy</a>
@@ -53,6 +54,72 @@
         <figure class="hero-figure">
           <img src="/assets/images/one/site/hero.jpg" alt="opentag one pair running two-way ranging" width="1920" height="960" fetchpriority="high" />
         </figure>
+      </section>
+
+      <section class="band">
+        <div class="section-head">
+          <p class="eyebrow">Choose by output</p>
+          <h2>Distance or position?</h2>
+        </div>
+        <div class="kit-grid">
+          <article class="kit-card">
+            <img src="/assets/images/one/site/kit_twr.jpg" alt="Two opentag one units in the TWR kit" width="1200" height="800" loading="lazy" decoding="async" />
+            <div class="kit-card-body">
+              <span class="buy-kicker">TWR kit</span>
+              <h3>Distance between two points</h3>
+              <p>Two tags report live range over USB. Start here for docking, follow-me, and proximity between robots.</p>
+              <span class="kit-price">2 tags &middot; $249</span>
+              <div class="kit-actions">
+                <a class="button primary" href="/one/#buy">Buy TWR</a>
+                <a class="inline-link" href="/start/">Quick start</a>
+              </div>
+            </div>
+          </article>
+          <article class="kit-card">
+            <img src="/assets/images/one/site/kit_tdoa.jpg" alt="Five opentag one units in the TDOA kit" width="1200" height="800" loading="lazy" decoding="async" />
+            <div class="kit-card-body">
+              <span class="buy-kicker">TDOA kit</span>
+              <h3>Position inside a space</h3>
+              <p>Four fixed anchors locate one mobile tag. Start here for navigation and room-scale tracking.</p>
+              <span class="kit-price">5 tags &middot; $499</span>
+              <div class="kit-actions">
+                <a class="button primary" href="/one/#buy">Buy TDOA</a>
+                <a class="inline-link" href="/validation/">Validation plan</a>
+              </div>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <section class="band workflow-band">
+        <div class="workflow-media">
+          <img src="/assets/images/one/bringup/twr_double_blink.jpg" alt="Two opentag one units running a live two-way ranging exchange" width="1920" height="1280" loading="lazy" decoding="async" />
+        </div>
+        <div class="workflow-copy">
+          <p class="eyebrow">Real hardware workflow</p>
+          <h2>From two tags to a distance trace.</h2>
+          <ol class="step-list compact-steps">
+            <li><span>01</span><div><strong>Flash</strong><p>Assign initiator and responder roles in the browser.</p></div></li>
+            <li><span>02</span><div><strong>Connect</strong><p>Open both USB serial ports at 115200 baud.</p></div></li>
+            <li><span>03</span><div><strong>Measure</strong><p>Watch distance, mean, deviation, and sample count live.</p></div></li>
+            <li><span>04</span><div><strong>Export</strong><p>Download every sample and its ground-truth error as CSV.</p></div></li>
+          </ol>
+          <div class="section-actions">
+            <a class="button primary" href="/start/">Follow the quick start</a>
+            <a class="button" href="/firmware/">Open console</a>
+          </div>
+        </div>
+      </section>
+
+      <section class="band validation-callout">
+        <div>
+          <p class="eyebrow">Validation status</p>
+          <h2>Targets are not test results.</h2>
+        </div>
+        <div>
+          <p>The current accuracy and range figures are engineering targets for the V2 validation run. A ground-truthed public benchmark has not been completed yet. The test procedure and CSV export are public so the eventual results can be inspected and reproduced.</p>
+          <a class="inline-link" href="/validation/">Read the validation plan &rarr;</a>
+        </div>
       </section>
 
       <section class="band">
@@ -110,14 +177,14 @@
         </div>
         <div>
           <p>Flash, log, plot, and calibrate over WebUSB and Web Serial. No toolchain to install, no vendor IDE.</p>
-          <a class="inline-link" href="/firmware/">/firmware &rarr;</a>
+          <a class="inline-link" href="/firmware/">Open the firmware console &rarr;</a>
         </div>
       </section>
     </main>
 
     <footer>
       <div class="footer-legal">
-        <p>Performance figures are typical values measured line of sight. Environment, mounting, and anchor geometry affect accuracy and range.</p>
+        <p>Performance figures are V2 engineering targets pending ground-truthed validation. Environment, mounting, and anchor geometry affect accuracy and range.</p>
         <p>opentag one is sold as a development kit for evaluation by qualified engineers and is not authorized as a finished consumer product under FCC rules. Integrators are responsible for regulatory approval of end products.</p>
       </div>
       <div class="footer-row">
