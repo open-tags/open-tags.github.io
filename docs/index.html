@@ -8,6 +8,7 @@
     <link rel="icon" type="image/png" href="/favicon.png?v=2" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png?v=2" />
     <link rel="stylesheet" href="/assets/site.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/styles/github.min.css" />
   </head>
   <body class="docs-site">
     <header class="site-header" data-site-header>
@@ -21,10 +22,17 @@
         <span>Get started</span>
         <a aria-current="page" href="/docs/">Overview</a>
         <a href="/docs/quickstart/">Quickstart</a>
-        <span>Develop</span>
-        <a href="/docs/scripts/">Host scripts</a>
-        <a href="/docs/protocol/">Serial protocol</a>
+        <span>Platform</span>
+        <a href="/docs/hardware/">Hardware</a>
+        <a href="/docs/firmware-build/">Firmware build</a>
+        <span>Interfaces</span>
+        <a href="/docs/protocol/">USB serial</a>
+        <a href="/docs/can/">CAN / CAN FD</a>
+        <span>Integrate</span>
+        <a href="/docs/scripts/">Python scripts</a>
+        <a href="/docs/rust/">Rust examples</a>
         <span>Test</span>
+        <a href="/docs/calibration/">Calibration</a>
         <a href="/validation/">Validation</a>
         <a href="/firmware/">Browser console</a>
       </aside>
@@ -38,13 +46,17 @@
         <h2 id="choose-workflow">Choose a workflow</h2>
         <div class="docs-link-list">
           <a href="/docs/quickstart/"><strong>Browser quickstart</strong><span>Flash, connect, calibrate, and measure without installing a toolchain.</span></a>
-          <a href="/docs/scripts/"><strong>Host scripts</strong><span>Automate discovery, device info, monitoring, calibration, static tests, and DFU flashing.</span></a>
-          <a href="/docs/protocol/"><strong>Serial protocol</strong><span>Integrate the newline-delimited command and distance stream into your own software.</span></a>
+          <a href="/docs/hardware/"><strong>Hardware reference</strong><span>MCU, UWB, CAN FD, connector pinout, power, termination, and debug interfaces.</span></a>
+          <a href="/docs/firmware-build/"><strong>Firmware build</strong><span>Toolchain, targets, clocks, SWD flashing, and repository layout.</span></a>
+          <a href="/docs/protocol/"><strong>USB serial</strong><span>Commands, stream records, field types, diagnostics, and integration examples.</span></a>
+          <a href="/docs/can/"><strong>CAN / CAN FD</strong><span>Wiring, bus timing, test frames, bring-up procedure, and current protocol status.</span></a>
+          <a href="/docs/scripts/"><strong>Python scripts</strong><span>Automate discovery, device info, monitoring, calibration, static tests, and DFU flashing.</span></a>
+          <a href="/docs/rust/"><strong>Rust examples</strong><span>Buildable Embassy examples for classical CAN and 64-byte CAN FD frames.</span></a>
         </div>
 
         <h2 id="install">Install the host tools</h2>
         <p>The scripts require Python 3.10 or newer and <code>pyserial</code>. Download the script directory, then install its single dependency.</p>
-        <pre class="docs-code"><code>python3 -m venv .venv
+        <pre class="docs-code"><code class="language-bash">python3 -m venv .venv
 source .venv/bin/activate
 python3 -m pip install -r requirements.txt
 python3 list_ports.py</code></pre>
@@ -66,6 +78,6 @@ python3 list_ports.py</code></pre>
       </article>
     </main>
     <footer><div class="footer-row"><span>&copy; 2026 opentags</span><a href="mailto:hello@open-tags.com">hello@open-tags.com</a></div></footer>
-    <script type="module" src="/assets/site.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/highlight.min.js" defer></script><script src="/assets/docs.js" defer></script><script type="module" src="/assets/site.js"></script>
   </body>
 </html>

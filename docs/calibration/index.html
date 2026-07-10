@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en">
+  <head><meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" /><meta name="description" content="opentag pair calibration procedure, model, persistence, controls, and validation guidance." /><title>Calibration | opentags docs</title><link rel="icon" type="image/png" href="/favicon.png?v=2" /><link rel="stylesheet" href="/assets/site.css" /><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/styles/github.min.css" /></head>
+  <body class="docs-site">
+    <header class="site-header" data-site-header><a class="brand" href="/" aria-label="opentags home">opentags</a><button class="nav-toggle" type="button" data-nav-toggle aria-label="Open menu" aria-expanded="false"><span class="nav-toggle-icon" aria-hidden="true"></span></button><nav aria-label="Primary"><a href="/one/">One</a><a aria-current="page" href="/docs/">Docs</a><a href="/firmware/">Firmware</a><a href="https://github.com/open-tags" rel="noreferrer">GitHub</a></nav></header>
+    <main class="docs-shell"><aside class="docs-sidebar" aria-label="Documentation navigation"><a class="docs-home" href="/docs/">opentag one</a><span>Get started</span><a href="/docs/">Overview</a><a href="/docs/quickstart/">Quickstart</a><span>Platform</span><a href="/docs/hardware/">Hardware</a><a href="/docs/firmware-build/">Firmware build</a><span>Interfaces</span><a href="/docs/protocol/">USB serial</a><a href="/docs/can/">CAN / CAN FD</a><span>Integrate</span><a href="/docs/scripts/">Python scripts</a><a href="/docs/rust/">Rust examples</a><span>Test</span><a aria-current="page" href="/docs/calibration/">Calibration</a><a href="/validation/">Validation</a><a href="/firmware/">Browser console</a></aside>
+      <article class="docs-page">
+        <p class="docs-breadcrumb">Documentation / Test / Calibration</p><h1>Pair calibration</h1><p class="docs-lead">Estimate one antenna-delay correction for a specific initiator/responder pair, then hold it fixed while measuring performance across distance and orientation.</p>
+        <div class="docs-warning"><strong>Calibration removes a constant offset; it does not prove accuracy.</strong><p>Do not recalibrate at every test distance. That would force each test toward its reference value and hide scale error, multipath sensitivity, and distance-dependent bias.</p></div>
+
+        <h2 id="setup">Physical setup</h2>
+        <ol class="docs-steps"><li>Use a surveyed or carefully measured 1 m separation between consistent antenna reference points.</li><li>Mount both tags rigidly at the same height with clear line of sight.</li><li>Use the same antenna orientation planned for the validation sweep.</li><li>Keep people, metal objects, and large reflecting surfaces away from the direct path.</li><li>Allow the stream to stabilize before collecting samples.</li></ol>
+
+        <h2 id="procedure">Procedure</h2>
+        <pre class="docs-code"><code class="language-bash">python3 calibrate.py /dev/tty.usbmodem1201 \
+  --true-mm 1000 \
+  --samples 200</code></pre>
+        <p>The script reads responder distance records, trims the lowest and highest 10%, computes a robust mean, converts the distance residual to DW3000 device-time units, sends <code>CALIB &lt;offset&gt;</code>, and stores the result by responder hardware ID.</p>
+
+        <h2 id="model">Correction model</h2>
+        <dl class="docs-definition"><dt>Residual</dt><dd><code>measured_mm - reference_mm</code>. Positive means the pair reads long.</dd><dt>Conversion</dt><dd>The calibration tool converts the residual to a responder antenna-delay adjustment using the firmware's two-way-ranging timing model.</dd><dt>Applied value</dt><dd>A signed DTU offset sent to the responder with <code>CALIB</code>.</dd><dt>Scope</dt><dd>Specific hardware pair, firmware/PHY configuration, and antenna orientation.</dd></dl>
+
+        <h2 id="persistence">Persistence</h2>
+        <p><code>CALIB</code> changes responder RAM and is lost on reset or power removal. The browser console stores the value locally and restores it when that responder reconnects. The host scripts store it in <code>~/.config/opentags/calibration.json</code> keyed by hardware ID and reapply it on connection.</p>
+        <pre class="docs-code"><code class="language-bash">python3 info.py /dev/tty.usbmodem1201
+# Confirm: mode=R, expected calib value, matching PHY</code></pre>
+
+        <h2 id="acceptance">Calibration acceptance checks</h2>
+        <table class="docs-table"><thead><tr><th>Check</th><th>Pass condition</th><th>Failure suggests</th></tr></thead><tbody><tr><td>Sample count</td><td>Requested valid samples collected without motion</td><td>Link loss or unstable setup</td></tr><tr><td>Spread</td><td>No abrupt multimodal clusters or large drift</td><td>Multipath, movement, weak signal</td></tr><tr><td>Repeatability</td><td>Two independent runs produce similar offsets</td><td>Reference or geometry is not controlled</td></tr><tr><td>Post-check</td><td>Independent 1 m run has low bias</td><td>Wrong slot, wrong true distance, stale calibration</td></tr></tbody></table>
+
+        <h2 id="validation">After calibration</h2>
+        <p>Without changing the offset, collect repeated static runs at 1 m, 3 m, 5 m, and 10 m. Report mean error, median error, standard deviation, 95th-percentile absolute error, valid sample rate, and miss rate. Repeat at multiple antenna orientations and in at least one representative deployment environment.</p>
+        <div class="docs-next"><a href="/docs/rust/">&larr; Rust examples</a><a href="/validation/">Validation &rarr;</a></div>
+      </article>
+    </main><footer><div class="footer-row"><span>&copy; 2026 opentags</span><a href="mailto:hello@open-tags.com">hello@open-tags.com</a></div></footer><script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/highlight.min.js" defer></script><script src="/assets/docs.js" defer></script><script type="module" src="/assets/site.js"></script>
+  </body>
+</html>

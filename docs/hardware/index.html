@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="opentag one V2 hardware reference: MCU, UWB radio, CAN FD, power, connectors, and board-level constraints." />
+    <title>Hardware reference | opentags docs</title><link rel="icon" type="image/png" href="/favicon.png?v=2" /><link rel="stylesheet" href="/assets/site.css" /><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/styles/github.min.css" />
+  </head>
+  <body class="docs-site">
+    <header class="site-header" data-site-header><a class="brand" href="/" aria-label="opentags home">opentags</a><button class="nav-toggle" type="button" data-nav-toggle aria-label="Open menu" aria-expanded="false"><span class="nav-toggle-icon" aria-hidden="true"></span></button><nav aria-label="Primary"><a href="/one/">One</a><a aria-current="page" href="/docs/">Docs</a><a href="/firmware/">Firmware</a><a href="https://github.com/open-tags" rel="noreferrer">GitHub</a></nav></header>
+    <main class="docs-shell">
+      <aside class="docs-sidebar" aria-label="Documentation navigation"><a class="docs-home" href="/docs/">opentag one</a><span>Get started</span><a href="/docs/">Overview</a><a href="/docs/quickstart/">Quickstart</a><span>Platform</span><a aria-current="page" href="/docs/hardware/">Hardware</a><a href="/docs/firmware-build/">Firmware build</a><span>Interfaces</span><a href="/docs/protocol/">USB serial</a><a href="/docs/can/">CAN / CAN FD</a><span>Integrate</span><a href="/docs/scripts/">Python scripts</a><a href="/docs/rust/">Rust examples</a><span>Test</span><a href="/docs/calibration/">Calibration</a><a href="/validation/">Validation</a><a href="/firmware/">Browser console</a></aside>
+      <article class="docs-page">
+        <p class="docs-breadcrumb">Documentation / Platform / Hardware</p><h1>Hardware reference</h1>
+        <p class="docs-lead">Board-level interfaces and constraints for opentag one V2.2. Values here are taken from the released schematic, netlist, BOM, and firmware pin assignments.</p>
+        <div class="docs-meta"><div><strong>Revision</strong><span>V2.2</span></div><div><strong>MCU</strong><span>STM32G474CCT6</span></div><div><strong>UWB</strong><span>Qorvo DWM3000</span></div></div>
+
+        <h2 id="architecture">Architecture</h2>
+        <table class="docs-table"><thead><tr><th>Subsystem</th><th>Part</th><th>Connection</th></tr></thead><tbody>
+          <tr><td>Controller</td><td>STM32G474CCT6</td><td>170 MHz Cortex-M4F</td></tr>
+          <tr><td>UWB</td><td>DWM3000</td><td>SPI1; channel 9 ranging firmware</td></tr>
+          <tr><td>CAN physical layer</td><td>TCAN1044VDRQ1</td><td>FDCAN2, PB12 RX / PB13 TX</td></tr>
+          <tr><td>Host / programming</td><td>USB-C</td><td>USB CDC serial and STM32 ROM DFU</td></tr>
+          <tr><td>Debug</td><td>10-pin Cortex Debug</td><td>SWDIO, SWCLK, NRST, VTref, GND</td></tr>
+        </tbody></table>
+
+        <h2 id="j2">J2 power and CAN connector</h2>
+        <p>Pin numbering follows the KiCad schematic and exported V2.2 netlist. Verify the physical pin-1 marker before attaching power.</p>
+        <table class="docs-table"><thead><tr><th>Pin</th><th>Net</th><th>Function</th></tr></thead><tbody>
+          <tr><td><code>1</code></td><td><code>CAN_L</code></td><td>CAN low bus line</td></tr>
+          <tr><td><code>2</code></td><td><code>CAN_H</code></td><td>CAN high bus line</td></tr>
+          <tr><td><code>3</code></td><td><code>+12V</code></td><td>External board power input</td></tr>
+          <tr><td><code>4</code></td><td><code>GND</code></td><td>Power return and CAN reference</td></tr>
+        </tbody></table>
+        <div class="docs-warning"><strong>CAN is not galvanically isolated.</strong><p>The TCAN1044VDRQ1 is a fault-protected CAN FD transceiver with a VIO logic supply. The word “isolated” in an old schematic-library description is incorrect. Connect bus ground to J2 pin 4 and do not treat the board as an isolation boundary.</p></div>
+
+        <h2 id="termination">CAN termination</h2>
+        <p>R20 is 120 Ω and SW3 places it across <code>CAN_H</code> and <code>CAN_L</code> when closed. Enable it only when the tag is at a physical end of the bus. A correctly terminated two-ended bus measures about 60 Ω between CANH and CANL with power removed.</p>
+
+        <h2 id="usb">USB modes</h2>
+        <dl class="docs-definition"><dt>Normal boot</dt><dd>Enumerates as USB CDC serial when a ranging image is installed.</dd><dt>BOOT0 held</dt><dd>Enters the STM32 system bootloader and enumerates as STM32 DFU for role flashing.</dd><dt>SWD</dt><dd>Used by <code>probe-rs</code> for development builds, RTT logs, and hardware debugging.</dd></dl>
+
+        <h2 id="source">Source files</h2>
+        <p>The hardware is open source. Use the current KiCad source for layout work and the exported netlist for machine-readable connectivity.</p>
+        <p><a href="https://github.com/abenstirling/opentags/tree/main/hardware">KiCad project and hardware notes</a> · <a href="https://www.ti.com/product/TCAN1044-Q1">TCAN1044-Q1 product page</a></p>
+        <div class="docs-next"><a href="/docs/quickstart/">&larr; Quickstart</a><a href="/docs/firmware-build/">Firmware build &rarr;</a></div>
+      </article>
+    </main>
+    <footer><div class="footer-row"><span>&copy; 2026 opentags</span><a href="mailto:hello@open-tags.com">hello@open-tags.com</a></div></footer><script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/highlight.min.js" defer></script><script src="/assets/docs.js" defer></script><script type="module" src="/assets/site.js"></script>
+  </body>
+</html>

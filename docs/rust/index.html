@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="en">
+  <head><meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" /><meta name="description" content="Buildable Rust examples for opentag CAN and CAN FD on STM32G474." /><title>Rust examples | opentags docs</title><link rel="icon" type="image/png" href="/favicon.png?v=2" /><link rel="stylesheet" href="/assets/site.css" /><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/styles/github.min.css" /></head>
+  <body class="docs-site">
+    <header class="site-header" data-site-header><a class="brand" href="/" aria-label="opentags home">opentags</a><button class="nav-toggle" type="button" data-nav-toggle aria-label="Open menu" aria-expanded="false"><span class="nav-toggle-icon" aria-hidden="true"></span></button><nav aria-label="Primary"><a href="/one/">One</a><a aria-current="page" href="/docs/">Docs</a><a href="/firmware/">Firmware</a><a href="https://github.com/open-tags" rel="noreferrer">GitHub</a></nav></header>
+    <main class="docs-shell"><aside class="docs-sidebar" aria-label="Documentation navigation"><a class="docs-home" href="/docs/">opentag one</a><span>Get started</span><a href="/docs/">Overview</a><a href="/docs/quickstart/">Quickstart</a><span>Platform</span><a href="/docs/hardware/">Hardware</a><a href="/docs/firmware-build/">Firmware build</a><span>Interfaces</span><a href="/docs/protocol/">USB serial</a><a href="/docs/can/">CAN / CAN FD</a><span>Integrate</span><a href="/docs/scripts/">Python scripts</a><a aria-current="page" href="/docs/rust/">Rust examples</a><span>Test</span><a href="/docs/calibration/">Calibration</a><a href="/validation/">Validation</a><a href="/firmware/">Browser console</a></aside>
+      <article class="docs-page">
+        <p class="docs-breadcrumb">Documentation / Integrate / Rust examples</p><h1>Rust examples</h1><p class="docs-lead">Real excerpts from the buildable STM32G474 targets. The linked source files contain complete imports, clock setup, interrupt bindings, and error handling.</p>
+
+        <h2 id="classic-config">Configure classical CAN</h2>
+        <p>FDCAN2 is wired to PB12/PB13. Both nodes must use the same nominal bit rate.</p>
+        <pre class="docs-code"><code class="language-rust">let mut can = can::CanConfigurator::new(
+    p.FDCAN2,
+    p.PB12,
+    p.PB13,
+    Irqs,
+);
+can.set_bitrate(500_000);
+can.properties().set_standard_filter(
+    StandardFilterSlot::_0,
+    StandardFilter::accept_all_into_fifo0(),
+);
+let mut can: Can = can.into_normal_mode();</code></pre>
+
+        <h2 id="classic-send">Send a frame and await an echo</h2>
+        <pre class="docs-code"><code class="language-rust">let data = [0xCA, 0xFE, seq, 0x00];
+let frame = Frame::new_standard(0x123, &data).unwrap();
+can.write(&frame).await;
+
+match with_timeout(Duration::from_millis(700), can.read()).await {
+    Ok(Ok(envelope)) => {
+        let is_echo = match envelope.frame.id() {
+            embedded_can::Id::Standard(id) => id.as_raw() == 0x456,
+            embedded_can::Id::Extended(_) => false,
+        };
+        if is_echo
+            && envelope.frame.data().get(0..3) == Some(&data[0..3])
+        {
+            info!("echo received");
+        } else {
+            warn!("unexpected response");
+        }
+    }
+    Ok(Err(error)) => error!("RX error: {:?}", error),
+    Err(_) => warn!("response timeout"),
+}</code></pre>
+        <p class="source-link"><a href="https://github.com/abenstirling/opentags/blob/main/firmware/rust_bringup/stm32g4/src/bin/can_tx.rs">Complete can_tx.rs source</a></p>
+
+        <h2 id="classic-receive">Receive and reply</h2>
+        <pre class="docs-code"><code class="language-rust">loop {
+    match can.read().await {
+        Ok(envelope) => {
+            let echo = Frame::new_standard(
+                0x456,
+                envelope.frame.data(),
+            ).unwrap();
+            can.write(&echo).await;
+        }
+        Err(error) => error!("RX error: {:?}", error),
+    }
+}</code></pre>
+        <p class="source-link"><a href="https://github.com/abenstirling/opentags/blob/main/firmware/rust_bringup/stm32g4/src/bin/can_rx.rs">Complete can_rx.rs source</a></p>
+
+        <h2 id="fd-config">Configure CAN FD with BRS</h2>
+        <p>The FD examples route FDCAN to the 170 MHz PCLK1 source, then configure separate arbitration and data rates.</p>
+        <pre class="docs-code"><code class="language-rust">config.rcc.mux.fdcansel = Fdcansel::PCLK1;
+let p = embassy_stm32::init(config);
+
+let mut can = can::CanConfigurator::new(
+    p.FDCAN2,
+    p.PB12,
+    p.PB13,
+    Irqs,
+);
+can.set_bitrate(1_000_000);
+can.set_fd_data_bitrate(2_000_000, true); // TDC enabled
+let mut can: Can = can.into_normal_mode();</code></pre>
+
+        <h2 id="fd-send">Build a 64-byte FD frame</h2>
+        <pre class="docs-code"><code class="language-rust">let mut data = [0xAAu8; 64];
+data[0..4].copy_from_slice(&seq.to_le_bytes());
+data[4..8].copy_from_slice(&tx_ticks.to_le_bytes());
+
+let header = Header::new_fd(
+    embedded_can::StandardId::new(0x100).unwrap().into(),
+    64,
+    false, // data frame, not RTR
+    true,  // enable bit-rate switching
+);
+let frame = FdFrame::new(header, &data).unwrap();
+can.write_fd(&frame).await;</code></pre>
+        <p class="source-link"><a href="https://github.com/abenstirling/opentags/blob/main/firmware/rust_bringup/stm32g4/src/bin/can_fd_tx.rs">Complete can_fd_tx.rs source</a></p>
+
+        <h2 id="build">Check every CAN target</h2>
+        <pre class="docs-code"><code class="language-bash">cd firmware/rust_bringup/stm32g4
+cargo check --release \
+  --bin can_tx --bin can_rx \
+  --bin can_fd_tx --bin can_fd_rx</code></pre>
+        <div class="docs-note"><strong>API stability</strong><p>These examples use the Embassy revision pinned by the repository submodule. Upstream Embassy CAN APIs may differ, so build against the checkout rather than copying the snippets into an unrelated dependency version.</p></div>
+        <div class="docs-next"><a href="/docs/can/">&larr; CAN / CAN FD</a><a href="/docs/calibration/">Calibration &rarr;</a></div>
+      </article>
+    </main><footer><div class="footer-row"><span>&copy; 2026 opentags</span><a href="mailto:hello@open-tags.com">hello@open-tags.com</a></div></footer><script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/highlight.min.js" defer></script><script src="/assets/docs.js" defer></script><script type="module" src="/assets/site.js"></script>
+  </body>
+</html>

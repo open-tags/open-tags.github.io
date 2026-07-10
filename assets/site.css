@@ -1525,16 +1525,77 @@ label {
   max-width: 100%;
   overflow-x: auto;
   margin: 20px 0;
-  padding: 18px 20px;
   border: 1px solid var(--line);
   border-radius: 6px;
-  background: #161617;
-  color: #f5f5f7;
-  font: 12px/1.65 var(--font-mono);
+  background: #f6f8fa;
 }
 
 .docs-code code {
-  font: inherit;
+  display: block;
+  min-width: max-content;
+  padding: 18px 20px !important;
+  background: transparent !important;
+  font: 12px/1.65 var(--font-mono) !important;
+}
+
+.docs-meta {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  margin: 24px 0 32px;
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+}
+
+.docs-meta div {
+  padding: 14px 16px 14px 0;
+}
+
+.docs-meta strong,
+.docs-meta span {
+  display: block;
+}
+
+.docs-meta strong {
+  margin-bottom: 4px;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  text-transform: uppercase;
+}
+
+.docs-meta span {
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.docs-page .source-link {
+  display: inline-block;
+  margin-top: -8px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+}
+
+.docs-definition {
+  display: grid;
+  grid-template-columns: 180px minmax(0, 1fr);
+  margin: 0;
+  border-top: 1px solid var(--line);
+}
+
+.docs-definition dt,
+.docs-definition dd {
+  margin: 0;
+  padding: 13px 12px;
+  border-bottom: 1px solid var(--line);
+}
+
+.docs-definition dt {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.docs-definition dd {
+  color: var(--muted);
 }
 
 .docs-table {
@@ -1638,6 +1699,20 @@ label {
   .docs-link-list a {
     grid-template-columns: 1fr;
     gap: 4px;
+  }
+
+  .docs-meta,
+  .docs-definition {
+    grid-template-columns: 1fr;
+  }
+
+  .docs-definition dt {
+    padding-bottom: 4px;
+    border-bottom: 0;
+  }
+
+  .docs-definition dd {
+    padding-top: 0;
   }
 }
 

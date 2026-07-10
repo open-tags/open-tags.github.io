@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+  <head><meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" /><meta name="description" content="opentag CAN and CAN FD electrical, timing, firmware, frame, and test reference." /><title>CAN and CAN FD | opentags docs</title><link rel="icon" type="image/png" href="/favicon.png?v=2" /><link rel="stylesheet" href="/assets/site.css" /><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/styles/github.min.css" /></head>
+  <body class="docs-site">
+    <header class="site-header" data-site-header><a class="brand" href="/" aria-label="opentags home">opentags</a><button class="nav-toggle" type="button" data-nav-toggle aria-label="Open menu" aria-expanded="false"><span class="nav-toggle-icon" aria-hidden="true"></span></button><nav aria-label="Primary"><a href="/one/">One</a><a aria-current="page" href="/docs/">Docs</a><a href="/firmware/">Firmware</a><a href="https://github.com/open-tags" rel="noreferrer">GitHub</a></nav></header>
+    <main class="docs-shell"><aside class="docs-sidebar" aria-label="Documentation navigation"><a class="docs-home" href="/docs/">opentag one</a><span>Get started</span><a href="/docs/">Overview</a><a href="/docs/quickstart/">Quickstart</a><span>Platform</span><a href="/docs/hardware/">Hardware</a><a href="/docs/firmware-build/">Firmware build</a><span>Interfaces</span><a href="/docs/protocol/">USB serial</a><a aria-current="page" href="/docs/can/">CAN / CAN FD</a><span>Integrate</span><a href="/docs/scripts/">Python scripts</a><a href="/docs/rust/">Rust examples</a><span>Test</span><a href="/docs/calibration/">Calibration</a><a href="/validation/">Validation</a><a href="/firmware/">Browser console</a></aside>
+      <article class="docs-page">
+        <p class="docs-breadcrumb">Documentation / Interfaces / CAN and CAN FD</p><h1>CAN and CAN FD</h1>
+        <p class="docs-lead">Electrical interface, bus timing, available Rust targets, and the exact boundary between tested CAN support and the planned ranging application protocol.</p>
+        <div class="docs-meta"><div><strong>Controller</strong><span>STM32 FDCAN2</span></div><div><strong>Transceiver</strong><span>TCAN1044VDRQ1</span></div><div><strong>Logic pins</strong><span>PB12 RX / PB13 TX</span></div></div>
+        <div class="docs-warning"><strong>Range-over-CAN is not released yet.</strong><p>The physical layer and standalone classical CAN / CAN FD test programs are present. The production ranging roles currently publish distance over USB CDC only; no stable CAN identifier or range payload contract has been assigned.</p></div>
+
+        <h2 id="electrical">Electrical interface</h2>
+        <table class="docs-table"><thead><tr><th>J2 pin</th><th>Signal</th><th>Connection</th></tr></thead><tbody><tr><td><code>1</code></td><td><code>CAN_L</code></td><td>Twisted-pair low</td></tr><tr><td><code>2</code></td><td><code>CAN_H</code></td><td>Twisted-pair high</td></tr><tr><td><code>3</code></td><td><code>+12V</code></td><td>Board power</td></tr><tr><td><code>4</code></td><td><code>GND</code></td><td>Power return and bus reference</td></tr></tbody></table>
+        <p>The interface is non-isolated. SW3 closes a 120 Ω termination path through R20. Terminate only the two physical ends of a linear bus, keep stubs short, and use a twisted pair for CANH/CANL.</p>
+
+        <h2 id="profiles">Tested firmware profiles</h2>
+        <table class="docs-table"><thead><tr><th>Targets</th><th>Nominal</th><th>Data</th><th>Payload</th></tr></thead><tbody>
+          <tr><td><code>can_tx</code> / <code>can_rx</code></td><td>500 kbit/s</td><td>n/a</td><td>4-byte request, echoed response</td></tr>
+          <tr><td><code>can_fd_tx</code> / <code>can_fd_rx</code></td><td>1 Mbit/s</td><td>2 Mbit/s with BRS</td><td>64-byte load frame</td></tr>
+        </tbody></table>
+        <p>These values describe repository test firmware, not the maximum rating of the transceiver. The TCAN1044 family supports faster signaling, but the complete bus topology and every node's bit timing must be validated before increasing the data phase.</p>
+
+        <h2 id="classic-frames">Classical CAN echo contract</h2>
+        <table class="docs-table"><thead><tr><th>CAN ID</th><th>Direction</th><th>DLC</th><th>Bytes</th></tr></thead><tbody><tr><td><code>0x123</code></td><td>TX node → RX node</td><td>4</td><td><code>CA FE seq 00</code></td></tr><tr><td><code>0x456</code></td><td>RX node → TX node</td><td>4</td><td>Echo of received request</td></tr></tbody></table>
+        <p>This is a hardware-in-the-loop diagnostic contract only. IDs may change and are not reserved for the future range protocol.</p>
+
+        <h2 id="fd-frames">CAN FD load frame</h2>
+        <table class="docs-table"><thead><tr><th>Offset</th><th>Type</th><th>Meaning</th></tr></thead><tbody><tr><td><code>0..3</code></td><td><code>u32 LE</code></td><td>Wrapping sequence number</td></tr><tr><td><code>4..7</code></td><td><code>u32 LE</code></td><td>Sender <code>embassy_time</code> tick count</td></tr><tr><td><code>8..63</code></td><td>bytes</td><td><code>0xAA</code> fill</td></tr></tbody></table>
+        <p>The frame uses standard ID <code>0x100</code>, 64-byte DLC, FD format, and bit-rate switching. The receiver reports sequence gaps and aggregate payload throughput. Its “one-way latency” is meaningful only when both boards share a synchronized tick epoch; otherwise treat that field as a diagnostic, not a calibrated latency measurement.</p>
+
+        <h2 id="bring-up">Two-board bring-up</h2>
+        <ol class="docs-steps"><li>Power both tags and connect J2 pin 1 to pin 1, pin 2 to pin 2, and pin 4 to pin 4.</li><li>Enable SW3 termination only at the two physical bus ends. With two tags as the complete bus, enable both.</li><li>Flash <code>can_tx</code> to one board and <code>can_rx</code> to the other over SWD.</li><li>Confirm the TX log receives ID <code>0x456</code> echoes with matching sequence bytes.</li><li>Repeat with <code>can_fd_tx</code> and <code>can_fd_rx</code>, then inspect sequence gaps and throughput.</li></ol>
+        <pre class="docs-code"><code class="language-bash">cd firmware/rust_bringup/stm32g4
+DEFMT_LOG=info cargo run --release --bin can_rx
+# In a second checkout / terminal with the other probe:
+DEFMT_LOG=info cargo run --release --bin can_tx</code></pre>
+
+        <h2 id="faults">Fault isolation</h2>
+        <table class="docs-table"><thead><tr><th>Symptom</th><th>Check first</th></tr></thead><tbody><tr><td>No frames, no bus activity</td><td>Common ground, CANH/CANL polarity, SWD image, transceiver supply</td></tr><tr><td>TX retries or no acknowledgement</td><td>A second active CAN node at the same nominal bit rate</td></tr><tr><td>Works at 500 kbit/s, fails in FD</td><td>Data-phase timing, BRS support, topology, cable length, termination</td></tr><tr><td>High sequence loss</td><td>RTT logging overhead, receiver servicing, wiring reflections, error counters</td></tr></tbody></table>
+        <h2 id="source">Complete Rust source</h2>
+        <div class="docs-link-list"><a href="https://github.com/abenstirling/opentags/blob/main/firmware/rust_bringup/stm32g4/src/bin/can_tx.rs"><strong>can_tx.rs</strong><span>500 kbit/s request and acknowledgement node.</span></a><a href="https://github.com/abenstirling/opentags/blob/main/firmware/rust_bringup/stm32g4/src/bin/can_rx.rs"><strong>can_rx.rs</strong><span>500 kbit/s receive and echo node.</span></a><a href="https://github.com/abenstirling/opentags/blob/main/firmware/rust_bringup/stm32g4/src/bin/can_fd_tx.rs"><strong>can_fd_tx.rs</strong><span>64-byte CAN FD load generator.</span></a><a href="https://github.com/abenstirling/opentags/blob/main/firmware/rust_bringup/stm32g4/src/bin/can_fd_rx.rs"><strong>can_fd_rx.rs</strong><span>CAN FD loss and throughput receiver.</span></a></div>
+        <div class="docs-next"><a href="/docs/protocol/">&larr; USB serial</a><a href="/docs/rust/">Rust examples &rarr;</a></div>
+      </article>
+    </main><footer><div class="footer-row"><span>&copy; 2026 opentags</span><a href="mailto:hello@open-tags.com">hello@open-tags.com</a></div></footer><script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/highlight.min.js" defer></script><script src="/assets/docs.js" defer></script><script type="module" src="/assets/site.js"></script>
+  </body>
+</html>
