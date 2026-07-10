@@ -126,6 +126,7 @@ class TagConnection {
     this.drops = null;
     this.phy = "—";
     this.diag = {};
+    this.resetStatsResolve = null;
     this.logLines = [];
 
     $(".connect-btn", root).addEventListener("click", () => this.connect());
@@ -215,6 +216,24 @@ class TagConnection {
     this.log(`> ${line}`);
   }
 
+  async resetStats() {
+    if (!this.writer) return;
+    let timeoutId;
+    const acknowledged = new Promise((resolve) => {
+      this.resetStatsResolve = () => {
+        clearTimeout(timeoutId);
+        this.resetStatsResolve = null;
+        resolve();
+      };
+      timeoutId = setTimeout(() => {
+        this.resetStatsResolve = null;
+        resolve();
+      }, 500);
+    });
+    await this.send("RESET_STATS");
+    await acknowledged;
+  }
+
   async readLoop() {
     const dec = new TextDecoder();
     this.reader = this.port.readable.getReader();
@@ -256,6 +275,14 @@ class TagConnection {
 
     if (line === "READY") {
       this.send("INFO");
+      return;
+    }
+    if (line === "OK RESET_STATS") {
+      this.diag = {};
+      this.drops = 0;
+      $(".info-drops", this.root).textContent = "0";
+      $(".info-diag", this.root).textContent = "clean";
+      this.resetStatsResolve?.();
       return;
     }
     if (line.startsWith("INFO ")) {
@@ -576,7 +603,7 @@ function updateTestDistanceDisplay() {
   $("#test-dist-mm").textContent = Number.isFinite(mm) ? mm.toFixed(0) : "-";
 }
 
-function startStaticTest() {
+async function startStaticTest() {
   if (!tags.A.port && !tags.B.port) {
     setTestStatus("error", "Connect at least one tag before starting a test.");
     return;
@@ -588,6 +615,10 @@ function startStaticTest() {
     setTestStatus("error", "Enter a positive distance and duration.");
     return;
   }
+
+  $("#test-start").disabled = true;
+  setTestStatus("running", "Resetting tag diagnostics…");
+  await Promise.all([tags.A?.resetStats(), tags.B?.resetStats()]);
 
   if (testTimer) clearTimeout(testTimer);
   testActive = true;
@@ -608,10 +639,6 @@ function startStaticTest() {
     A: { ...(tags.A?.diag ?? {}) },
     B: { ...(tags.B?.diag ?? {}) },
   };
-  tags.A?.send("INFO");
-  tags.B?.send("INFO");
-
-  $("#test-start").disabled = true;
   $("#test-stop").disabled = false;
   $("#test-download").disabled = true;
   testTimer = setTimeout(() => finishStaticTest("done"), testTargetMs);
