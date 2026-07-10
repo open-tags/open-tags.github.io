@@ -19,7 +19,11 @@ const firmwareCache = new Map();   // url -> ArrayBuffer
 // Live distance stream (whichever tag emits D lines)
 const samples = []; // {seq, mm, t, src}
 const MAX_SAMPLES = 200;
+const LIVE_RENDER_INTERVAL_MS = 50;
 let paused = false;
+let renderPending = false;
+let liveMissing = 0;
+const liveLastSeq = { A: null, B: null };
 
 // Static test runtime
 const DISTANCE_UNITS = {
@@ -40,6 +44,11 @@ let testInputUnit = "ft";
 let testTrueMm = 0;
 let testSamples = [];
 let testLastSummary = null;
+let testRunningStats = null;
+let testMissingSamples = 0;
+let testFirstSamplePerf = null;
+let testLastSamplePerf = null;
+let testLastSeq = { A: null, B: null };
 
 // Calibration runtime
 let calibActive = false;
@@ -62,18 +71,19 @@ async function loadFirmware(url) {
 }
 
 // ─── Calibration persistence ──────────────────────────────────────────────────
-const CALIB_KEY = "opentag.calib_offset_dtu";
+const CALIB_KEY_PREFIX = "opentag.calib_offset_dtu.v2.";
 const CALIB_MAGIC = "OTAG-CALIB-DEF\0\0";
 
-function savedCalib() {
-  const v = localStorage.getItem(CALIB_KEY);
+function savedCalib(deviceId) {
+  if (!deviceId) return null;
+  const v = localStorage.getItem(CALIB_KEY_PREFIX + deviceId);
   if (v === null) return null;
   const n = parseInt(v, 10);
   return Number.isFinite(n) ? n : null;
 }
 
-function rememberCalib(n) {
-  localStorage.setItem(CALIB_KEY, String(n));
+function rememberCalib(deviceId, n) {
+  if (deviceId) localStorage.setItem(CALIB_KEY_PREFIX + deviceId, String(n));
 }
 
 // Find the CALIB_MAGIC byte sequence in the .bin and overwrite the i32
@@ -110,6 +120,10 @@ class TagConnection {
     this.mode = "—";
     this.calib = null;
     this.fw = "—";
+    this.id = null;
+    this.targetHz = null;
+    this.drops = null;
+    this.logLines = [];
 
     $(".connect-btn", root).addEventListener("click", () => this.connect());
     $(".disconnect-btn", root).addEventListener("click", () => this.disconnect());
@@ -122,7 +136,9 @@ class TagConnection {
   log(msg) {
     const pre = $(".tag-log", this.root);
     const ts = new Date().toLocaleTimeString();
-    pre.textContent += `[${ts}] ${msg}\n`;
+    this.logLines.push(`[${ts}] ${msg}`);
+    if (this.logLines.length > 200) this.logLines.shift();
+    pre.textContent = this.logLines.join("\n") + "\n";
     pre.scrollTop = pre.scrollHeight;
   }
 
@@ -217,6 +233,19 @@ class TagConnection {
   }
 
   handleLine(line) {
+    if (line.startsWith("D ")) {
+      const m = line.match(/^D\s+(-?\d+)\s+(-?\d+)(?:\s+(\d+))?/);
+      if (m) {
+        onDistance(
+          this.slot,
+          parseInt(m[1], 10),
+          parseInt(m[2], 10),
+          m[3] === undefined ? null : parseInt(m[3], 10)
+        );
+      }
+      return;
+    }
+
     this.log(`< ${line}`);
 
     if (line === "READY") {
@@ -237,19 +266,29 @@ class TagConnection {
         this.fw = kv.fw;
         $(".info-fw", this.root).textContent = kv.fw;
       }
+      if (kv.id) {
+        this.id = kv.id;
+        $(".info-id", this.root).textContent = kv.id.slice(-8);
+      }
+      if (kv.target_hz) {
+        this.targetHz = parseFloat(kv.target_hz);
+        $(".info-target", this.root).textContent = kv.target_hz;
+      }
+      if (kv.drops !== undefined) {
+        this.drops = parseInt(kv.drops, 10);
+        $(".info-drops", this.root).textContent = kv.drops;
+      }
+      if (this.mode === "R" && this.id && this.calib !== null) {
+        const saved = savedCalib(this.id);
+        if (saved !== null && saved !== this.calib) this.send(`CALIB ${saved}`);
+      }
       return;
     }
     if (line.startsWith("OK CALIB ")) {
       this.calib = parseInt(line.slice(9).trim(), 10);
       $(".info-calib", this.root).textContent = this.calib;
-      rememberCalib(this.calib);
-      this.log(`Saved calib=${this.calib} to local storage`);
-      return;
-    }
-    if (line.startsWith("D ")) {
-      const m = line.match(/^D\s+(-?\d+)\s+(-?\d+)/);
-      if (!m) return;
-      onDistance(this.slot, parseInt(m[1], 10), parseInt(m[2], 10));
+      rememberCalib(this.id, this.calib);
+      this.log(`Saved calib=${this.calib} for ${this.id ?? "unknown device"}`);
       return;
     }
     // ERR / MISS / PONG / unknown — already in log
@@ -279,7 +318,7 @@ class TagConnection {
       // If this firmware contains the CALIB magic and we have a saved
       // calibration, patch the bin in-flight so the new image boots with
       // the user's last-calibrated offset.
-      const saved = savedCalib();
+      const saved = savedCalib(this.id);
       if (saved !== null) {
         const patched = patchFirmware(fw, saved);
         if (patched) {
@@ -312,15 +351,22 @@ class TagConnection {
 }
 
 // ─── Distance pipeline ────────────────────────────────────────────────────────
-function onDistance(slot, seq, mm) {
+function sequenceGap(previous, current) {
+  if (previous === null) return 0;
+  const advance = (current - previous + 256) % 256;
+  return advance > 1 && advance < 128 ? advance - 1 : 0;
+}
+
+function onDistance(slot, seq, mm, exchangeUs) {
   const now = performance.now();
+  liveMissing += sequenceGap(liveLastSeq[slot], seq);
+  liveLastSeq[slot] = seq;
   if (!paused) {
-    samples.push({ seq, mm, t: now, src: slot });
+    samples.push({ seq, mm, t: now, src: slot, exchangeUs });
     if (samples.length > MAX_SAMPLES) samples.shift();
-    drawChart();
-    updateStats();
+    scheduleLiveRender();
   }
-  if (testActive) recordTestSample(slot, seq, mm, now);
+  if (testActive) recordTestSample(slot, seq, mm, exchangeUs, now);
   if (calibActive && slot === calibRespSlot) {
     calibCollected.push(mm);
     $("#cal-status").textContent =
@@ -329,11 +375,25 @@ function onDistance(slot, seq, mm) {
   }
 }
 
+function scheduleLiveRender() {
+  if (renderPending) return;
+  renderPending = true;
+  setTimeout(() => {
+    requestAnimationFrame(() => {
+      renderPending = false;
+      drawChart();
+      updateStats();
+    });
+  }, LIVE_RENDER_INTERVAL_MS);
+}
+
 function updateStats() {
   if (samples.length === 0) {
     $("#stat-last").textContent = "—";
     $("#stat-mean").textContent = "—";
     $("#stat-std").textContent = "—";
+    $("#stat-rate").textContent = "—";
+    $("#stat-missing").textContent = String(liveMissing);
     $("#stat-n").textContent = "0";
     return;
   }
@@ -343,6 +403,10 @@ function updateStats() {
   $("#stat-last").textContent = xs[xs.length - 1].toFixed(0);
   $("#stat-mean").textContent = mean.toFixed(0);
   $("#stat-std").textContent = Math.sqrt(variance).toFixed(0);
+  const elapsedMs = samples[xs.length - 1].t - samples[0].t;
+  const rateHz = elapsedMs > 0 ? (samples.length - 1) * 1000 / elapsedMs : NaN;
+  $("#stat-rate").textContent = formatMetric(rateHz, 1);
+  $("#stat-missing").textContent = String(liveMissing);
   $("#stat-n").textContent = String(xs.length);
 }
 
@@ -505,6 +569,11 @@ function startStaticTest() {
   testTrueMm = trueMm;
   testSamples = [];
   testLastSummary = null;
+  testRunningStats = { n: 0, mean: 0, m2: 0 };
+  testMissingSamples = 0;
+  testFirstSamplePerf = null;
+  testLastSamplePerf = null;
+  testLastSeq = { A: null, B: null };
 
   $("#test-start").disabled = true;
   $("#test-stop").disabled = false;
@@ -542,7 +611,7 @@ function finishStaticTest(reason) {
   );
 }
 
-function recordTestSample(slot, seq, mm, now) {
+function recordTestSample(slot, seq, mm, exchangeUs, now) {
   const elapsedMs = now - testStartPerf;
   const wall = new Date(testStartWall.getTime() + elapsedMs);
   const errorMm = mm - testTrueMm;
@@ -556,8 +625,16 @@ function recordTestSample(slot, seq, mm, now) {
     errorMm,
     errorCm: errorMm / 10,
     errorIn: errorMm / 25.4,
+    exchangeUs,
   });
-  updateTestStatus();
+  if (testFirstSamplePerf === null) testFirstSamplePerf = now;
+  testLastSamplePerf = now;
+  testMissingSamples += sequenceGap(testLastSeq[slot], seq);
+  testLastSeq[slot] = seq;
+  testRunningStats.n += 1;
+  const delta = errorMm - testRunningStats.mean;
+  testRunningStats.mean += delta / testRunningStats.n;
+  testRunningStats.m2 += delta * (errorMm - testRunningStats.mean);
 }
 
 function computeTestSummary() {
@@ -568,7 +645,11 @@ function computeTestSummary() {
   const measuredSummary = summarizeValues(measured);
   const errorSummary = summarizeValues(errors);
   const absErrorSummary = summarizeValues(absErrors);
+  const exchanges = testSamples.map((s) => s.exchangeUs).filter(Number.isFinite);
   const rmse = Math.sqrt(errors.reduce((sum, e) => sum + e ** 2, 0) / errors.length);
+  const sampleElapsedMs = testLastSamplePerf - testFirstSamplePerf;
+  const actualRateHz = sampleElapsedMs > 0 ? (testSamples.length - 1) * 1000 / sampleElapsedMs : NaN;
+  const expectedSamples = testSamples.length + testMissingSamples;
   return {
     n: testSamples.length,
     meanMeasuredMm: measuredSummary.mean,
@@ -579,15 +660,24 @@ function computeTestSummary() {
     p50AbsErrorMm: absErrorSummary.p50,
     p95AbsErrorMm: absErrorSummary.p95,
     rmseMm: rmse,
+    actualRateHz,
+    missingSamples: testMissingSamples,
+    packetSuccessPct: expectedSamples > 0 ? 100 * testSamples.length / expectedSamples : NaN,
+    meanExchangeUs: exchanges.length ? summarizeValues(exchanges).mean : NaN,
+    p95ExchangeUs: exchanges.length ? summarizeValues(exchanges).p95 : NaN,
   };
 }
 
 function updateTestStatus() {
   if (!testActive) return;
   const elapsed = performance.now() - testStartPerf;
-  const summary = computeTestSummary();
-  const body = summary
-    ? `N=${summary.n}  Mean error=${formatMetric(summary.meanErrorMm)} mm  Stdev=${formatMetric(summary.stdevMm)} mm`
+  const stats = testRunningStats;
+  const stdev = stats?.n ? Math.sqrt(stats.m2 / stats.n) : NaN;
+  const rate = testFirstSamplePerf !== null && testLastSamplePerf > testFirstSamplePerf
+    ? (stats.n - 1) * 1000 / (testLastSamplePerf - testFirstSamplePerf)
+    : NaN;
+  const body = stats?.n
+    ? `N=${stats.n}  Mean error=${formatMetric(stats.mean)} mm  Stdev=${formatMetric(stdev)} mm  Rate=${formatMetric(rate)} Hz  Missing=${testMissingSamples}`
     : "N=0  Waiting for distance samples";
   setTestStatus(
     "running",
@@ -612,18 +702,31 @@ function downloadStaticTestCsv() {
     csvRow(["metadata", "distance_unit", testInputUnit]),
     csvRow(["metadata", "true_distance_mm", testTrueMm.toFixed(1)]),
     csvRow(["metadata", "sample_count", testSamples.length]),
+    csvRow(["metadata", "tag_a_id", tags.A?.id ?? ""]),
+    csvRow(["metadata", "tag_a_fw", tags.A?.fw ?? ""]),
+    csvRow(["metadata", "tag_b_id", tags.B?.id ?? ""]),
+    csvRow(["metadata", "tag_b_fw", tags.B?.fw ?? ""]),
+    csvRow(["metadata", "responder_calib_dtu", tags.A?.mode === "R" ? tags.A.calib : tags.B?.calib]),
+    csvRow(["metadata", "target_rate_hz", tags.A?.targetHz ?? tags.B?.targetHz ?? ""]),
+    csvRow(["metadata", "tag_a_output_drops", tags.A?.drops ?? ""]),
+    csvRow(["metadata", "tag_b_output_drops", tags.B?.drops ?? ""]),
     "",
-    csvRow(["section", "metric", "value_mm"]),
-    csvRow(["summary", "mean_measured", formatMetric(summary.meanMeasuredMm)]),
-    csvRow(["summary", "mean_error", formatMetric(summary.meanErrorMm)]),
-    csvRow(["summary", "stdev_error", formatMetric(summary.stdevMm)]),
-    csvRow(["summary", "min_measured", formatMetric(summary.minMeasuredMm)]),
-    csvRow(["summary", "max_measured", formatMetric(summary.maxMeasuredMm)]),
-    csvRow(["summary", "p50_abs_error", formatMetric(summary.p50AbsErrorMm)]),
-    csvRow(["summary", "p95_abs_error", formatMetric(summary.p95AbsErrorMm)]),
-    csvRow(["summary", "rmse", formatMetric(summary.rmseMm)]),
+    csvRow(["section", "metric", "value", "unit"]),
+    csvRow(["summary", "mean_measured", formatMetric(summary.meanMeasuredMm), "mm"]),
+    csvRow(["summary", "mean_error", formatMetric(summary.meanErrorMm), "mm"]),
+    csvRow(["summary", "stdev_error", formatMetric(summary.stdevMm), "mm"]),
+    csvRow(["summary", "min_measured", formatMetric(summary.minMeasuredMm), "mm"]),
+    csvRow(["summary", "max_measured", formatMetric(summary.maxMeasuredMm), "mm"]),
+    csvRow(["summary", "p50_abs_error", formatMetric(summary.p50AbsErrorMm), "mm"]),
+    csvRow(["summary", "p95_abs_error", formatMetric(summary.p95AbsErrorMm), "mm"]),
+    csvRow(["summary", "rmse", formatMetric(summary.rmseMm), "mm"]),
+    csvRow(["summary", "actual_rate", formatMetric(summary.actualRateHz, 3), "Hz"]),
+    csvRow(["summary", "missing_sequences", summary.missingSamples, "count"]),
+    csvRow(["summary", "packet_success", formatMetric(summary.packetSuccessPct, 3), "percent"]),
+    csvRow(["summary", "mean_exchange", formatMetric(summary.meanExchangeUs), "us"]),
+    csvRow(["summary", "p95_exchange", formatMetric(summary.p95ExchangeUs), "us"]),
     "",
-    csvRow(["elapsed_ms", "timestamp_iso", "seq", "src", "measured_mm", "true_mm", "error_mm", "error_cm", "error_in"]),
+    csvRow(["elapsed_ms", "timestamp_iso", "seq", "src", "measured_mm", "true_mm", "error_mm", "error_cm", "error_in", "exchange_us"]),
   ];
 
   for (const s of testSamples) {
@@ -637,6 +740,7 @@ function downloadStaticTestCsv() {
       s.errorMm.toFixed(1),
       s.errorCm.toFixed(2),
       s.errorIn.toFixed(3),
+      s.exchangeUs ?? "",
     ]));
   }
 
@@ -724,6 +828,9 @@ $("#pause").addEventListener("click", () => {
 
 $("#clear").addEventListener("click", () => {
   samples.length = 0;
+  liveMissing = 0;
+  liveLastSeq.A = null;
+  liveLastSeq.B = null;
   drawChart();
   updateStats();
 });

@@ -6,8 +6,12 @@ From the umbrella repo root:
 
 ```sh
 cd firmware/rust_bringup/stm32g4
-cargo objcopy --release --bin twr_node -- -O binary ../../../open-tags.github.io/firmware/bins/twr_node.bin
+cargo objcopy --release --bin twr_init -- -O binary ../../../open-tags.github.io/firmware/bins/twr_init.bin
+cargo objcopy --release --bin twr_resp -- -O binary ../../../open-tags.github.io/firmware/bins/twr_resp.bin
 ```
+
+The release profile uses size optimization and fat LTO because the role images
+run from the STM32G474CC's 128 KiB bank-one linker region.
 
 One-time setup:
 
