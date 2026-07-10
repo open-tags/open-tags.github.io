@@ -22,7 +22,10 @@ Key facts:
 
 - [Home](https://open-tags.com/): overview, kit pricing, how UWB ranging works
 - [opentag one](https://open-tags.com/one/): product page — kits and checkout, performance targets, board specs, CAD downloads, applications, FAQ
-- [Documentation](https://open-tags.com/docs/): current release status, quickstart, calibration, measurement, troubleshooting, and reference links
+- [Documentation](https://open-tags.com/docs/): developer overview and current capability status
+- [Quickstart](https://open-tags.com/docs/quickstart/): browser-based flashing, connection, calibration, and static testing
+- [Host scripts](https://open-tags.com/docs/scripts/): runnable Python and shell tools for discovery, info, monitoring, calibration, testing, and DFU flashing
+- [Serial protocol](https://open-tags.com/docs/protocol/): commands, responses, distance records, and integration examples
 - [Validation](https://open-tags.com/validation/): current benchmark status, engineering targets, and reproducible test protocol
 - [Firmware console](https://open-tags.com/firmware/): flash firmware, log data, plot live distance, and calibrate from the browser over WebUSB / Web Serial
 - [GitHub](https://github.com/open-tags): firmware source, CAD, and roadmap

@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="Quickstart for flashing, connecting, calibrating, and measuring with two opentag one units." />
+    <title>Quickstart | opentags docs</title><link rel="icon" type="image/png" href="/favicon.png?v=2" /><link rel="stylesheet" href="/assets/site.css" />
+  </head>
+  <body class="docs-site">
+    <header class="site-header" data-site-header><a class="brand" href="/" aria-label="opentags home">opentags</a><button class="nav-toggle" type="button" data-nav-toggle aria-label="Open menu" aria-expanded="false"><span class="nav-toggle-icon" aria-hidden="true"></span></button><nav aria-label="Primary"><a href="/one/">One</a><a aria-current="page" href="/docs/">Docs</a><a href="/firmware/">Firmware</a><a href="https://github.com/open-tags" rel="noreferrer">GitHub</a></nav></header>
+    <main class="docs-shell">
+      <aside class="docs-sidebar" aria-label="Documentation navigation"><a class="docs-home" href="/docs/">opentag one</a><span>Get started</span><a href="/docs/">Overview</a><a aria-current="page" href="/docs/quickstart/">Quickstart</a><span>Develop</span><a href="/docs/scripts/">Host scripts</a><a href="/docs/protocol/">Serial protocol</a><span>Test</span><a href="/validation/">Validation</a><a href="/firmware/">Browser console</a></aside>
+      <article class="docs-page">
+        <p class="docs-breadcrumb">Documentation / Quickstart</p><h1>Quickstart</h1>
+        <p class="docs-lead">Bring up a calibrated two-tag distance stream using the browser console.</p>
+        <div class="docs-callout"><strong>Requirements</strong><p>Two tags, two USB-C data cables, Chrome or Edge on desktop, and a tape or laser distance meter.</p></div>
+
+        <h2 id="flash">1. Flash the roles</h2>
+        <ol class="docs-steps">
+          <li>Open the <a href="/firmware/">firmware console</a>.</li>
+          <li>Unplug Tag A. Hold <strong>BOOT0</strong>, reconnect USB, and select <strong>Flash Initiator</strong>.</li>
+          <li>Unplug Tag A, release BOOT0, and reconnect normally.</li>
+          <li>Repeat with Tag B and <strong>Flash Responder</strong>.</li>
+        </ol>
+        <p class="docs-note">For automated DFU flashing, use <a href="/docs/scripts/#flash">flash.sh</a>.</p>
+
+        <h2 id="connect">2. Connect</h2>
+        <ol class="docs-steps"><li>Select <strong>Connect serial</strong> for each slot and choose a different USB serial device.</li><li>Confirm Tag A reports mode <code>I</code> and Tag B reports mode <code>R</code>.</li><li>Verify live <code>D</code> records appear.</li></ol>
+
+        <h2 id="calibrate">3. Calibrate once</h2>
+        <ol class="docs-steps"><li>Hold both tags still at an accurately measured distance with clear line of sight and the same antenna orientation.</li><li>Enter the true distance in millimeters under <strong>Pair Calibration</strong>.</li><li>Select responder slot B, collect at least 100 samples, and start calibration.</li></ol>
+        <div class="docs-warning"><strong>Do not recalibrate at each test distance.</strong><p>Keep the same responder offset for the full distance sweep. Recalibrating would hide distance-dependent error.</p></div>
+
+        <h2 id="test">4. Run a static test</h2>
+        <ol class="docs-steps"><li>Move the pair to a new known separation without changing orientation.</li><li>Enter distance and duration under <strong>Static Test</strong>.</li><li>Start the test, keep the tags still, then download the CSV.</li></ol>
+
+        <h2 id="next">5. Automate the workflow</h2>
+        <pre class="docs-code"><code>python3 list_ports.py
+python3 info.py /dev/tty.usbmodem1101
+python3 calibrate.py /dev/tty.usbmodem1201 --true-mm 1000
+python3 static_test.py /dev/tty.usbmodem1201 --true-mm 5000 --seconds 60</code></pre>
+        <div class="docs-next"><a href="/docs/">&larr; Overview</a><a href="/docs/scripts/">Host scripts &rarr;</a></div>
+      </article>
+    </main>
+    <footer><div class="footer-row"><span>&copy; 2026 opentags</span><a href="mailto:hello@open-tags.com">hello@open-tags.com</a></div></footer><script type="module" src="/assets/site.js"></script>
+  </body>
+</html>

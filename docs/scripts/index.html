@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en">
+  <head><meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" /><meta name="description" content="Runnable host scripts for opentag discovery, info, monitoring, calibration, static testing, and DFU flashing." /><title>Host scripts | opentags docs</title><link rel="icon" type="image/png" href="/favicon.png?v=2" /><link rel="stylesheet" href="/assets/site.css" /></head>
+  <body class="docs-site">
+    <header class="site-header" data-site-header><a class="brand" href="/" aria-label="opentags home">opentags</a><button class="nav-toggle" type="button" data-nav-toggle aria-label="Open menu" aria-expanded="false"><span class="nav-toggle-icon" aria-hidden="true"></span></button><nav aria-label="Primary"><a href="/one/">One</a><a aria-current="page" href="/docs/">Docs</a><a href="/firmware/">Firmware</a><a href="https://github.com/open-tags" rel="noreferrer">GitHub</a></nav></header>
+    <main class="docs-shell">
+      <aside class="docs-sidebar" aria-label="Documentation navigation"><a class="docs-home" href="/docs/">opentag one</a><span>Get started</span><a href="/docs/">Overview</a><a href="/docs/quickstart/">Quickstart</a><span>Develop</span><a aria-current="page" href="/docs/scripts/">Host scripts</a><a href="/docs/protocol/">Serial protocol</a><span>Test</span><a href="/validation/">Validation</a><a href="/firmware/">Browser console</a></aside>
+      <article class="docs-page">
+        <p class="docs-breadcrumb">Documentation / Host scripts</p><h1>Host scripts</h1><p class="docs-lead">Small command-line tools for every supported host-side operation.</p>
+
+        <h2 id="setup">Setup</h2>
+        <p>Place all Python files in one directory. They share <a href="opentag_serial.py" download><code>opentag_serial.py</code></a>.</p>
+        <pre class="docs-code"><code>python3 -m venv .venv
+source .venv/bin/activate
+python3 -m pip install -r requirements.txt</code></pre>
+        <p><a href="opentags-host-scripts.zip" download>Download all scripts</a> &middot; <a href="requirements.txt" download>requirements.txt</a> &middot; <a href="opentag_serial.py" download>opentag_serial.py</a></p>
+
+        <section class="script-reference" id="ports"><div><h2>Discover ports</h2><p>Lists serial paths, descriptions, and hardware identifiers.</p><a href="list_ports.py" download>Download list_ports.py</a></div><pre class="docs-code"><code>python3 list_ports.py</code></pre></section>
+        <section class="script-reference" id="info"><div><h2>Read device info</h2><p>Requests role, firmware, ID, PHY configuration, counters, and calibration.</p><a href="info.py" download>Download info.py</a></div><pre class="docs-code"><code>python3 info.py /dev/tty.usbmodem1101</code></pre></section>
+        <section class="script-reference" id="monitor"><div><h2>Monitor live distance</h2><p>Prints live range and RSSI. Add <code>--csv</code> for a flat log.</p><a href="monitor.py" download>Download monitor.py</a></div><pre class="docs-code"><code>python3 monitor.py /dev/tty.usbmodem1201
+python3 monitor.py /dev/tty.usbmodem1201 --csv live.csv</code></pre></section>
+        <section class="script-reference" id="calibrate"><div><h2>Calibrate a pair</h2><p>Uses the responder stream, trims the outer 10%, writes the new DTU offset, and saves it by hardware ID.</p><a href="calibrate.py" download>Download calibrate.py</a></div><pre class="docs-code"><code>python3 calibrate.py /dev/tty.usbmodem1201 \
+  --true-mm 1000 --samples 100</code></pre><div class="docs-note"><strong>Persistence</strong><p>The firmware command changes RAM. This script also stores the offset in <code>~/.config/opentags/calibration.json</code>; the other host scripts reapply it whenever they connect.</p></div></section>
+        <section class="script-reference" id="static-test"><div><h2>Run a static test</h2><p>Collects a timed responder stream and writes metadata, summary metrics, every sample, exchange time, and RSSI.</p><a href="static_test.py" download>Download static_test.py</a></div><pre class="docs-code"><code>python3 static_test.py /dev/tty.usbmodem1201 \
+  --true-mm 5000 --seconds 60 --output test-5m.csv</code></pre></section>
+        <section class="script-reference" id="flash"><div><h2>Flash firmware</h2><p>Downloads the current role image and flashes one STM32 DFU device with <code>dfu-util</code>.</p><a href="flash.sh" download>Download flash.sh</a></div><pre class="docs-code"><code>chmod +x flash.sh
+./flash.sh initiator
+./flash.sh responder</code></pre><div class="docs-warning"><strong>Responder calibration</strong><p>The downloaded image contains the default offset. Run <code>calibrate.py</code>, or reconnect through the browser console, after flashing the responder.</p></div></section>
+
+        <div class="docs-next"><a href="/docs/quickstart/">&larr; Quickstart</a><a href="/docs/protocol/">Serial protocol &rarr;</a></div>
+      </article>
+    </main>
+    <footer><div class="footer-row"><span>&copy; 2026 opentags</span><a href="mailto:hello@open-tags.com">hello@open-tags.com</a></div></footer><script type="module" src="/assets/site.js"></script>
+  </body>
+</html>

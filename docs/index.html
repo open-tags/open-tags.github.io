@@ -1,184 +1,71 @@
 <!doctype html>
 <html lang="en">
   <head>
-    <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-JZYWGTNDLG"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-      gtag('config', 'G-JZYWGTNDLG');
-    </script>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="description" content="Documentation for opentag one: quickstart, browser firmware workflow, calibration, validation, and current integration status." />
-    <title>Docs | opentags</title>
-    <meta property="og:title" content="opentag one documentation" />
-    <meta property="og:description" content="Set up, flash, calibrate, measure, and validate opentag one hardware." />
-    <meta property="og:type" content="article" />
-    <meta property="og:image" content="https://open-tags.com/assets/images/one/bringup/twr_double_blink.jpg" />
-    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="description" content="Developer documentation for opentag one hardware, firmware, host scripts, and serial protocol." />
+    <title>Documentation | opentags</title>
     <link rel="icon" type="image/png" href="/favicon.png?v=2" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png?v=2" />
     <link rel="stylesheet" href="/assets/site.css" />
   </head>
-  <body>
+  <body class="docs-site">
     <header class="site-header" data-site-header>
       <a class="brand" href="/" aria-label="opentags home">opentags</a>
-      <button class="nav-toggle" type="button" data-nav-toggle aria-label="Open menu" aria-expanded="false">
-        <span class="nav-toggle-icon" aria-hidden="true"></span>
-      </button>
-      <nav aria-label="Primary">
-        <a href="/one/">One</a>
-        <a aria-current="page" href="/docs/">Docs</a>
-        <a href="/firmware/">Firmware</a>
-        <a href="https://github.com/open-tags" rel="noreferrer">GitHub</a>
-      </nav>
+      <button class="nav-toggle" type="button" data-nav-toggle aria-label="Open menu" aria-expanded="false"><span class="nav-toggle-icon" aria-hidden="true"></span></button>
+      <nav aria-label="Primary"><a href="/one/">One</a><a aria-current="page" href="/docs/">Docs</a><a href="/firmware/">Firmware</a><a href="https://github.com/open-tags" rel="noreferrer">GitHub</a></nav>
     </header>
+    <main class="docs-shell">
+      <aside class="docs-sidebar" aria-label="Documentation navigation">
+        <a class="docs-home" href="/docs/">opentag one</a>
+        <span>Get started</span>
+        <a aria-current="page" href="/docs/">Overview</a>
+        <a href="/docs/quickstart/">Quickstart</a>
+        <span>Develop</span>
+        <a href="/docs/scripts/">Host scripts</a>
+        <a href="/docs/protocol/">Serial protocol</a>
+        <span>Test</span>
+        <a href="/validation/">Validation</a>
+        <a href="/firmware/">Browser console</a>
+      </aside>
+      <article class="docs-page">
+        <p class="docs-breadcrumb">Documentation / Overview</p>
+        <h1>opentag one documentation</h1>
+        <p class="docs-lead">Flash two tags, read live UWB ranges, calibrate a hardware pair, and collect reproducible test data.</p>
 
-    <main>
-      <section id="overview" class="page-title docs-title">
-        <p class="eyebrow">Documentation</p>
-        <h1>Build with opentag one.</h1>
-        <p class="intro">Start with two-tag ranging, then use the same browser workflow to calibrate hardware, collect evidence, and compare firmware profiles.</p>
-        <div class="hero-actions">
-          <a class="button primary" href="#quickstart">Quickstart</a>
-          <a class="button" href="/firmware/">Firmware console</a>
+        <div class="docs-callout"><strong>Current release</strong><p><code>twr_init-5</code> and <code>twr_resp-5</code>, channel 9 at 850 kbps with a 128-symbol preamble, IEEE SFD, and a 40 Hz target.</p></div>
+
+        <h2 id="choose-workflow">Choose a workflow</h2>
+        <div class="docs-link-list">
+          <a href="/docs/quickstart/"><strong>Browser quickstart</strong><span>Flash, connect, calibrate, and measure without installing a toolchain.</span></a>
+          <a href="/docs/scripts/"><strong>Host scripts</strong><span>Automate discovery, device info, monitoring, calibration, static tests, and DFU flashing.</span></a>
+          <a href="/docs/protocol/"><strong>Serial protocol</strong><span>Integrate the newline-delimited command and distance stream into your own software.</span></a>
         </div>
-      </section>
 
-      <section class="docs-directory" aria-label="Documentation sections">
-        <a href="#quickstart"><span>01</span><strong>Quickstart</strong><p>Flash two roles and get a calibrated distance stream.</p></a>
-        <a href="/firmware/"><span>02</span><strong>Firmware console</strong><p>Flash, inspect diagnostics, calibrate, and export CSV data.</p></a>
-        <a href="/validation/"><span>03</span><strong>Validation</strong><p>See measured evidence, open questions, and the test protocol.</p></a>
-      </section>
+        <h2 id="install">Install the host tools</h2>
+        <p>The scripts require Python 3.10 or newer and <code>pyserial</code>. Download the script directory, then install its single dependency.</p>
+        <pre class="docs-code"><code>python3 -m venv .venv
+source .venv/bin/activate
+python3 -m pip install -r requirements.txt
+python3 list_ports.py</code></pre>
+        <p><a href="/docs/scripts/requirements.txt" download>Download requirements.txt</a> or continue to the <a href="/docs/scripts/">script reference</a>.</p>
 
-      <section class="band prerequisites">
-        <div class="section-head">
-          <h2>Before you start</h2>
-        </div>
-        <div class="grid use-grid">
-          <article><h3>Hardware</h3><p>Two opentag one units, two USB-C data cables, and a rigid way to hold the tags at a measured distance.</p></article>
-          <article><h3>Browser</h3><p>Chrome or Edge on desktop. WebUSB and Web Serial must be available; Safari and Firefox do not currently support this workflow.</p></article>
-          <article><h3>Ground truth</h3><p>Use a tape or laser distance meter. Measure between consistent physical reference points and keep the antennas facing the same way.</p></article>
-        </div>
-      </section>
+        <h2 id="supported">What works today</h2>
+        <table class="docs-table">
+          <thead><tr><th>Capability</th><th>Status</th><th>Interface</th></tr></thead>
+          <tbody>
+            <tr><td>Two-way ranging</td><td><span class="status-text stable">Operational</span></td><td>USB serial or browser</td></tr>
+            <tr><td>Pair calibration</td><td><span class="status-text stable">Operational</span></td><td>Host script or browser</td></tr>
+            <tr><td>Static CSV test</td><td><span class="status-text stable">Operational</span></td><td>Host script or browser</td></tr>
+            <tr><td>CAN range stream</td><td><span class="status-text experimental">In development</span></td><td>CAN hardware available</td></tr>
+            <tr><td>TDOA position</td><td><span class="status-text experimental">Experimental</span></td><td>Firmware under validation</td></tr>
+          </tbody>
+        </table>
 
-      <section id="quickstart" class="band docs-layout">
-        <aside class="docs-index" aria-label="Documentation sections">
-          <strong>Documentation</strong>
-          <a href="#overview">Overview</a>
-          <a href="#release">Current release</a>
-          <span>Quickstart</span>
-          <a href="#flash">1. Flash roles</a>
-          <a href="#connect">2. Connect</a>
-          <a href="#calibrate">3. Calibrate</a>
-          <a href="#measure">4. Measure</a>
-          <a href="#export">5. Export</a>
-          <a href="#troubleshoot">Troubleshooting</a>
-          <span>Reference</span>
-          <a href="/firmware/">Firmware console</a>
-          <a href="/validation/">Validation</a>
-        </aside>
-
-        <div class="docs-content">
-          <section id="release" class="doc-step">
-            <span class="step-number">Now</span>
-            <div>
-              <h2>Current browser release</h2>
-              <p>The current role images are the experimental <code>twr_init-5</code> and <code>twr_resp-5</code> profiles: channel 9, 850 kbps, 128-symbol preamble, IEEE SFD, and a 40 Hz target.</p>
-              <p class="doc-note">In one approximately 66-second run at 5 m, this profile delivered 2,602 valid samples with 99.43% packet success and 132.3 mm P95 absolute error. That is better delivery but worse precision than the original 50 Hz baseline, so the profile remains under investigation. TDOA positioning, ranging over CAN, 60 m range, and temperature stability are also development work.</p>
-            </div>
-          </section>
-
-          <section id="flash" class="doc-step">
-            <span class="step-number">01</span>
-            <div>
-              <h2>Flash the two roles</h2>
-              <ol>
-                <li>Open the <a href="/firmware/">firmware console</a> in Chrome or Edge.</li>
-                <li>For Tag A, unplug USB, hold <strong>BOOT0</strong>, and plug USB back in while continuing to hold the button.</li>
-                <li>Select <strong>Flash Initiator</strong>, choose the STM32 DFU device, and wait for completion.</li>
-                <li>Unplug Tag A, release BOOT0, and reconnect it normally.</li>
-                <li>Repeat the sequence for Tag B using <strong>Flash Responder</strong>.</li>
-              </ol>
-              <p class="doc-note"><strong>Expected result:</strong> each flash panel says it is done and asks you to replug normally.</p>
-            </div>
-          </section>
-
-          <section id="connect" class="doc-step">
-            <span class="step-number">02</span>
-            <div>
-              <h2>Connect both serial ports</h2>
-              <ol>
-                <li>Select <strong>Connect serial</strong> under Tag A and choose its USB serial device.</li>
-                <li>Repeat under Tag B, choosing the other device.</li>
-                <li>Confirm the mode indicators show <code>I</code> for Tag A and <code>R</code> for Tag B.</li>
-              </ol>
-              <p class="doc-note"><strong>Expected result:</strong> the Live Distance chart begins receiving <code>D sequence millimeters</code> samples from the responder.</p>
-            </div>
-          </section>
-
-          <section id="calibrate" class="doc-step">
-            <span class="step-number">03</span>
-            <div>
-              <h2>Calibrate the pair</h2>
-              <ol>
-                <li>Place the tags with clear line of sight at a carefully measured distance. Keep them still and away from large metal surfaces.</li>
-                <li>Enter that distance in millimeters under <strong>Pair Calibration</strong>.</li>
-                <li>Leave Tag B selected as the responder and collect at least 100 samples.</li>
-                <li>Select <strong>Start calibration</strong> and wait for the new antenna-delay offset.</li>
-              </ol>
-              <p class="doc-note">The console writes the new offset to the responder and remembers it by hardware ID. Calibrate once for a validation sweep; recalibrating at every distance hides distance-dependent error.</p>
-            </div>
-          </section>
-
-          <section id="measure" class="doc-step">
-            <span class="step-number">04</span>
-            <div>
-              <h2>Run a static test</h2>
-              <ol>
-                <li>Move the tags to a new measured separation without changing antenna orientation.</li>
-                <li>Enter the true distance and test duration under <strong>Static Test</strong>.</li>
-                <li>Select <strong>Start Test</strong>. Do not move the tags during the run.</li>
-                <li>Review mean error, standard deviation, sample count, and the live trace.</li>
-              </ol>
-            </div>
-          </section>
-
-          <section id="export" class="doc-step">
-            <span class="step-number">05</span>
-            <div>
-              <h2>Export the evidence</h2>
-              <p>Select <strong>Download Test CSV</strong>. The file includes test metadata, summary statistics, timestamps, every measured distance, ground truth, and signed error. Keep the unedited CSV with notes about distance, environment, antenna orientation, and obstructions.</p>
-              <div class="code-sample" aria-label="Example distance output"><code>D 42 3046 16174 -748</code><span>sequence &middot; millimeters &middot; exchange microseconds &middot; RSSI tenths of dBm</span></div>
-              <a class="inline-link" href="/validation/">Use the full validation protocol &rarr;</a>
-            </div>
-          </section>
-
-          <section id="troubleshoot" class="doc-step">
-            <span class="step-number">?</span>
-            <div>
-              <h2>Troubleshooting</h2>
-              <dl class="trouble-list">
-                <div><dt>No DFU device appears</dt><dd>Use a data-capable cable. Unplug, hold BOOT0 before reconnecting, and try the flash action again.</dd></div>
-                <div><dt>No serial device appears</dt><dd>Replug without holding BOOT0. Close other serial monitors and confirm the operating system sees the USB device.</dd></div>
-                <div><dt>Connected but no samples</dt><dd>Press INFO and confirm Tag A reports mode I and Tag B reports mode R. Keep both tags powered and within clear line of sight.</dd></div>
-                <div><dt>Large fixed error</dt><dd>Repeat pair calibration with an accurately measured distance and unchanged antenna orientation.</dd></div>
-              </dl>
-            </div>
-          </section>
-        </div>
-      </section>
+        <div class="docs-next"><span>Next</span><a href="/docs/quickstart/">Quickstart &rarr;</a></div>
+      </article>
     </main>
-
-    <footer>
-      <div class="footer-row">
-        <span>&copy; 2026 opentags</span>
-        <span>Designed &middot; assembled in San Diego, CA</span>
-        <a href="mailto:hello@open-tags.com">hello@open-tags.com</a>
-      </div>
-    </footer>
+    <footer><div class="footer-row"><span>&copy; 2026 opentags</span><a href="mailto:hello@open-tags.com">hello@open-tags.com</a></div></footer>
     <script type="module" src="/assets/site.js"></script>
   </body>
 </html>
