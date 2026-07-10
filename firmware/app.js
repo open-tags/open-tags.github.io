@@ -49,6 +49,7 @@ let testMissingSamples = 0;
 let testFirstSamplePerf = null;
 let testLastSamplePerf = null;
 let testLastSeq = { A: null, B: null };
+let testStartDiag = { A: {}, B: {} };
 
 // Calibration runtime
 let calibActive = false;
@@ -123,6 +124,8 @@ class TagConnection {
     this.id = null;
     this.targetHz = null;
     this.drops = null;
+    this.phy = "—";
+    this.diag = {};
     this.logLines = [];
 
     $(".connect-btn", root).addEventListener("click", () => this.connect());
@@ -198,6 +201,8 @@ class TagConnection {
       this.setModeIndicator("—");
       $(".info-calib", this.root).textContent = "—";
       $(".info-fw", this.root).textContent = "—";
+      $(".info-phy", this.root).textContent = "—";
+      $(".info-diag", this.root).textContent = "—";
       this.setButtons();
       this.log("Disconnected");
     }
@@ -234,13 +239,14 @@ class TagConnection {
 
   handleLine(line) {
     if (line.startsWith("D ")) {
-      const m = line.match(/^D\s+(-?\d+)\s+(-?\d+)(?:\s+(\d+))?/);
+      const m = line.match(/^D\s+(-?\d+)\s+(-?\d+)(?:\s+(\d+))?(?:\s+(-?\d+))?/);
       if (m) {
         onDistance(
           this.slot,
           parseInt(m[1], 10),
           parseInt(m[2], 10),
-          m[3] === undefined ? null : parseInt(m[3], 10)
+          m[3] === undefined ? null : parseInt(m[3], 10),
+          m[4] === undefined ? null : parseInt(m[4], 10) / 10
         );
       }
       return;
@@ -259,8 +265,9 @@ class TagConnection {
       );
       if (kv.mode) this.setModeIndicator(kv.mode);
       if (kv.calib !== undefined) {
-        this.calib = parseInt(kv.calib, 10);
-        $(".info-calib", this.root).textContent = this.calib;
+        const calib = parseInt(kv.calib, 10);
+        this.calib = Number.isFinite(calib) ? calib : null;
+        $(".info-calib", this.root).textContent = this.calib ?? "—";
       }
       if (kv.fw) {
         this.fw = kv.fw;
@@ -268,7 +275,7 @@ class TagConnection {
       }
       if (kv.id) {
         this.id = kv.id;
-        $(".info-id", this.root).textContent = kv.id.slice(-8);
+        $(".info-id", this.root).textContent = `${kv.id.slice(0, 6)}…${kv.id.slice(-6)}`;
       }
       if (kv.target_hz) {
         this.targetHz = parseFloat(kv.target_hz);
@@ -282,6 +289,26 @@ class TagConnection {
         const saved = savedCalib(this.id);
         if (saved !== null && saved !== this.calib) this.send(`CALIB ${saved}`);
       }
+      return;
+    }
+    if (line.startsWith("DIAG ")) {
+      const kv = Object.fromEntries(
+        line.slice(5).split(/\s+/).map((p) => p.split("="))
+          .filter((p) => p.length === 2)
+      );
+      for (const [key, value] of Object.entries(kv)) {
+        const parsed = parseInt(value, 10);
+        if (Number.isFinite(parsed)) this.diag[key] = parsed;
+      }
+      const failures = Object.entries(this.diag)
+        .filter(([key, value]) => !["attempts", "polls"].includes(key) && value > 0)
+        .map(([key, value]) => `${key}:${value}`);
+      $(".info-diag", this.root).textContent = failures.join(" ") || "clean";
+      return;
+    }
+    if (line.startsWith("PHY ")) {
+      this.phy = line.slice(4).trim();
+      $(".info-phy", this.root).textContent = this.phy.replaceAll(" ", " · ");
       return;
     }
     if (line.startsWith("OK CALIB ")) {
@@ -357,16 +384,16 @@ function sequenceGap(previous, current) {
   return advance > 1 && advance < 128 ? advance - 1 : 0;
 }
 
-function onDistance(slot, seq, mm, exchangeUs) {
+function onDistance(slot, seq, mm, exchangeUs, rssiDbm) {
   const now = performance.now();
   liveMissing += sequenceGap(liveLastSeq[slot], seq);
   liveLastSeq[slot] = seq;
   if (!paused) {
-    samples.push({ seq, mm, t: now, src: slot, exchangeUs });
+    samples.push({ seq, mm, t: now, src: slot, exchangeUs, rssiDbm });
     if (samples.length > MAX_SAMPLES) samples.shift();
     scheduleLiveRender();
   }
-  if (testActive) recordTestSample(slot, seq, mm, exchangeUs, now);
+  if (testActive) recordTestSample(slot, seq, mm, exchangeUs, rssiDbm, now);
   if (calibActive && slot === calibRespSlot) {
     calibCollected.push(mm);
     $("#cal-status").textContent =
@@ -394,6 +421,7 @@ function updateStats() {
     $("#stat-std").textContent = "—";
     $("#stat-rate").textContent = "—";
     $("#stat-missing").textContent = String(liveMissing);
+    $("#stat-rssi").textContent = "—";
     $("#stat-n").textContent = "0";
     return;
   }
@@ -407,6 +435,8 @@ function updateStats() {
   const rateHz = elapsedMs > 0 ? (samples.length - 1) * 1000 / elapsedMs : NaN;
   $("#stat-rate").textContent = formatMetric(rateHz, 1);
   $("#stat-missing").textContent = String(liveMissing);
+  const lastRssi = samples[samples.length - 1].rssiDbm;
+  $("#stat-rssi").textContent = formatMetric(lastRssi, 1);
   $("#stat-n").textContent = String(xs.length);
 }
 
@@ -574,6 +604,12 @@ function startStaticTest() {
   testFirstSamplePerf = null;
   testLastSamplePerf = null;
   testLastSeq = { A: null, B: null };
+  testStartDiag = {
+    A: { ...(tags.A?.diag ?? {}) },
+    B: { ...(tags.B?.diag ?? {}) },
+  };
+  tags.A?.send("INFO");
+  tags.B?.send("INFO");
 
   $("#test-start").disabled = true;
   $("#test-stop").disabled = false;
@@ -595,8 +631,13 @@ function finishStaticTest(reason) {
   testTimer = null;
   testStatusTimer = null;
   testLastSummary = computeTestSummary();
+  tags.A?.send("INFO");
+  tags.B?.send("INFO");
   $("#test-stop").disabled = true;
-  $("#test-download").disabled = testSamples.length === 0;
+  $("#test-download").disabled = true;
+  if (testSamples.length > 0) {
+    setTimeout(() => { $("#test-download").disabled = false; }, 300);
+  }
   refreshGlobalButtons();
 
   const prefix = reason === "done" ? "Done" : "Stopped";
@@ -611,7 +652,7 @@ function finishStaticTest(reason) {
   );
 }
 
-function recordTestSample(slot, seq, mm, exchangeUs, now) {
+function recordTestSample(slot, seq, mm, exchangeUs, rssiDbm, now) {
   const elapsedMs = now - testStartPerf;
   const wall = new Date(testStartWall.getTime() + elapsedMs);
   const errorMm = mm - testTrueMm;
@@ -626,6 +667,7 @@ function recordTestSample(slot, seq, mm, exchangeUs, now) {
     errorCm: errorMm / 10,
     errorIn: errorMm / 25.4,
     exchangeUs,
+    rssiDbm,
   });
   if (testFirstSamplePerf === null) testFirstSamplePerf = now;
   testLastSamplePerf = now;
@@ -646,6 +688,8 @@ function computeTestSummary() {
   const errorSummary = summarizeValues(errors);
   const absErrorSummary = summarizeValues(absErrors);
   const exchanges = testSamples.map((s) => s.exchangeUs).filter(Number.isFinite);
+  const rssis = testSamples.map((s) => s.rssiDbm).filter(Number.isFinite);
+  const sortedRssis = [...rssis].sort((a, b) => a - b);
   const rmse = Math.sqrt(errors.reduce((sum, e) => sum + e ** 2, 0) / errors.length);
   const sampleElapsedMs = testLastSamplePerf - testFirstSamplePerf;
   const actualRateHz = sampleElapsedMs > 0 ? (testSamples.length - 1) * 1000 / sampleElapsedMs : NaN;
@@ -665,7 +709,15 @@ function computeTestSummary() {
     packetSuccessPct: expectedSamples > 0 ? 100 * testSamples.length / expectedSamples : NaN,
     meanExchangeUs: exchanges.length ? summarizeValues(exchanges).mean : NaN,
     p95ExchangeUs: exchanges.length ? summarizeValues(exchanges).p95 : NaN,
+    meanRssiDbm: rssis.length ? summarizeValues(rssis).mean : NaN,
+    p05RssiDbm: rssis.length ? percentileSorted(sortedRssis, 0.05) : NaN,
   };
+}
+
+function diagDelta(slot, key) {
+  const end = tags[slot]?.diag?.[key];
+  const start = testStartDiag[slot]?.[key];
+  return Number.isFinite(end) && Number.isFinite(start) ? end - start : "";
 }
 
 function updateTestStatus() {
@@ -710,6 +762,14 @@ function downloadStaticTestCsv() {
     csvRow(["metadata", "target_rate_hz", tags.A?.targetHz ?? tags.B?.targetHz ?? ""]),
     csvRow(["metadata", "tag_a_output_drops", tags.A?.drops ?? ""]),
     csvRow(["metadata", "tag_b_output_drops", tags.B?.drops ?? ""]),
+    csvRow(["metadata", "tag_a_phy", tags.A?.phy ?? ""]),
+    csvRow(["metadata", "tag_b_phy", tags.B?.phy ?? ""]),
+    csvRow(["metadata", "tag_a_no_resp_delta", diagDelta("A", "no_resp")]),
+    csvRow(["metadata", "tag_a_rx_err_delta", diagDelta("A", "rx_err")]),
+    csvRow(["metadata", "tag_a_final_tx_err_delta", diagDelta("A", "final_tx_err")]),
+    csvRow(["metadata", "tag_b_no_final_delta", diagDelta("B", "no_final")]),
+    csvRow(["metadata", "tag_b_rx_err_delta", diagDelta("B", "rx_err")]),
+    csvRow(["metadata", "tag_b_resp_tx_err_delta", diagDelta("B", "resp_tx_err")]),
     "",
     csvRow(["section", "metric", "value", "unit"]),
     csvRow(["summary", "mean_measured", formatMetric(summary.meanMeasuredMm), "mm"]),
@@ -725,8 +785,10 @@ function downloadStaticTestCsv() {
     csvRow(["summary", "packet_success", formatMetric(summary.packetSuccessPct, 3), "percent"]),
     csvRow(["summary", "mean_exchange", formatMetric(summary.meanExchangeUs), "us"]),
     csvRow(["summary", "p95_exchange", formatMetric(summary.p95ExchangeUs), "us"]),
+    csvRow(["summary", "mean_rssi", formatMetric(summary.meanRssiDbm, 2), "dBm"]),
+    csvRow(["summary", "p05_rssi", formatMetric(summary.p05RssiDbm, 2), "dBm"]),
     "",
-    csvRow(["elapsed_ms", "timestamp_iso", "seq", "src", "measured_mm", "true_mm", "error_mm", "error_cm", "error_in", "exchange_us"]),
+    csvRow(["elapsed_ms", "timestamp_iso", "seq", "src", "measured_mm", "true_mm", "error_mm", "error_cm", "error_in", "exchange_us", "rssi_dbm"]),
   ];
 
   for (const s of testSamples) {
@@ -741,6 +803,7 @@ function downloadStaticTestCsv() {
       s.errorCm.toFixed(2),
       s.errorIn.toFixed(3),
       s.exchangeUs ?? "",
+      s.rssiDbm ?? "",
     ]));
   }
 
@@ -838,9 +901,9 @@ $("#clear").addEventListener("click", () => {
 $("#export").addEventListener("click", () => {
   if (samples.length === 0) return;
   const t0 = samples[0].t;
-  const lines = ["t_ms,seq,mm,src"];
+  const lines = ["t_ms,seq,mm,src,exchange_us,rssi_dbm"];
   for (const s of samples) {
-    lines.push(`${(s.t - t0).toFixed(1)},${s.seq},${s.mm},${s.src}`);
+    lines.push(`${(s.t - t0).toFixed(1)},${s.seq},${s.mm},${s.src},${s.exchangeUs ?? ""},${s.rssiDbm ?? ""}`);
   }
   const blob = new Blob([lines.join("\n")], { type: "text/csv" });
   const a = document.createElement("a");
