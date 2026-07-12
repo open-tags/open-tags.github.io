@@ -13,17 +13,18 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>opentags Firmware</title>
-    <meta name="description" content="Flash, connect, range, and calibrate opentags hardware from the browser." />
+    <meta name="description" content="Flash, connect, range, calibrate, and plan a measured 3D TDOA deployment with opentags." />
     <meta property="og:title" content="opentags Firmware" />
-    <meta property="og:description" content="Flash, connect, range, and calibrate opentags hardware from the browser." />
+    <meta property="og:description" content="Flash, connect, range, calibrate, and plan a measured 3D TDOA deployment with opentags." />
     <meta property="og:type" content="website" />
     <meta property="og:image" content="/favicon.png?v=2" />
     <meta name="twitter:card" content="summary" />
     <meta name="twitter:title" content="opentags Firmware" />
-    <meta name="twitter:description" content="Flash, connect, range, and calibrate opentags hardware from the browser." />
+    <meta name="twitter:description" content="Flash, connect, range, calibrate, and plan a measured 3D TDOA deployment with opentags." />
     <link rel="icon" type="image/png" href="/favicon.png?v=2" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png?v=2" />
     <link rel="stylesheet" href="/assets/site.css" />
+    <link rel="stylesheet" href="tdoa.css?v=1" />
   </head>
   <body>
     <header class="site-header" data-site-header>
@@ -173,9 +174,167 @@
         </div>
         <div id="cal-status" class="cal-status">Idle</div>
       </section>
+
+      <section class="tdoa-lab" id="tdoa-3d" aria-labelledby="tdoa-title">
+        <header class="tdoa-hero">
+          <div>
+            <div class="tdoa-kicker"><span>Experimental</span> 3D TDOA lab</div>
+            <h2 id="tdoa-title">Turn a room into a measured volume.</h2>
+            <p>
+              Plan five anchors, inspect geometric dilution of precision, then
+              compare every estimated fix with surveyed ground truth. The view
+              starts with a practical 10 × 10 × 8 ft deployment.
+            </p>
+          </div>
+          <div class="tdoa-hero-stat" aria-label="Recommended hardware">
+            <strong>5 + 1</strong>
+            <span>anchors + mobile tag</span>
+          </div>
+        </header>
+
+        <div class="tdoa-stage">
+          <div class="tdoa-viewport-wrap">
+            <div id="tdoa-viewport" class="tdoa-viewport" role="img" aria-label="Interactive 3D view of the room, anchors, tag, estimated fixes, and geometry heatmap"></div>
+            <div class="tdoa-view-overlay">
+              <div class="tdoa-live-pill"><i></i><span id="tdoa-view-state">Geometry preview</span></div>
+              <div class="tdoa-legend" aria-label="3D view legend">
+                <span><i class="master"></i> A0 master</span>
+                <span><i class="anchor"></i> slaves</span>
+                <span><i class="truth"></i> truth</span>
+                <span><i class="estimate"></i> estimates</span>
+              </div>
+            </div>
+            <div class="tdoa-view-actions">
+              <button type="button" id="tdoa-reset-view">Reset view</button>
+              <button type="button" id="tdoa-toggle-heatmap" class="active" aria-pressed="true">GDOP volume</button>
+            </div>
+          </div>
+
+          <aside class="tdoa-controls" aria-label="TDOA room and anchor controls">
+            <div class="tdoa-control-head">
+              <div>
+                <span class="tdoa-step">01</span>
+                <h3>Describe the room</h3>
+              </div>
+              <button type="button" id="tdoa-room-preset">10 × 10 × 8 preset</button>
+            </div>
+            <div class="tdoa-room-inputs">
+              <label>Width <span><input id="tdoa-room-x" type="number" min="6" max="100" step="0.5" value="10" /> ft</span></label>
+              <label>Depth <span><input id="tdoa-room-y" type="number" min="6" max="100" step="0.5" value="10" /> ft</span></label>
+              <label>Height <span><input id="tdoa-room-z" type="number" min="6" max="40" step="0.5" value="8" /> ft</span></label>
+            </div>
+
+            <div class="tdoa-divider"></div>
+
+            <div class="tdoa-control-head">
+              <div>
+                <span class="tdoa-step">02</span>
+                <h3>Place five anchors</h3>
+              </div>
+              <span id="tdoa-geometry-grade" class="tdoa-grade good">Good geometry</span>
+            </div>
+            <p class="tdoa-control-note">
+              Coordinates are measured from the front-left floor corner. Keep
+              antennas clear of metal, water, people, walls, and ceiling surfaces.
+            </p>
+            <div class="tdoa-anchor-table" role="table" aria-label="Anchor coordinates in feet">
+              <div class="tdoa-anchor-row heading" role="row">
+                <span>Anchor</span><span>X</span><span>Y</span><span>Z</span>
+              </div>
+              <div id="tdoa-anchor-rows"></div>
+            </div>
+            <div class="tdoa-geometry-readout">
+              <div><span>Center GDOP</span><strong id="tdoa-gdop-center">—</strong></div>
+              <div><span>Volume P95</span><strong id="tdoa-gdop-p95">—</strong></div>
+              <div><span>Vertical spread</span><strong id="tdoa-z-spread">—</strong></div>
+            </div>
+          </aside>
+        </div>
+
+        <div class="tdoa-workflow">
+          <article>
+            <span class="tdoa-step">03</span>
+            <h3>Survey &amp; synchronize</h3>
+            <p>Measure each antenna phase-center coordinate—not the enclosure edge. Keep A0 in direct line of sight to every slave, then calibrate per-anchor delay.</p>
+          </article>
+          <article>
+            <span class="tdoa-step">04</span>
+            <h3>Collect ground truth</h3>
+            <p>Use fixed surveyed points first, then a measured path. Log raw fixes and RF quality before applying a motion filter so bias and jitter stay visible.</p>
+          </article>
+          <article>
+            <span class="tdoa-step">05</span>
+            <h3>Report the distribution</h3>
+            <p>Use 3D, horizontal, and vertical RMSE; median and P95 error; axis bias; fix rate; and loss rate. A single “average accuracy” hides failure modes.</p>
+          </article>
+        </div>
+
+        <section class="tdoa-accuracy" aria-labelledby="tdoa-accuracy-title">
+          <div class="tdoa-accuracy-head">
+            <div>
+              <span class="tdoa-step">Accuracy bench</span>
+              <h3 id="tdoa-accuracy-title">Quantify every fix.</h3>
+              <p>Load a CSV from a surveyed static point or path. Required columns: <code>true_x_ft,true_y_ft,true_z_ft,est_x_ft,est_y_ft,est_z_ft</code>. Optional: <code>timestamp_ms,seq,rssi_dbm,valid</code>.</p>
+            </div>
+            <div class="tdoa-bench-actions">
+              <input id="tdoa-csv-file" type="file" accept=".csv,text/csv" hidden />
+              <button type="button" id="tdoa-import-csv">Import CSV</button>
+              <button type="button" id="tdoa-demo">Run example</button>
+              <button type="button" id="tdoa-template">CSV template</button>
+              <button type="button" id="tdoa-clear">Clear</button>
+            </div>
+          </div>
+
+          <div class="tdoa-metrics" aria-live="polite">
+            <div class="primary"><span>3D RMSE</span><strong id="tdoa-metric-rmse">—</strong><small>root mean square</small></div>
+            <div><span>Horizontal RMSE</span><strong id="tdoa-metric-hrmse">—</strong><small>XY plane</small></div>
+            <div><span>Vertical RMSE</span><strong id="tdoa-metric-vrmse">—</strong><small>Z axis</small></div>
+            <div><span>P95 error</span><strong id="tdoa-metric-p95">—</strong><small>95% below</small></div>
+            <div><span>Median error</span><strong id="tdoa-metric-median">—</strong><small>50% below</small></div>
+            <div><span>Fix success</span><strong id="tdoa-metric-fix">—</strong><small id="tdoa-metric-n">0 samples</small></div>
+          </div>
+
+          <div class="tdoa-charts">
+            <article>
+              <div class="tdoa-chart-head"><h3>Error distribution</h3><span id="tdoa-bias-readout">Bias X/Y/Z: —</span></div>
+              <canvas id="tdoa-error-chart" width="700" height="280" aria-label="Histogram of 3D position error"></canvas>
+            </article>
+            <article>
+              <div class="tdoa-chart-head"><h3>Cumulative accuracy</h3><span>lower-left is better</span></div>
+              <canvas id="tdoa-cdf-chart" width="700" height="280" aria-label="Cumulative distribution of 3D, horizontal, and vertical error"></canvas>
+            </article>
+          </div>
+          <div id="tdoa-import-status" class="tdoa-import-status">No dataset loaded. Run the example to see the complete workflow.</div>
+        </section>
+
+        <details class="tdoa-method">
+          <summary>Why this layout and these metrics?</summary>
+          <div>
+            <p>
+              TDOA converts arrival-time differences into intersecting hyperboloids. Four anchors are the mathematical minimum for 3D, but a fifth adds redundancy; non-coplanar placement improves vertical observability. The preview computes GDOP from the local TDOA Jacobian and colors the sampled room volume from strong to weak geometry. GDOP predicts noise amplification, not real-world multipath or calibration bias.
+            </p>
+            <p>
+              The setup follows the line-of-sight, square-coverage, wall-clearance, surveyed-phase-center, and RMSE guidance in
+              <a href="https://doi.org/10.3390/s22124353" rel="noreferrer">Zhang et al. (2022)</a>,
+              the clock-drift and weighted least-squares findings in
+              <a href="https://doi.org/10.1109/PLANS.2018.8373376" rel="noreferrer">Krobka et al. (2018)</a>, and Qorvo’s
+              <a href="https://www.qorvo.com/innovation/ultra-wideband/resources/application-notes" rel="noreferrer">range, NLOS, and antenna-delay notes</a>.
+            </p>
+          </div>
+        </details>
+      </section>
     </main>
 
+    <script type="importmap">
+      {
+        "imports": {
+          "three": "https://cdn.jsdelivr.net/npm/three@0.166.1/build/three.module.js",
+          "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.166.1/examples/jsm/"
+        }
+      }
+    </script>
     <script type="module" src="app.js?v=5"></script>
+    <script type="module" src="tdoa.js?v=1"></script>
     <script type="module" src="/assets/site.js"></script>
     <footer>
       <div class="footer-row">
