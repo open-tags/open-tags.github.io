@@ -4,8 +4,8 @@
 
 Key facts:
 
-- Product: opentag one, a UWB ranging and positioning tag in a PETG enclosure with clear lid
-- Kits: TWR kit (2 tags, $249) gives live point-to-point distance; TDOA kit (5 tags, $499) provides hardware for experimental synchronized-anchor positioning with 4 fixed anchors plus 1 mobile tag
+- Product: opentag one, a UWB distance and indoor location tag in a PETG enclosure with clear lid
+- Kits: Distance kit (2 tags, $199) gives live point-to-point distance; Location kit (5 tags, $499) provides indoor location hardware with 4 fixed anchors plus 1 mobile tag
 - V2 engineering targets pending ground-truthed validation: ±10 cm TWR ranging accuracy, ±20 cm TDOA position accuracy, 50 Hz update rate, 60 m line-of-sight range
 - Preliminary TWR evidence from one pair and the original 50 Hz profile: P95 absolute error was 28.0 mm at the 1 m calibration point, 77.9 mm at 3 m, and 77.3 mm at 5 m; these short indoor line-of-sight runs are not a finished benchmark
 - Interfaces: USB-C serial stream, CAN and CAN FD; powered over USB-C or a 6–24V input with reverse-polarity protection

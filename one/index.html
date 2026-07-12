@@ -12,15 +12,15 @@
     </script>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="description" content="opentag one &mdash; open UWB ranging and indoor positioning hardware for robots. USB-C, CAN FD, 6&ndash;24V, Rust firmware." />
+    <meta name="description" content="opentag one &mdash; open UWB distance and indoor location hardware for robots. USB-C, CAN FD, 6&ndash;24V, Rust firmware." />
     <title>opentag one</title>
     <meta property="og:title" content="opentag one" />
-    <meta property="og:description" content="Open UWB ranging hardware for robots. USB-C, CAN FD hardware, 6&ndash;24V, and Rust firmware." />
+    <meta property="og:description" content="Open UWB distance and indoor location hardware for robots. USB-C, CAN FD hardware, 6&ndash;24V, and Rust firmware." />
     <meta property="og:type" content="website" />
     <meta property="og:image" content="https://open-tags.com/assets/images/one/site/hero.jpg" />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="opentag one" />
-    <meta name="twitter:description" content="Open UWB ranging hardware for robots. USB-C, CAN FD hardware, 6&ndash;24V, and Rust firmware." />
+    <meta name="twitter:description" content="Open UWB distance and indoor location hardware for robots. USB-C, CAN FD hardware, 6&ndash;24V, and Rust firmware." />
     <link rel="icon" type="image/png" href="/favicon.png?v=2" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png?v=2" />
     <link rel="stylesheet" href="/assets/site.css" />
@@ -29,21 +29,21 @@
       "@context": "https://schema.org",
       "@type": "Product",
       "name": "opentag one",
-      "description": "Compact open UWB hardware for real-time ranging and indoor positioning. STM32 + DWM3000, Rust firmware, USB-C, CAN FD, 6-24V input.",
+      "description": "Compact open UWB hardware for real-time distance and indoor location. STM32 + DWM3000, Rust firmware, USB-C, CAN FD, 6-24V input.",
       "image": "https://open-tags.com/assets/images/one/site/hero.jpg",
       "brand": { "@type": "Brand", "name": "opentags" },
       "offers": [
         {
           "@type": "Offer",
-          "name": "TWR kit (2 tags)",
-          "price": "249",
+          "name": "Distance kit (2 tags)",
+          "price": "199",
           "priceCurrency": "USD",
           "availability": "https://schema.org/InStock",
           "url": "https://open-tags.com/one/"
         },
         {
           "@type": "Offer",
-          "name": "TDOA kit (5 tags)",
+          "name": "Location kit (5 tags)",
           "price": "499",
           "priceCurrency": "USD",
           "availability": "https://schema.org/InStock",
@@ -72,7 +72,7 @@
         <h1 class="store-title">opentag one</h1>
         <div class="store-gallery" aria-label="opentag one product photos" data-gallery>
           <figure class="store-gallery-main" data-gallery-main>
-            <img src="/assets/images/one/bringup/twr_double_blink.jpg" alt="opentag one pair running two-way ranging" width="1920" height="1280" fetchpriority="high" />
+            <img src="/assets/images/one/bringup/twr_double_blink.jpg" alt="opentag one pair measuring live distance" width="1920" height="1280" fetchpriority="high" />
           </figure>
           <div class="store-thumbs">
             <button type="button" class="active" data-gallery-thumb="/assets/images/one/bringup/twr_double_blink.jpg" aria-label="View photo 1">
@@ -94,8 +94,8 @@
           <div class="variant-stack" aria-label="Choose a kit">
             <article class="variant-card">
               <div class="variant-copy">
-                <span class="buy-kicker">TWR kit</span>
-                <h2>2 Tags <span>$249</span></h2>
+                <span class="buy-kicker">Distance kit</span>
+                <h2>2 Tags <span>$199</span></h2>
                 <p>Live distance between two points, streamed over USB. Docking, follow-me, and proximity between robots.</p>
               </div>
               <a class="button primary checkout-button" href="https://buy.stripe.com/6oU8wOazx25cbkpgyQg7e0f" rel="noreferrer">Buy</a>
@@ -103,9 +103,9 @@
 
             <article class="variant-card featured">
               <div class="variant-copy">
-                <span class="buy-kicker">TDOA kit</span>
+                <span class="buy-kicker">Location kit</span>
                 <h2>5 Tags <span>$499</span></h2>
-                <p>Five tags for synchronized-anchor and TDOA development: four fixed anchors and one mobile tag. Positioning firmware is still under validation.</p>
+                <p>Five tags for indoor location: four fixed anchors and one mobile tag.</p>
               </div>
               <a class="button primary checkout-button" href="https://buy.stripe.com/5kQ14m5fdcJQagleqIg7e0g" rel="noreferrer">Buy</a>
             </article>
@@ -126,8 +126,8 @@
           <h2>Performance targets</h2>
         </div>
         <div class="stat-row">
-          <div><strong>&plusmn;10 cm</strong><span>TWR accuracy target</span></div>
-          <div><strong>&plusmn;20 cm</strong><span>TDOA position target</span></div>
+          <div><strong>&plusmn;10 cm</strong><span>distance accuracy target</span></div>
+          <div><strong>&plusmn;20 cm</strong><span>location accuracy target</span></div>
           <div><strong>50 Hz</strong><span>update-rate target</span></div>
           <div><strong>60 m</strong><span>line-of-sight target</span></div>
         </div>
@@ -142,8 +142,8 @@
         <div class="ranging-grid">
           <figure class="ranging-card">
             <figcaption>
-              <strong>TWR</strong>
-              <span>Two-way ranging. One tag pings, the other replies. Distance from round-trip time.</span>
+              <strong>Distance</strong>
+              <span>One tag pings, the other replies. Distance comes from the signal's round-trip time.</span>
             </figcaption>
             <svg class="ranging-svg" viewBox="0 0 400 220" role="img" aria-label="Two-way ranging animation">
               <line x1="94" y1="110" x2="306" y2="110" class="ranging-link" />
@@ -157,10 +157,10 @@
           </figure>
           <figure class="ranging-card">
             <figcaption>
-              <strong>TDOA</strong>
-              <span>Time-difference of arrival. One tag pings, many anchors listen. Position from arrival deltas.</span>
+              <strong>Location</strong>
+              <span>One mobile tag pings, four fixed anchors listen. Location comes from arrival-time differences.</span>
             </figcaption>
-            <svg class="ranging-svg" viewBox="0 0 400 220" role="img" aria-label="TDOA animation with four anchors">
+            <svg class="ranging-svg" viewBox="0 0 400 220" role="img" aria-label="Location animation with four anchors">
               <line x1="70" y1="50" x2="330" y2="50" class="ranging-link" />
               <line x1="330" y1="50" x2="330" y2="190" class="ranging-link" />
               <line x1="330" y1="190" x2="70" y2="190" class="ranging-link" />
@@ -278,15 +278,15 @@
         <div class="faq-list">
           <details>
             <summary>How accurate is it?</summary>
-            <p>Preliminary indoor line-of-sight tests with one pair produced 28 mm P95 absolute error at the 1 m calibration point and under 78 mm at 3 m and 5 m using the original 50 Hz profile. Multi-unit, long-range, temperature, and TDOA benchmarks are still pending; see the <a href="/validation/">validation page</a> for conditions and limitations.</p>
+            <p>Preliminary indoor line-of-sight tests with one pair produced 28 mm P95 absolute error at the 1 m calibration point and under 78 mm at 3 m and 5 m using the original 50 Hz profile. Multi-unit, long-range, temperature, and location benchmarks are still pending; see the <a href="/validation/">validation page</a> for conditions and limitations.</p>
           </details>
           <details>
             <summary>How do I get position into my robot?</summary>
-            <p>Live TWR distance is available now over USB-C serial. Range streaming over CAN&nbsp;/&nbsp;CAN&nbsp;FD, TDOA position output, and a ROS&nbsp;2 driver are in development.</p>
+            <p>Live distance is available now over USB-C serial. Range streaming over CAN&nbsp;/&nbsp;CAN&nbsp;FD, location output, and a ROS&nbsp;2 driver are in development.</p>
           </details>
           <details>
-            <summary>What do I need for TDOA?</summary>
-            <p>Use four tags as synchronized anchors plus one mobile tag. The 5-tag kit supplies the hardware, but the positioning firmware and accuracy benchmark are still experimental.</p>
+            <summary>What do I need for location?</summary>
+            <p>Use four tags as fixed anchors plus one mobile tag. The 5-tag Location kit includes all five.</p>
           </details>
           <details>
             <summary>Can I flash it from the browser?</summary>
