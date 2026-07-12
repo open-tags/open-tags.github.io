@@ -13,14 +13,14 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>opentags Firmware</title>
-    <meta name="description" content="Flash, connect, range, calibrate, and plan a measured 3D TDOA deployment with opentags." />
+    <meta name="description" content="Choose Distance or Location firmware, then flash, configure, calibrate, and visualize opentags from the browser." />
     <meta property="og:title" content="opentags Firmware" />
-    <meta property="og:description" content="Flash, connect, range, calibrate, and plan a measured 3D TDOA deployment with opentags." />
+    <meta property="og:description" content="Choose Distance or Location firmware, then flash, configure, calibrate, and visualize opentags from the browser." />
     <meta property="og:type" content="website" />
     <meta property="og:image" content="/favicon.png?v=2" />
     <meta name="twitter:card" content="summary" />
     <meta name="twitter:title" content="opentags Firmware" />
-    <meta name="twitter:description" content="Flash, connect, range, calibrate, and plan a measured 3D TDOA deployment with opentags." />
+    <meta name="twitter:description" content="Choose Distance or Location firmware, then flash, configure, calibrate, and visualize opentags from the browser." />
     <link rel="icon" type="image/png" href="/favicon.png?v=2" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png?v=2" />
     <link rel="stylesheet" href="/assets/site.css" />
@@ -43,7 +43,7 @@
     <main>
       <section class="page-title">
         <p class="eyebrow">Firmware Console</p>
-        <h1>Flash, connect, range, calibrate.</h1>
+        <h1>Choose distance or location.</h1>
         <p class="hint">
           Hold <strong>BOOT0</strong> on the tag, plug it in as STM32 DFU, then
           flash a role. Replug normally to connect over serial.
@@ -51,6 +51,22 @@
           <a class="text-link" href="build-firmware.md">build notes</a>.
         </p>
       </section>
+
+      <div class="firmware-mode-picker" role="tablist" aria-label="Firmware workflow">
+        <button type="button" id="firmware-mode-distance" class="active" role="tab" aria-selected="true" aria-controls="distance-mode">
+          <span>Distance</span>
+          <strong>Two tags measure one range</strong>
+          <small>Flash an initiator and responder for TWR.</small>
+        </button>
+        <button type="button" id="firmware-mode-location" role="tab" aria-selected="false" aria-controls="location-mode">
+          <span>Location</span>
+          <strong>One tag finds its position</strong>
+          <small>Use 3 anchors for 2D or 4 for 3D TDOA.</small>
+        </button>
+      </div>
+
+      <section id="distance-mode" class="firmware-workflow" role="tabpanel" aria-labelledby="firmware-mode-distance">
+        <div class="workflow-label"><span>Distance firmware</span><p>Both tags connect during setup. The responder reports the measured distance.</p></div>
 
       <div class="tags">
         <section class="panel tag" data-slot="A" data-role="I">
@@ -174,23 +190,66 @@
         </div>
         <div id="cal-status" class="cal-status">Idle</div>
       </section>
+      </section>
 
-      <section class="tdoa-lab" id="tdoa-3d" aria-labelledby="tdoa-title">
+      <section class="tdoa-lab firmware-workflow" id="location-mode" role="tabpanel" aria-labelledby="firmware-mode-location" hidden>
         <header class="tdoa-hero">
           <div>
-            <div class="tdoa-kicker"><span>Experimental</span> 3D TDOA lab</div>
-            <h2 id="tdoa-title">Turn a room into a measured volume.</h2>
+            <div class="tdoa-kicker"><span>Location firmware</span> TDOA</div>
+            <h2 id="tdoa-title">The tag solves its own position.</h2>
             <p>
-              Plan five anchors, inspect geometric dilution of precision, then
-              compare every estimated fix with surveyed ground truth. The view
-              starts with a practical 10 × 10 × 8 ft deployment.
+              Fixed anchors synchronize and report arrival timestamps over UWB.
+              The mobile tag computes each fix onboard, then sends positions to
+              this computer over one USB cable for visualization and testing.
             </p>
           </div>
           <div class="tdoa-hero-stat" aria-label="Recommended hardware">
-            <strong>5 + 1</strong>
-            <span>anchors + mobile tag</span>
+            <strong id="tdoa-hardware-count">4 + 1</strong>
+            <span>anchors + USB tag</span>
           </div>
         </header>
+
+        <div class="location-dimension-picker" role="radiogroup" aria-label="Location dimensions">
+          <label><input type="radio" name="tdoa-dimensions" value="2" /><span><strong>2D location</strong><small>3 anchors · fixed tag height</small></span></label>
+          <label><input type="radio" name="tdoa-dimensions" value="3" checked /><span><strong>3D location</strong><small>4 non-coplanar anchors</small></span></label>
+        </div>
+
+        <section class="location-flash" aria-labelledby="location-flash-title">
+          <div class="location-flash-head">
+            <div><span class="tdoa-step">Firmware setup</span><h3 id="location-flash-title">Survey first. Flash second.</h3></div>
+            <p>Every image below is configured from the coordinates in the room planner. Reflash a device whenever its anchor number or surveyed position changes.</p>
+          </div>
+          <div class="location-flash-grid">
+            <article>
+              <span class="tdoa-step">Fixed devices</span>
+              <h3>Flash an anchor</h3>
+              <p>A0 is the time master. Flash each remaining unit once as A1, A2, and—only for 3D—A3. After flashing, anchors need power only; do not connect them to the visualizer.</p>
+              <label class="location-role-select">Anchor number
+                <select id="tdoa-flash-anchor-id">
+                  <option value="0">A0 · master</option>
+                  <option value="1">A1 · slave</option>
+                  <option value="2">A2 · slave</option>
+                  <option value="3">A3 · slave</option>
+                </select>
+              </label>
+              <button type="button" id="tdoa-flash-anchor">Flash selected anchor</button>
+              <div class="location-flash-progress"><div id="tdoa-anchor-flash-bar"></div></div>
+              <small id="tdoa-anchor-flash-status">Select an anchor number, then put that unit in DFU mode.</small>
+            </article>
+            <article>
+              <span class="tdoa-step">Mobile device</span>
+              <h3>Flash &amp; connect the tag</h3>
+              <p>The tag receives all anchor reports, solves 2D or 3D onboard, and streams <code>x, y, z</code> over USB.</p>
+              <div class="location-tag-actions">
+                <button type="button" id="tdoa-flash-tag">Flash location tag</button>
+                <button type="button" id="tdoa-connect-tag">Connect tag USB</button>
+                <button type="button" id="tdoa-disconnect-tag" disabled>Disconnect</button>
+              </div>
+              <div class="location-flash-progress"><div id="tdoa-tag-flash-bar"></div></div>
+              <small id="tdoa-tag-status">Not connected. Only the mobile tag connects to the computer.</small>
+            </article>
+          </div>
+        </section>
 
         <div class="tdoa-stage">
           <div class="tdoa-viewport-wrap">
@@ -229,7 +288,7 @@
             <div class="tdoa-control-head">
               <div>
                 <span class="tdoa-step">02</span>
-                <h3>Place five anchors</h3>
+                <h3 id="tdoa-place-title">Place four anchors</h3>
               </div>
               <span id="tdoa-geometry-grade" class="tdoa-grade good">Good geometry</span>
             </div>
@@ -250,6 +309,24 @@
             </div>
           </aside>
         </div>
+
+        <section class="location-calibration" aria-labelledby="tdoa-cal-title">
+          <div>
+            <span class="tdoa-step">TDOA calibration</span>
+            <h3 id="tdoa-cal-title">Remove timestamp bias at a surveyed point.</h3>
+            <p>Yes—TDOA should be calibrated. Put the tag at one accurately measured point with clear line of sight. The tag compares measured arrival differences with the geometry, then applies one bias per slave anchor. Leave it at that point afterward to populate the live accuracy metrics below.</p>
+          </div>
+          <div class="location-cal-inputs">
+            <label>X <span><input id="tdoa-cal-x" type="number" value="5" step="0.01" /> ft</span></label>
+            <label>Y <span><input id="tdoa-cal-y" type="number" value="5" step="0.01" /> ft</span></label>
+            <label>Z <span><input id="tdoa-cal-z" type="number" value="3" step="0.01" /> ft</span></label>
+            <label>Samples <span><input id="tdoa-cal-samples" type="number" value="100" min="10" max="500" /></span></label>
+          </div>
+          <div class="location-cal-actions">
+            <button type="button" id="tdoa-cal-start" disabled>Calibrate connected tag</button>
+            <span id="tdoa-cal-status">Connect the location tag first.</span>
+          </div>
+        </section>
 
         <div class="tdoa-workflow">
           <article>
@@ -311,7 +388,7 @@
           <summary>Why this layout and these metrics?</summary>
           <div>
             <p>
-              TDOA converts arrival-time differences into intersecting hyperboloids. Four anchors are the mathematical minimum for 3D, but a fifth adds redundancy; non-coplanar placement improves vertical observability. The preview computes GDOP from the local TDOA Jacobian and colors the sampled room volume from strong to weak geometry. GDOP predicts noise amplification, not real-world multipath or calibration bias.
+              Three anchors provide two independent time differences for a 2D solve at a known tag height. Four anchors provide three differences for a 3D solve; they must not be coplanar or vertical accuracy collapses. The preview computes GDOP from the local TDOA Jacobian and colors the sampled room volume from strong to weak geometry. GDOP predicts noise amplification, not real-world multipath or calibration bias.
             </p>
             <p>
               The setup follows the line-of-sight, square-coverage, wall-clearance, surveyed-phase-center, and RMSE guidance in

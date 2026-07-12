@@ -1,21 +1,37 @@
 import * as THREE from "three";
 import { OrbitControls } from "three/addons/controls/OrbitControls.js";
+import { detectDevice as detectDfu, flash as dfuFlash } from "./dfu.js";
 
 const FT_TO_M = 0.3048;
 const IN_PER_FT = 12;
 const anchorColors = [0xc7ff3d, 0x5ea1ff, 0x5ea1ff, 0x5ea1ff, 0x5ea1ff];
-const presetAnchors = [
-  { id: "A0", role: "master", x: 5, y: 5, z: 7.25 },
-  { id: "A1", role: "slave", x: 0.75, y: 0.75, z: 6.75 },
-  { id: "A2", role: "slave", x: 9.25, y: 0.75, z: 2 },
-  { id: "A3", role: "slave", x: 9.25, y: 9.25, z: 6.75 },
-  { id: "A4", role: "slave", x: 0.75, y: 9.25, z: 2 },
-];
+const presets = {
+  2: [
+    { id: "A0", role: "master", x: 0.75, y: 0.75, z: 6.75 },
+    { id: "A1", role: "slave", x: 9.25, y: 0.75, z: 6.75 },
+    { id: "A2", role: "slave", x: 5, y: 9.25, z: 6.75 },
+  ],
+  3: [
+    { id: "A0", role: "master", x: 0.75, y: 0.75, z: 6.75 },
+    { id: "A1", role: "slave", x: 9.25, y: 0.75, z: 2 },
+    { id: "A2", role: "slave", x: 9.25, y: 9.25, z: 6.75 },
+    { id: "A3", role: "slave", x: 0.75, y: 9.25, z: 2 },
+  ],
+};
 
 const room = { x: 10, y: 10, z: 8 };
-let anchors = presetAnchors.map((a) => ({ ...a }));
+let dimensions = 3;
+let anchors = presets[dimensions].map((a) => ({ ...a }));
 let dataset = [];
 let heatmapVisible = true;
+let locationPort = null;
+let locationReader = null;
+let locationWriter = null;
+let locationLineBuffer = "";
+let liveTruth = { x: 5, y: 5, z: 3 };
+let liveMisses = 0;
+let liveFixes = 0;
+let tdoaBiases = [0, 0, 0, 0];
 
 const $ = (selector) => document.querySelector(selector);
 const viewport = $("#tdoa-viewport");
@@ -227,6 +243,17 @@ function gdopAt(point) {
     return ui ? subtract(ui, u0) : null;
   });
   if (rows.some((row) => !row)) return Infinity;
+  if (dimensions === 2) {
+    let xx = 0, xy = 0, yy = 0;
+    rows.forEach((row) => {
+      xx += row[0] * row[0];
+      xy += row[0] * row[1];
+      yy += row[1] * row[1];
+    });
+    const det = xx * yy - xy * xy;
+    if (!Number.isFinite(det) || Math.abs(det) < 1e-10) return Infinity;
+    return Math.sqrt((xx + yy) / det);
+  }
   const normal = Array(9).fill(0);
   rows.forEach((row) => {
     for (let r = 0; r < 3; r += 1) {
@@ -248,8 +275,9 @@ function gdopColor(value) {
 
 function geometrySamples() {
   const values = [];
-  for (let iz = 0; iz < 4; iz += 1) {
-    const z = room.z * (0.18 + iz * 0.19);
+  const zLayers = dimensions === 2 ? 1 : 4;
+  for (let iz = 0; iz < zLayers; iz += 1) {
+    const z = dimensions === 2 ? Number($("#tdoa-cal-z")?.value || 3) : room.z * (0.18 + iz * 0.19);
     for (let ix = 0; ix < 7; ix += 1) {
       const x = room.x * (0.09 + ix * 0.137);
       for (let iy = 0; iy < 7; iy += 1) {
@@ -291,7 +319,8 @@ function percentile(values, p) {
 }
 
 function updateGeometryReadout(values) {
-  const center = gdopAt([room.x / 2, room.y / 2, room.z / 2]);
+  const centerZ = dimensions === 2 ? Number($("#tdoa-cal-z")?.value || 3) : room.z / 2;
+  const center = gdopAt([room.x / 2, room.y / 2, centerZ]);
   const p95 = percentile(values, 0.95);
   const zValues = anchors.map((a) => a.z);
   const spread = Math.max(...zValues) - Math.min(...zValues);
@@ -300,10 +329,12 @@ function updateGeometryReadout(values) {
   $("#tdoa-z-spread").textContent = `${spread.toFixed(2)} ft`;
   const grade = $("#tdoa-geometry-grade");
   const worstSignal = Math.max(center, p95);
-  if (worstSignal < 3 && spread >= room.z * 0.35) {
+  const verticalOkay = dimensions === 2 || spread >= room.z * 0.35;
+  const verticalFair = dimensions === 2 || spread >= room.z * 0.2;
+  if (worstSignal < 3 && verticalOkay) {
     grade.textContent = "Good geometry";
     grade.className = "tdoa-grade good";
-  } else if (worstSignal < 5 && spread >= room.z * 0.2) {
+  } else if (worstSignal < 5 && verticalFair) {
     grade.textContent = "Fair geometry";
     grade.className = "tdoa-grade fair";
   } else {
@@ -707,7 +738,7 @@ function setRoom(nextRoom, resetAnchors = false) {
   room.x = THREE.MathUtils.clamp(Number(nextRoom.x) || 10, 6, 100);
   room.y = THREE.MathUtils.clamp(Number(nextRoom.y) || 10, 6, 100);
   room.z = THREE.MathUtils.clamp(Number(nextRoom.z) || 8, 6, 40);
-  if (resetAnchors) anchors = presetAnchors.map((a) => ({ ...a }));
+  if (resetAnchors) anchors = presets[dimensions].map((a) => ({ ...a }));
   else {
     anchors.forEach((anchor) => {
       anchor.x = THREE.MathUtils.clamp(anchor.x * room.x / previous.x, 0, room.x);
@@ -723,12 +754,286 @@ function setRoom(nextRoom, resetAnchors = false) {
   resetView();
 }
 
-renderAnchorRows();
-rebuildAll();
-resetView();
+function showFirmwareMode(mode) {
+  const location = mode === "location";
+  $("#distance-mode").hidden = location;
+  $("#location-mode").hidden = !location;
+  $("#firmware-mode-distance").classList.toggle("active", !location);
+  $("#firmware-mode-location").classList.toggle("active", location);
+  $("#firmware-mode-distance").setAttribute("aria-selected", String(!location));
+  $("#firmware-mode-location").setAttribute("aria-selected", String(location));
+  if (location) setTimeout(() => { resize(); resetView(); drawCharts(); }, 0);
+  history.replaceState(null, "", location ? "#location" : "#distance");
+}
+
+function setDimensions(next) {
+  dimensions = Number(next) === 2 ? 2 : 3;
+  anchors = presets[dimensions].map((anchor) => ({ ...anchor }));
+  dataset = [];
+  try {
+    const saved = JSON.parse(localStorage.getItem(`opentags.tdoa.biases.${dimensions}d`) || "null");
+    tdoaBiases = Array.isArray(saved) && saved.length === 4 ? saved.map(Number) : [0, 0, 0, 0];
+  } catch { tdoaBiases = [0, 0, 0, 0]; }
+  $("#tdoa-hardware-count").textContent = `${dimensions === 2 ? 3 : 4} + 1`;
+  $("#tdoa-place-title").textContent = `Place ${dimensions === 2 ? "three" : "four"} anchors`;
+  $("#tdoa-toggle-heatmap").textContent = dimensions === 2 ? "GDOP plane" : "GDOP volume";
+  const a3Option = $("#tdoa-flash-anchor-id option[value='3']");
+  a3Option.disabled = dimensions === 2;
+  a3Option.hidden = dimensions === 2;
+  if (dimensions === 2 && $("#tdoa-flash-anchor-id").value === "3") $("#tdoa-flash-anchor-id").value = "0";
+  renderAnchorRows();
+  rebuildAll();
+  updateMetrics();
+  drawCharts();
+  resetView();
+}
+
+const firmwareCache = new Map();
+async function loadFirmware(url) {
+  if (firmwareCache.has(url)) return firmwareCache.get(url);
+  const response = await fetch(url, { cache: "no-cache" });
+  if (!response.ok) throw new Error(`Firmware download failed (${response.status})`);
+  const buffer = await response.arrayBuffer();
+  firmwareCache.set(url, buffer);
+  return buffer;
+}
+
+function findMagic(bytes, magicText) {
+  const magic = new TextEncoder().encode(magicText);
+  outer: for (let offset = 0; offset <= bytes.length - magic.length; offset += 1) {
+    for (let i = 0; i < magic.length; i += 1) if (bytes[offset + i] !== magic[i]) continue outer;
+    return offset;
+  }
+  return -1;
+}
+
+function copyFirmware(buffer) {
+  const bytes = new Uint8Array(buffer.byteLength);
+  bytes.set(new Uint8Array(buffer));
+  return bytes;
+}
+
+function anchorDistanceMm(index) {
+  const a = anchors[index];
+  const master = anchors[0];
+  return Math.hypot(a.x - master.x, a.y - master.y, a.z - master.z) * FT_TO_M * 1000;
+}
+
+function configuredAnchorFirmware(buffer, anchorId) {
+  const bytes = copyFirmware(buffer);
+  const offset = findMagic(bytes, "OTAG-TDOA-A-V1!!");
+  if (offset < 0) throw new Error("Anchor firmware configuration block not found.");
+  const view = new DataView(bytes.buffer);
+  bytes[offset + 17] = anchorId;
+  bytes[offset + 18] = anchors.length;
+  view.setInt32(offset + 20, Math.round(anchorDistanceMm(anchorId) / (299_792_458 / 63_897_600)), true);
+  view.setUint32(offset + 24, (10 + anchorId * 4) * 1_000_000, true);
+  return bytes.buffer;
+}
+
+function configuredTagFirmware(buffer) {
+  const bytes = copyFirmware(buffer);
+  const offset = findMagic(bytes, "OTAG-TDOA-T-V1!!");
+  if (offset < 0) throw new Error("Tag firmware configuration block not found.");
+  const view = new DataView(bytes.buffer);
+  bytes[offset + 17] = anchors.length;
+  bytes[offset + 18] = dimensions;
+  view.setInt32(offset + 20, Math.round(Number($("#tdoa-cal-z").value) * FT_TO_M * 1000), true);
+  for (let index = 0; index < 4; index += 1) {
+    const anchor = anchors[index] || { x: 0, y: 0, z: 0 };
+    const base = offset + 24 + index * 12;
+    view.setInt32(base, Math.round(anchor.x * FT_TO_M * 1000), true);
+    view.setInt32(base + 4, Math.round(anchor.y * FT_TO_M * 1000), true);
+    view.setInt32(base + 8, Math.round(anchor.z * FT_TO_M * 1000), true);
+    view.setInt32(offset + 72 + index * 4, tdoaBiases[index] || 0, true);
+  }
+  return bytes.buffer;
+}
+
+async function flashLocationFirmware(kind) {
+  const isAnchor = kind === "anchor";
+  const status = $(isAnchor ? "#tdoa-anchor-flash-status" : "#tdoa-tag-status");
+  const bar = $(isAnchor ? "#tdoa-anchor-flash-bar" : "#tdoa-tag-flash-bar");
+  const button = $(isAnchor ? "#tdoa-flash-anchor" : "#tdoa-flash-tag");
+  button.disabled = true;
+  bar.style.width = "0%";
+  try {
+    status.textContent = "Choose the STM32 DFU device…";
+    const source = await loadFirmware(isAnchor ? "bins/tdoa_anchor.bin" : "bins/tdoa_tag.bin");
+    const anchorId = Number($("#tdoa-flash-anchor-id").value);
+    const configured = isAnchor ? configuredAnchorFirmware(source, anchorId) : configuredTagFirmware(source);
+    const device = await detectDfu();
+    await dfuFlash(device, configured, 0x08000000, (progress) => {
+      const percent = Math.round(progress * 100);
+      bar.style.width = `${percent}%`;
+      status.textContent = `Flashing ${isAnchor ? `A${anchorId}` : "location tag"}… ${percent}%`;
+    });
+    bar.style.width = "100%";
+    status.textContent = `${isAnchor ? `A${anchorId}` : "Location tag"} flashed. Unplug, release BOOT0, and reconnect.`;
+  } catch (error) {
+    status.textContent = `Flash failed: ${error.message}`;
+  } finally {
+    button.disabled = false;
+  }
+}
+
+async function sendLocationCommand(command) {
+  if (!locationWriter) throw new Error("Location tag is not connected.");
+  await locationWriter.write(new TextEncoder().encode(`${command}\n`));
+}
+
+let liveRenderPending = false;
+function scheduleLiveLocationRender() {
+  if (liveRenderPending) return;
+  liveRenderPending = true;
+  setTimeout(() => {
+    liveRenderPending = false;
+    updateMetrics();
+    drawCharts();
+    buildDatasetView();
+  }, 180);
+}
+
+function handleLocationLine(line) {
+  const parts = line.trim().split(/\s+/);
+  if (parts[0] === "READY") {
+    $("#tdoa-tag-status").textContent = "Connected. Waiting for anchor reports…";
+    sendLocationCommand("INFO").catch(() => {});
+    return;
+  }
+  if (parts[0] === "INFO") {
+    $("#tdoa-tag-status").textContent = `Connected · ${parts.slice(1).join(" · ")}`;
+    return;
+  }
+  if (parts[0] === "P" && parts.length >= 8) {
+    const [seq, xMm, yMm, zMm] = parts.slice(1, 5).map(Number);
+    if (![seq, xMm, yMm, zMm].every(Number.isFinite)) return;
+    liveTruth = {
+      x: Number($("#tdoa-cal-x").value),
+      y: Number($("#tdoa-cal-y").value),
+      z: Number($("#tdoa-cal-z").value),
+    };
+    dataset.push({
+      trueX: liveTruth.x, trueY: liveTruth.y, trueZ: liveTruth.z,
+      estX: xMm / (FT_TO_M * 1000), estY: yMm / (FT_TO_M * 1000), estZ: zMm / (FT_TO_M * 1000),
+      timestamp: performance.now(), seq, rssi: NaN, valid: true,
+    });
+    if (dataset.length > 2000) dataset.shift();
+    liveFixes += 1;
+    $("#tdoa-view-state").textContent = `Live · ${liveFixes} fixes · ${liveMisses} misses`;
+    scheduleLiveLocationRender();
+    return;
+  }
+  if (parts[0] === "MISS") {
+    const seq = Number(parts[1]);
+    liveMisses += 1;
+    dataset.push({
+      trueX: Number($("#tdoa-cal-x").value), trueY: Number($("#tdoa-cal-y").value), trueZ: Number($("#tdoa-cal-z").value),
+      estX: 0, estY: 0, estZ: 0, timestamp: performance.now(), seq, rssi: NaN, valid: false,
+    });
+    if (dataset.length > 2000) dataset.shift();
+    $("#tdoa-view-state").textContent = `Live · ${liveFixes} fixes · ${liveMisses} misses`;
+    scheduleLiveLocationRender();
+    return;
+  }
+  if (parts[0] === "CAL" && parts[1] === "result") {
+    const values = parts.slice(2, 5).map(Number);
+    if (values.every(Number.isFinite)) {
+      tdoaBiases = [0, values[0], values[1], values[2]];
+      localStorage.setItem(`opentags.tdoa.biases.${dimensions}d`, JSON.stringify(tdoaBiases));
+      $("#tdoa-cal-status").textContent = `Complete · biases A1/A2/A3 = ${values.join(" / ")} DTU. Reflash the tag to make them persistent.`;
+    }
+    return;
+  }
+  if (line.startsWith("OK CAL START")) $("#tdoa-cal-status").textContent = "Collecting calibration samples… keep the tag still.";
+}
+
+async function readLocationSerial() {
+  const decoder = new TextDecoder();
+  locationReader = locationPort.readable.getReader();
+  try {
+    while (true) {
+      const { value, done } = await locationReader.read();
+      if (done) break;
+      locationLineBuffer += decoder.decode(value, { stream: true });
+      let newline;
+      while ((newline = locationLineBuffer.indexOf("\n")) >= 0) {
+        const line = locationLineBuffer.slice(0, newline).replace(/\r$/, "");
+        locationLineBuffer = locationLineBuffer.slice(newline + 1);
+        if (line.trim()) handleLocationLine(line);
+      }
+    }
+  } catch (error) {
+    if (locationPort) $("#tdoa-tag-status").textContent = `Serial error: ${error.message}`;
+  } finally {
+    try { locationReader.releaseLock(); } catch {}
+    locationReader = null;
+  }
+}
+
+async function connectLocationTag() {
+  if (!("serial" in navigator)) {
+    $("#tdoa-tag-status").textContent = "Web Serial requires Chrome or Edge.";
+    return;
+  }
+  try {
+    locationPort = await navigator.serial.requestPort();
+    await locationPort.open({ baudRate: 115200 });
+    locationWriter = locationPort.writable.getWriter();
+    $("#tdoa-connect-tag").disabled = true;
+    $("#tdoa-disconnect-tag").disabled = false;
+    $("#tdoa-cal-start").disabled = false;
+    $("#tdoa-tag-status").textContent = "Connected. Starting live location stream…";
+    readLocationSerial();
+  } catch (error) {
+    locationPort = null;
+    $("#tdoa-tag-status").textContent = `Connection failed: ${error.message}`;
+  }
+}
+
+async function disconnectLocationTag() {
+  try {
+    if (locationReader) await locationReader.cancel().catch(() => {});
+    if (locationWriter) { locationWriter.releaseLock(); locationWriter = null; }
+    if (locationPort) await locationPort.close().catch(() => {});
+  } finally {
+    locationPort = null;
+    $("#tdoa-connect-tag").disabled = false;
+    $("#tdoa-disconnect-tag").disabled = true;
+    $("#tdoa-cal-start").disabled = true;
+    $("#tdoa-tag-status").textContent = "Disconnected. Only the mobile tag connects to the computer.";
+  }
+}
+
+setDimensions(3);
 resize();
 drawCharts();
 requestAnimationFrame(animate);
+
+$("#firmware-mode-distance").addEventListener("click", () => showFirmwareMode("distance"));
+$("#firmware-mode-location").addEventListener("click", () => showFirmwareMode("location"));
+document.querySelectorAll('input[name="tdoa-dimensions"]').forEach((input) => {
+  input.addEventListener("change", () => { if (input.checked) setDimensions(input.value); });
+});
+$("#tdoa-flash-anchor").addEventListener("click", () => flashLocationFirmware("anchor"));
+$("#tdoa-flash-tag").addEventListener("click", () => flashLocationFirmware("tag"));
+$("#tdoa-connect-tag").addEventListener("click", connectLocationTag);
+$("#tdoa-disconnect-tag").addEventListener("click", disconnectLocationTag);
+$("#tdoa-cal-start").addEventListener("click", async () => {
+  const x = Math.round(Number($("#tdoa-cal-x").value) * FT_TO_M * 1000);
+  const y = Math.round(Number($("#tdoa-cal-y").value) * FT_TO_M * 1000);
+  const z = Math.round(Number($("#tdoa-cal-z").value) * FT_TO_M * 1000);
+  const samples = Math.max(10, Math.min(500, Number($("#tdoa-cal-samples").value) || 100));
+  dataset = [];
+  liveFixes = 0;
+  liveMisses = 0;
+  try {
+    await sendLocationCommand(`CAL START ${x} ${y} ${z} ${samples}`);
+    $("#tdoa-cal-status").textContent = `Starting ${samples}-sample calibration…`;
+  } catch (error) {
+    $("#tdoa-cal-status").textContent = error.message;
+  }
+});
 
 $("#tdoa-reset-view").addEventListener("click", resetView);
 $("#tdoa-toggle-heatmap").addEventListener("click", (event) => {
@@ -777,3 +1082,5 @@ $("#tdoa-template").addEventListener("click", () => downloadText(
 ));
 
 window.addEventListener("resize", drawCharts);
+
+showFirmwareMode(location.hash === "#location" ? "location" : "distance");
