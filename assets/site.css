@@ -19,11 +19,11 @@
   --fg: #1d1d1f;
   --ink: #0a0a0c;
   --muted: #6b6b6b;
-  --faint: #f5f5f7;
-  --panel: #fbfbfd;
-  --panel-2: #f5f5f7;
-  --line: #e8e8ed;
-  --line-strong: #d2d2d7;
+  --faint: #f5f5f5;
+  --panel: #fbfbfb;
+  --panel-2: #f5f5f5;
+  --line: #e8e8e8;
+  --line-strong: #d2d2d2;
   --accent: #1d1d1f;
   --link: #1d1d1f;
   --link-hover: #000;
@@ -179,7 +179,7 @@ button {
   justify-content: center;
   min-height: 44px;
   border: 1px solid var(--line-strong);
-  border-radius: 999px;
+  border-radius: 4px;
   background: transparent;
   color: var(--fg);
   padding: 9px 22px;
@@ -242,7 +242,7 @@ h2 {
 
 article {
   background: var(--faint);
-  border-radius: 18px;
+  border-radius: 4px;
   min-height: 0;
   padding: 26px 24px;
 }
@@ -298,7 +298,7 @@ footer a:hover {
 .footer-legal {
   max-width: 880px;
   margin: 0 0 18px;
-  color: #86868b;
+  color: #868686;
   font-size: 11px;
   line-height: 1.55;
 }
@@ -385,7 +385,7 @@ strong {
   object-fit: cover;
   object-position: center bottom;
   display: block;
-  border-radius: 8px;
+  border-radius: 4px;
 }
 
 .home-store-hero {
@@ -412,7 +412,7 @@ strong {
   grid-template-columns: minmax(0, 0.92fr) minmax(280px, 0.72fr);
   gap: 1px;
   border: 1px solid var(--line);
-  border-radius: 18px;
+  border-radius: 4px;
   background: var(--line);
   overflow: hidden;
   padding: 0;
@@ -463,7 +463,7 @@ strong {
   justify-content: space-between;
   gap: 14px;
   border: 1px solid var(--line);
-  border-radius: 999px;
+  border-radius: 4px;
   color: inherit;
   padding: 12px;
   text-decoration: none;
@@ -509,7 +509,7 @@ strong {
 
 .store-gallery-main {
   margin: 0;
-  border-radius: 18px;
+  border-radius: 4px;
   overflow: hidden;
   background: var(--faint);
 }
@@ -535,7 +535,7 @@ strong {
   aspect-ratio: 1 / 1;
   object-fit: cover;
   display: block;
-  border-radius: 12px;
+  border-radius: 4px;
   background: var(--faint);
 }
 
@@ -577,7 +577,7 @@ strong {
 
 .purchase-badges span {
   border: 1px solid var(--line);
-  border-radius: 999px;
+  border-radius: 4px;
   color: var(--muted);
   font-size: 11px;
   padding: 5px 9px;
@@ -594,7 +594,7 @@ strong {
   grid-template-columns: minmax(0, 1fr);
   gap: 16px;
   border: 1px solid var(--line-strong);
-  border-radius: 14px;
+  border-radius: 4px;
   background: var(--bg);
   padding: 18px;
 }
@@ -735,7 +735,7 @@ strong {
   position: relative;
   overflow: hidden;
   border: 1px solid var(--line);
-  border-radius: 18px;
+  border-radius: 4px;
   background: var(--panel);
   touch-action: pan-y;
 }
@@ -768,7 +768,7 @@ strong {
   bottom: 14px;
   max-width: min(520px, calc(100% - 28px));
   border: 1px solid var(--line);
-  border-radius: 12px;
+  border-radius: 4px;
   background: rgba(255, 255, 255, 0.82);
   color: var(--fg);
   font-size: 12px;
@@ -782,7 +782,7 @@ strong {
   width: 38px;
   min-height: 38px;
   height: 38px;
-  border-radius: 999px;
+  border-radius: 4px;
   background: rgba(255, 255, 255, 0.86);
   font-size: 24px;
   line-height: 1;
@@ -808,7 +808,7 @@ strong {
   min-width: 0;
   height: auto;
   min-height: 0;
-  border-radius: 12px;
+  border-radius: 4px;
   padding: 0;
   overflow: hidden;
   background: var(--panel);
@@ -890,7 +890,7 @@ strong {
   justify-content: space-between;
   gap: 12px;
   background: var(--faint);
-  border-radius: 18px;
+  border-radius: 4px;
   padding: 20px 22px 22px;
   text-decoration: none;
   min-width: 0;
@@ -1567,8 +1567,8 @@ label {
   overflow-x: auto;
   margin: 20px 0;
   border: 1px solid var(--line);
-  border-radius: 6px;
-  background: #f6f8fa;
+  border-radius: 4px;
+  background: #f7f7f7;
 }
 
 .docs-code code {
@@ -1784,7 +1784,7 @@ label {
 
 .workflow-media {
   overflow: hidden;
-  border-radius: 8px;
+  border-radius: 4px;
   background: var(--faint);
 }
 
@@ -1862,7 +1862,7 @@ label {
 .docs-hero figure {
   margin: 0;
   overflow: hidden;
-  border-radius: 8px;
+  border-radius: 4px;
   background: var(--faint);
 }
 
@@ -1999,7 +1999,7 @@ label {
   margin-top: 24px;
   padding: 17px 18px;
   border: 1px solid var(--line);
-  border-radius: 6px;
+  border-radius: 4px;
   font-family: var(--font-body);
   font-size: 12px;
 }
@@ -2049,7 +2049,7 @@ label {
   gap: 36px;
   padding: 34px;
   border: 1px solid var(--line-strong);
-  border-radius: 8px;
+  border-radius: 4px;
 }
 
 .status-marker {
@@ -2200,7 +2200,7 @@ label {
     grid-template-columns: repeat(2, minmax(0, 1fr));
     padding: 18px;
     border: 1px solid var(--line);
-    border-radius: 6px;
+    border-radius: 4px;
   }
 
   .docs-directory {
@@ -2373,7 +2373,7 @@ label {
   width: 100%;
   aspect-ratio: 4 / 3;
   border: 1px solid var(--line);
-  border-radius: 18px;
+  border-radius: 4px;
   overflow: hidden;
   background: var(--panel);
 }
@@ -2397,7 +2397,7 @@ label {
 
 .ranging-card {
   margin: 0;
-  border-radius: 18px;
+  border-radius: 4px;
   background: var(--faint);
   overflow: hidden;
   display: flex;
@@ -2543,7 +2543,7 @@ label {
 
 .hero-figure {
   margin: 52px 0 0;
-  border-radius: 24px;
+  border-radius: 4px;
   overflow: hidden;
   background: var(--faint);
 }
@@ -2582,7 +2582,7 @@ label {
 
 .stat-note {
   margin-top: 18px;
-  color: #86868b;
+  color: #868686;
   font-family: var(--font-body);
   font-size: 11px;
 }
@@ -2597,7 +2597,7 @@ label {
   display: flex;
   flex-direction: column;
   min-height: 0;
-  border-radius: 24px;
+  border-radius: 4px;
   overflow: hidden;
   background: var(--faint);
   padding: 0;
@@ -2661,7 +2661,7 @@ label {
   min-height: 0;
   height: auto;
   border-color: transparent;
-  border-radius: 12px;
+  border-radius: 4px;
   padding: 0;
   overflow: hidden;
   opacity: 0.55;

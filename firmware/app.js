@@ -568,7 +568,7 @@ function drawChart() {
     ctx.stroke();
   }
 
-  ctx.strokeStyle = "#C1FF43";
+  ctx.strokeStyle = "#111111";
   ctx.lineWidth = 1.5;
   ctx.beginPath();
   for (let i = 0; i < samples.length; i++) {
@@ -581,7 +581,7 @@ function drawChart() {
   const last = samples[samples.length - 1];
   const lx = padL + ((samples.length - 1) / (MAX_SAMPLES - 1)) * innerW;
   const ly = padT + ((hi - last.mm) / (hi - lo)) * innerH;
-  ctx.fillStyle = "#C1FF43";
+  ctx.fillStyle = "#111111";
   ctx.beginPath();
   ctx.arc(lx, ly, 3, 0, Math.PI * 2);
   ctx.fill();

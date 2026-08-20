@@ -4,7 +4,7 @@ import { detectDevice as detectDfu, flash as dfuFlash } from "./dfu.js";
 
 const FT_TO_M = 0.3048;
 const IN_PER_FT = 12;
-const anchorColors = [0xc7ff3d, 0xf7f9ff, 0xf7f9ff, 0xf7f9ff, 0xf7f9ff];
+const anchorColors = [0xffffff, 0xcccccc, 0xcccccc, 0xcccccc, 0xcccccc];
 const presets = {
   2: [
     { id: "A0", role: "master", x: 0.75, y: 0.75, z: 6.75 },
@@ -191,7 +191,7 @@ function buildAnchors() {
     node.add(new THREE.Line(stemGeometry, new THREE.LineDashedMaterial({ color, transparent: true, opacity: 0.25, dashSize: 0.14, gapSize: 0.09 })));
     node.children[node.children.length - 1].computeLineDistances();
 
-    const label = makeLabel(index === 0 ? "A0 · MASTER" : anchor.id, index === 0 ? "#c7ff3d" : "#f7f7f7");
+    const label = makeLabel(index === 0 ? "A0 · MASTER" : anchor.id, index === 0 ? "#ffffff" : "#cccccc");
     label.position.y = 0.47;
     node.add(label);
     anchorGroup.add(node);
@@ -201,7 +201,7 @@ function buildAnchors() {
   anchors.slice(1).forEach((anchor) => {
     const line = new THREE.Line(
       new THREE.BufferGeometry().setFromPoints([master, worldPoint(anchor.x, anchor.y, anchor.z)]),
-      new THREE.LineDashedMaterial({ color: 0xc7ff3d, transparent: true, opacity: 0.18, dashSize: 0.15, gapSize: 0.12 })
+      new THREE.LineDashedMaterial({ color: 0xffffff, transparent: true, opacity: 0.18, dashSize: 0.15, gapSize: 0.12 })
     );
     line.computeLineDistances();
     anchorGroup.add(line);
@@ -449,11 +449,11 @@ function buildDatasetView() {
 
   const estimateGeometry = new THREE.BufferGeometry();
   estimateGeometry.setAttribute("position", new THREE.Float32BufferAttribute(estimatePositions, 3));
-  dataGroup.add(new THREE.Points(estimateGeometry, new THREE.PointsMaterial({ color: 0xff4fb8, size: 0.09, sizeAttenuation: true, transparent: true, opacity: 0.9 })));
+  dataGroup.add(new THREE.Points(estimateGeometry, new THREE.PointsMaterial({ color: 0xaaaaaa, size: 0.09, sizeAttenuation: true, transparent: true, opacity: 0.9 })));
 
   const lineGeometry = new THREE.BufferGeometry();
   lineGeometry.setAttribute("position", new THREE.Float32BufferAttribute(errorLines, 3));
-  dataGroup.add(new THREE.LineSegments(lineGeometry, new THREE.LineBasicMaterial({ color: 0xff4fb8, transparent: true, opacity: 0.16 })));
+  dataGroup.add(new THREE.LineSegments(lineGeometry, new THREE.LineBasicMaterial({ color: 0xaaaaaa, transparent: true, opacity: 0.16 })));
 
   const truthPath = new THREE.Line(
     new THREE.BufferGeometry().setFromPoints(sampled.map((row) => worldPoint(row.trueX, row.trueY, row.trueZ))),
@@ -619,7 +619,7 @@ function drawHistogram(metrics) {
     const barW = innerW / bins.length;
     const barH = (count / maxCount) * innerH;
     const gradient = ctx.createLinearGradient(0, pad.top + innerH - barH, 0, pad.top + innerH);
-    gradient.addColorStop(0, "#c7ff3d");
+    gradient.addColorStop(0, "#ffffff");
     gradient.addColorStop(1, "rgba(255,255,255,.35)");
     ctx.fillStyle = gradient;
     ctx.fillRect(pad.left + index * barW + 1, pad.top + innerH - barH, Math.max(1, barW - 2), barH);
@@ -638,9 +638,9 @@ function drawCdf(metrics) {
   const pad = chartFrame(ctx, width, height, "error (in)", "CDF");
   if (!metrics) return;
   const sets = [
-    { values: metrics.errors.map((e) => e.total * IN_PER_FT), color: "#c7ff3d", label: "3D" },
-    { values: metrics.errors.map((e) => e.horizontal * IN_PER_FT), color: "#f7f7f7", label: "horizontal" },
-    { values: metrics.errors.map((e) => e.vertical * IN_PER_FT), color: "#ff4fb8", label: "vertical" },
+    { values: metrics.errors.map((e) => e.total * IN_PER_FT), color: "#ffffff", label: "3D" },
+    { values: metrics.errors.map((e) => e.horizontal * IN_PER_FT), color: "#aaaaaa", label: "horizontal" },
+    { values: metrics.errors.map((e) => e.vertical * IN_PER_FT), color: "#666666", label: "vertical" },
   ];
   const max = Math.max(1, ...sets.map((set) => percentile(set.values, 0.995) * 1.06));
   const innerW = width - pad.left - pad.right;

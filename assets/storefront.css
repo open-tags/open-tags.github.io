@@ -153,7 +153,7 @@
   height: min(50vw, 560px);
   min-height: 400px;
   margin: 52px 0 0;
-  border-radius: 5px;
+  border-radius: 4px;
   isolation: isolate;
 }
 
@@ -222,7 +222,7 @@
 
 .simple-how .ranging-card {
   border: 1px solid var(--store-line);
-  border-radius: 5px;
+  border-radius: 4px;
   background: var(--store-soft);
 }
 
@@ -249,7 +249,7 @@
 .simple-kit {
   overflow: hidden;
   border: 1px solid var(--store-line);
-  border-radius: 5px;
+  border-radius: 4px;
   background: #fff;
   padding: 0;
 }
@@ -358,9 +358,9 @@
 .simple-integration pre {
   margin: 0;
   overflow-x: auto;
-  border-radius: 5px;
+  border-radius: 4px;
   background: #111;
-  color: #f3f4f6;
+  color: #f3f3f3;
   padding: 34px;
   font: 12px/1.9 var(--font-body);
 }
@@ -561,7 +561,7 @@
   margin: 0;
   width: 100%;
   aspect-ratio: 4 / 3;
-  border-radius: 5px;
+  border-radius: 4px;
   isolation: isolate;
 }
 
@@ -659,7 +659,7 @@
   overflow: hidden;
   margin: 0;
   border: 1px solid var(--store-line);
-  border-radius: 5px;
+  border-radius: 4px;
   background: var(--store-soft);
   padding: 0;
 }
@@ -696,7 +696,7 @@
 .mechanical-files a,
 .one-project-links a {
   border: 1px solid var(--store-line);
-  border-radius: 5px;
+  border-radius: 4px;
   color: var(--store-ink);
   text-decoration: none;
 }
