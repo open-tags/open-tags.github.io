@@ -4,7 +4,7 @@ import { detectDevice as detectDfu, flash as dfuFlash } from "./dfu.js";
 
 const FT_TO_M = 0.3048;
 const IN_PER_FT = 12;
-const anchorColors = [0xc7ff3d, 0x5ea1ff, 0x5ea1ff, 0x5ea1ff, 0x5ea1ff];
+const anchorColors = [0xc7ff3d, 0xf7f9ff, 0xf7f9ff, 0xf7f9ff, 0xf7f9ff];
 const presets = {
   2: [
     { id: "A0", role: "master", x: 0.75, y: 0.75, z: 6.75 },
@@ -36,8 +36,8 @@ let tdoaBiases = [0, 0, 0, 0];
 const $ = (selector) => document.querySelector(selector);
 const viewport = $("#tdoa-viewport");
 const scene = new THREE.Scene();
-scene.background = new THREE.Color(0x07090d);
-scene.fog = new THREE.FogExp2(0x07090d, 0.036);
+scene.background = new THREE.Color(0x080808);
+scene.fog = new THREE.FogExp2(0x080808, 0.036);
 
 const camera = new THREE.PerspectiveCamera(43, 1, 0.02, 250);
 const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: false });
@@ -54,7 +54,7 @@ controls.minDistance = 3;
 controls.maxDistance = 50;
 controls.maxPolarAngle = Math.PI * 0.91;
 
-scene.add(new THREE.HemisphereLight(0x97b8ff, 0x101018, 1.7));
+scene.add(new THREE.HemisphereLight(0xffffff, 0x111111, 1.7));
 const keyLight = new THREE.DirectionalLight(0xffffff, 2.4);
 keyLight.position.set(6, 12, 4);
 scene.add(keyLight);
@@ -86,14 +86,14 @@ function makeLabel(text, color = "#ffffff") {
   canvas.width = 256;
   canvas.height = 96;
   const ctx = canvas.getContext("2d");
-  ctx.fillStyle = "rgba(4,6,10,.82)";
+  ctx.fillStyle = "rgba(0,0,0,.82)";
   ctx.beginPath();
   ctx.roundRect(18, 12, 220, 62, 22);
   ctx.fill();
   ctx.strokeStyle = "rgba(255,255,255,.18)";
   ctx.stroke();
   ctx.fillStyle = color;
-  ctx.font = "bold 30px ui-monospace, monospace";
+  ctx.font = "bold 30px system-ui, sans-serif";
   ctx.textAlign = "center";
   ctx.textBaseline = "middle";
   ctx.fillText(text, 128, 44);
@@ -112,13 +112,13 @@ function buildRoom() {
 
   const floor = new THREE.Mesh(
     new THREE.PlaneGeometry(W, D),
-    new THREE.MeshStandardMaterial({ color: 0x0c1018, roughness: 0.86, metalness: 0.08 })
+    new THREE.MeshStandardMaterial({ color: 0x101010, roughness: 0.86, metalness: 0.08 })
   );
   floor.rotation.x = -Math.PI / 2;
   floor.position.set(W / 2, 0, D / 2);
   roomGroup.add(floor);
 
-  const grid = new THREE.GridHelper(Math.max(W, D), Math.round(Math.max(W, D) * 2), 0x2d3950, 0x1a2230);
+  const grid = new THREE.GridHelper(Math.max(W, D), Math.round(Math.max(W, D) * 2), 0x444444, 0x242424);
   grid.position.set(W / 2, 0.006, D / 2);
   if (W !== D) grid.scale.set(W / Math.max(W, D), 1, D / Math.max(W, D));
   grid.material.transparent = true;
@@ -127,13 +127,13 @@ function buildRoom() {
 
   const box = new THREE.LineSegments(
     new THREE.EdgesGeometry(new THREE.BoxGeometry(W, H, D)),
-    new THREE.LineBasicMaterial({ color: 0x52627c, transparent: true, opacity: 0.5 })
+    new THREE.LineBasicMaterial({ color: 0x666666, transparent: true, opacity: 0.5 })
   );
   box.position.set(W / 2, H / 2, D / 2);
   roomGroup.add(box);
 
   const wallMaterial = new THREE.MeshBasicMaterial({
-    color: 0x263247,
+    color: 0x333333,
     transparent: true,
     opacity: 0.055,
     side: THREE.DoubleSide,
@@ -149,7 +149,7 @@ function buildRoom() {
 
   for (let i = 0; i <= Math.ceil(W); i += 1) {
     if (i % 2 !== 0) continue;
-    const label = makeLabel(`${i} ft`, "#7e899d");
+    const label = makeLabel(`${i} ft`, "#888888");
     label.scale.set(0.9, 0.34, 1);
     label.position.set(i, 0.18, -0.22);
     roomGroup.add(label);
@@ -191,7 +191,7 @@ function buildAnchors() {
     node.add(new THREE.Line(stemGeometry, new THREE.LineDashedMaterial({ color, transparent: true, opacity: 0.25, dashSize: 0.14, gapSize: 0.09 })));
     node.children[node.children.length - 1].computeLineDistances();
 
-    const label = makeLabel(index === 0 ? "A0 · MASTER" : anchor.id, index === 0 ? "#c7ff3d" : "#8bbbff");
+    const label = makeLabel(index === 0 ? "A0 · MASTER" : anchor.id, index === 0 ? "#c7ff3d" : "#f7f7f7");
     label.position.y = 0.47;
     node.add(label);
     anchorGroup.add(node);
@@ -587,8 +587,8 @@ function chartFrame(ctx, width, height, xLabel, yLabel) {
   ctx.clearRect(0, 0, width, height);
   ctx.strokeStyle = "rgba(255,255,255,.1)";
   ctx.lineWidth = 1;
-  ctx.fillStyle = "#7f8797";
-  ctx.font = "9px ui-monospace, monospace";
+  ctx.fillStyle = "#858585";
+  ctx.font = "9px system-ui, sans-serif";
   for (let i = 0; i <= 4; i += 1) {
     const y = pad.top + ((height - pad.top - pad.bottom) * i) / 4;
     ctx.beginPath();
@@ -620,12 +620,12 @@ function drawHistogram(metrics) {
     const barH = (count / maxCount) * innerH;
     const gradient = ctx.createLinearGradient(0, pad.top + innerH - barH, 0, pad.top + innerH);
     gradient.addColorStop(0, "#c7ff3d");
-    gradient.addColorStop(1, "rgba(94,161,255,.35)");
+    gradient.addColorStop(1, "rgba(255,255,255,.35)");
     ctx.fillStyle = gradient;
     ctx.fillRect(pad.left + index * barW + 1, pad.top + innerH - barH, Math.max(1, barW - 2), barH);
   });
-  ctx.fillStyle = "#7f8797";
-  ctx.font = "9px ui-monospace, monospace";
+  ctx.fillStyle = "#858585";
+  ctx.font = "9px system-ui, sans-serif";
   ctx.fillText("0", pad.left, height - 7);
   ctx.textAlign = "right";
   ctx.fillText(max.toFixed(1), width - pad.right, height - 7);
@@ -639,7 +639,7 @@ function drawCdf(metrics) {
   if (!metrics) return;
   const sets = [
     { values: metrics.errors.map((e) => e.total * IN_PER_FT), color: "#c7ff3d", label: "3D" },
-    { values: metrics.errors.map((e) => e.horizontal * IN_PER_FT), color: "#5ea1ff", label: "horizontal" },
+    { values: metrics.errors.map((e) => e.horizontal * IN_PER_FT), color: "#f7f7f7", label: "horizontal" },
     { values: metrics.errors.map((e) => e.vertical * IN_PER_FT), color: "#ff4fb8", label: "vertical" },
   ];
   const max = Math.max(1, ...sets.map((set) => percentile(set.values, 0.995) * 1.06));
@@ -657,10 +657,10 @@ function drawCdf(metrics) {
     });
     ctx.stroke();
     ctx.fillStyle = set.color;
-    ctx.font = "9px ui-monospace, monospace";
+    ctx.font = "9px system-ui, sans-serif";
     ctx.fillText(set.label, pad.left + 8 + setIndex * 72, pad.top + 12);
   });
-  ctx.fillStyle = "#7f8797";
+  ctx.fillStyle = "#858585";
   ctx.fillText("0", pad.left, height - 7);
   ctx.textAlign = "right";
   ctx.fillText(max.toFixed(1), width - pad.right, height - 7);

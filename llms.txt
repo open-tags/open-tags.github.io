@@ -6,14 +6,14 @@ Key facts:
 
 - Product: opentag one, a UWB distance and indoor location tag in a PETG enclosure with clear lid
 - Kits: Distance kit (2 tags, $199) gives live point-to-point distance; Location kit (5 tags, $499) provides indoor location hardware with 4 fixed anchors plus 1 mobile tag
-- V2 engineering targets pending ground-truthed validation: ±10 cm TWR ranging accuracy, ±20 cm TDOA position accuracy, 50 Hz update rate, 60 m line-of-sight range
+- Engineering targets pending ground-truthed validation: ±10 cm TWR ranging accuracy, ±20 cm TDOA position accuracy, 50 Hz update rate, 60 m line-of-sight range
 - Preliminary TWR evidence from one pair and the original 50 Hz profile: P95 absolute error was 28.0 mm at the 1 m calibration point, 77.9 mm at 3 m, and 77.3 mm at 5 m; these short indoor line-of-sight runs are not a finished benchmark
 - Interfaces: USB-C serial stream, CAN and CAN FD; powered over USB-C or a 6–24V input with reverse-polarity protection
 - MCU: STM32 Cortex-M4 at 170 MHz, 256K flash, 128K RAM; radio: Qorvo DWM3000
 - Firmware: open source Rust (Embassy framework), flashable and debuggable entirely from the browser via WebUSB / Web Serial — no toolchain or vendor IDE required
 - Open files: mechanical CAD (STEP) for the full assembly, case, and lid; firmware source on GitHub; schematics/PCB files not currently published
 - Use cases: indoor robot navigation, drone flight without a motion-capture rig, docking and follow-me between machines, UWB anchor network bring-up, asset-tracking prototypes, RF field testing
-- Integration: parse live TWR distance from the USB serial stream; ranging over CAN/CAN FD, TDOA position output, and a ROS 2 driver are in development
+- Integration: parse live TWR distance and TDOA position from USB serial; ROS 2 publishes range, position, events, and diagnostics
 - Availability: ships in about 1 week from San Diego, CA, USA
 - Policies: 30-day returns, 1-year limited warranty; sold as a development kit for evaluation (not certified as a finished consumer product)
 - Contact: hello@open-tags.com
@@ -21,13 +21,15 @@ Key facts:
 ## Pages
 
 - [Home](https://open-tags.com/): overview, kit pricing, how UWB ranging works
-- [opentag one](https://open-tags.com/one/): product page — kits and checkout, performance targets, board specs, CAD downloads, applications, FAQ
+- [opentag one](https://open-tags.com/one/): project page — hardware specs, mechanical details, CAD downloads, source, and integration links
 - [Documentation](https://open-tags.com/docs/): developer overview and current capability status
 - [Quickstart](https://open-tags.com/docs/quickstart/): browser-based flashing, connection, calibration, and static testing
 - [Host scripts](https://open-tags.com/docs/scripts/): runnable Python and shell tools for discovery, info, monitoring, calibration, testing, and DFU flashing
 - [Serial protocol](https://open-tags.com/docs/protocol/): commands, responses, distance records, and integration examples
 - [Validation](https://open-tags.com/validation/): current benchmark status, engineering targets, and reproducible test protocol
 - [Firmware console](https://open-tags.com/firmware/): flash firmware, log data, plot live distance, and calibrate from the browser over WebUSB / Web Serial
+- [Privacy](https://open-tags.com/privacy/): website and order privacy policy
+- [Terms](https://open-tags.com/terms/): product, ordering, returns, and warranty terms
 - [GitHub](https://github.com/open-tags): firmware source, CAD, and roadmap
 
 ## Glossary

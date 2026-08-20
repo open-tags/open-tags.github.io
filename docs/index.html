@@ -7,14 +7,14 @@
     <title>Documentation | opentags</title>
     <link rel="icon" type="image/png" href="/favicon.png?v=2" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png?v=2" />
-    <link rel="stylesheet" href="/assets/site.css" />
+    <link rel="stylesheet" href="/assets/site.css?v=8" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/styles/github.min.css" />
   </head>
-  <body class="docs-site">
+  <body class="docs-site docs-home-page">
     <header class="site-header" data-site-header>
       <a class="brand" href="/" aria-label="opentags home">opentags</a>
       <button class="nav-toggle" type="button" data-nav-toggle aria-label="Open menu" aria-expanded="false"><span class="nav-toggle-icon" aria-hidden="true"></span></button>
-      <nav aria-label="Primary"><a href="/one/">One</a><a aria-current="page" href="/docs/">Docs</a><a href="/firmware/">Firmware</a><a href="https://github.com/open-tags" rel="noreferrer">GitHub</a></nav>
+      <nav aria-label="Primary"><a href="/#products">Products</a><a aria-current="page" href="/docs/">Docs</a><a href="/firmware/">Console</a><a href="https://github.com/open-tags" rel="noreferrer">GitHub</a></nav>
     </header>
     <main class="docs-shell">
       <aside class="docs-sidebar" aria-label="Documentation navigation">
@@ -30,7 +30,7 @@
         <a href="/docs/can/">CAN / CAN FD</a>
         <span>Integrate</span>
         <a href="/docs/scripts/">Python scripts</a>
-        <a href="/docs/rust/">Rust examples</a>
+        <a href="/docs/ros2/">ROS 2 driver</a><a href="/docs/rust/">Rust examples</a>
         <span>Test</span>
         <a href="/docs/calibration/">Calibration</a>
         <a href="/validation/">Validation</a>
@@ -41,7 +41,7 @@
         <h1>opentag one documentation</h1>
         <p class="docs-lead">Flash two tags, read live UWB ranges, calibrate a hardware pair, and collect reproducible test data.</p>
 
-        <div class="docs-callout"><strong>Current release</strong><p><code>twr_init-5</code> and <code>twr_resp-5</code>, channel 9 at 850 kbps with a 128-symbol preamble, IEEE SFD, and a 40 Hz target.</p></div>
+        <div class="docs-callout"><strong>Reference profile</strong><p>Channel 9 at 850 kbps with a 128-symbol preamble, IEEE SFD, and a 40 Hz target.</p></div>
 
         <h2 id="choose-workflow">Choose a workflow</h2>
         <div class="docs-link-list">
@@ -51,6 +51,7 @@
           <a href="/docs/protocol/"><strong>USB serial</strong><span>Commands, stream records, field types, diagnostics, and integration examples.</span></a>
           <a href="/docs/can/"><strong>CAN / CAN FD</strong><span>Wiring, bus timing, test frames, bring-up procedure, and current protocol status.</span></a>
           <a href="/docs/scripts/"><strong>Python scripts</strong><span>Automate discovery, device info, monitoring, calibration, static tests, and DFU flashing.</span></a>
+          <a href="/docs/ros2/"><strong>ROS 2 driver</strong><span>Publish range, position, events, and diagnostics from the USB serial stream.</span></a>
           <a href="/docs/rust/"><strong>Rust examples</strong><span>Buildable Embassy examples for classical CAN and 64-byte CAN FD frames.</span></a>
         </div>
 
@@ -69,8 +70,9 @@ python3 list_ports.py</code></pre>
             <tr><td>Two-way ranging</td><td><span class="status-text stable">Operational</span></td><td>USB serial or browser</td></tr>
             <tr><td>Pair calibration</td><td><span class="status-text stable">Operational</span></td><td>Host script or browser</td></tr>
             <tr><td>Static CSV test</td><td><span class="status-text stable">Operational</span></td><td>Host script or browser</td></tr>
+            <tr><td>ROS 2 driver</td><td><span class="status-text stable">Available</span></td><td>USB serial</td></tr>
             <tr><td>CAN range stream</td><td><span class="status-text experimental">In development</span></td><td>CAN hardware available</td></tr>
-            <tr><td>TDOA position</td><td><span class="status-text experimental">Experimental</span></td><td>Firmware under validation</td></tr>
+            <tr><td>TDOA position</td><td><span class="status-text stable">Operational</span></td><td>Browser console or ROS 2</td></tr>
           </tbody>
         </table>
 
@@ -78,6 +80,6 @@ python3 list_ports.py</code></pre>
       </article>
     </main>
     <footer><div class="footer-row"><span>&copy; 2026 opentags</span><a href="mailto:hello@open-tags.com">hello@open-tags.com</a></div></footer>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/highlight.min.js" defer></script><script src="/assets/docs.js" defer></script><script type="module" src="/assets/site.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/highlight.min.js" defer></script><script src="/assets/docs.js" defer></script><script type="module" src="/assets/site.js?v=5"></script>
   </body>
 </html>

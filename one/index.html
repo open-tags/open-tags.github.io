@@ -1,324 +1,97 @@
 <!doctype html>
 <html lang="en">
   <head>
-    <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-JZYWGTNDLG"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
       gtag('js', new Date());
-
       gtag('config', 'G-JZYWGTNDLG');
     </script>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="description" content="opentag one &mdash; open UWB distance and indoor location hardware for robots. USB-C, CAN FD, 6&ndash;24V, Rust firmware." />
+    <meta name="description" content="opentag one: open UWB distance and indoor positioning hardware for robotics." />
     <title>opentag one</title>
     <meta property="og:title" content="opentag one" />
-    <meta property="og:description" content="Open UWB distance and indoor location hardware for robots. USB-C, CAN FD hardware, 6&ndash;24V, and Rust firmware." />
+    <meta property="og:description" content="Open UWB distance and indoor positioning hardware for robotics." />
     <meta property="og:type" content="website" />
     <meta property="og:image" content="https://open-tags.com/assets/images/one/site/hero.jpg" />
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="opentag one" />
-    <meta name="twitter:description" content="Open UWB distance and indoor location hardware for robots. USB-C, CAN FD hardware, 6&ndash;24V, and Rust firmware." />
+    <link rel="canonical" href="https://open-tags.com/one/" />
     <link rel="icon" type="image/png" href="/favicon.png?v=2" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png?v=2" />
-    <link rel="stylesheet" href="/assets/site.css" />
-    <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "Product",
-      "name": "opentag one",
-      "description": "Compact open UWB hardware for real-time distance and indoor location. STM32 + DWM3000, Rust firmware, USB-C, CAN FD, 6-24V input.",
-      "image": "https://open-tags.com/assets/images/one/site/hero.jpg",
-      "brand": { "@type": "Brand", "name": "opentags" },
-      "offers": [
-        {
-          "@type": "Offer",
-          "name": "Distance kit (2 tags)",
-          "price": "199",
-          "priceCurrency": "USD",
-          "availability": "https://schema.org/InStock",
-          "url": "https://open-tags.com/one/"
-        },
-        {
-          "@type": "Offer",
-          "name": "Location kit (5 tags)",
-          "price": "499",
-          "priceCurrency": "USD",
-          "availability": "https://schema.org/InStock",
-          "url": "https://open-tags.com/one/"
-        }
-      ]
-    }
-    </script>
+    <link rel="stylesheet" href="/assets/site.css?v=8" />
+    <link rel="stylesheet" href="/assets/storefront.css?v=14" />
   </head>
-  <body>
+  <body class="simple-store">
     <header class="site-header" data-site-header>
       <a class="brand" href="/" aria-label="opentags home">opentags</a>
-      <button class="nav-toggle" type="button" data-nav-toggle aria-label="Open menu" aria-expanded="false">
-        <span class="nav-toggle-icon" aria-hidden="true"></span>
-      </button>
-      <nav aria-label="Primary">
-        <a aria-current="page" href="/one/">One</a>
-        <a href="/docs/">Docs</a>
-        <a href="/firmware/">Firmware</a>
-        <a href="https://github.com/open-tags" rel="noreferrer">GitHub</a>
-      </nav>
+      <button class="nav-toggle" type="button" data-nav-toggle aria-label="Open menu" aria-expanded="false"><span class="nav-toggle-icon" aria-hidden="true"></span></button>
+      <nav aria-label="Primary"><a aria-current="page" href="/one/">One</a><a href="/docs/">Docs</a><a href="/firmware/">Console</a><a href="https://github.com/open-tags" rel="noreferrer">GitHub</a></nav>
     </header>
 
-    <main>
-      <section id="buy" class="store-hero">
-        <h1 class="store-title">opentag one</h1>
-        <div class="store-gallery" aria-label="opentag one product photos" data-gallery>
-          <figure class="store-gallery-main" data-gallery-main>
-            <img src="/assets/images/one/bringup/twr_double_blink.jpg" alt="opentag one pair measuring live distance" width="1920" height="1280" fetchpriority="high" />
-          </figure>
-          <div class="store-thumbs">
-            <button type="button" class="active" data-gallery-thumb="/assets/images/one/bringup/twr_double_blink.jpg" aria-label="View photo 1">
-              <img src="/assets/images/one/bringup/twr_double_blink.jpg" alt="" width="1920" height="1280" loading="lazy" decoding="async" />
-            </button>
-            <button type="button" data-gallery-thumb="/assets/images/one/bringup/can_fd.jpg" aria-label="View photo 2">
-              <img src="/assets/images/one/bringup/can_fd.jpg" alt="" width="1920" height="1280" loading="lazy" decoding="async" />
-            </button>
-            <button type="button" data-gallery-thumb="/assets/images/one/bringup/twr_double.jpg" aria-label="View photo 3">
-              <img src="/assets/images/one/bringup/twr_double.jpg" alt="" width="1920" height="1280" loading="lazy" decoding="async" />
-            </button>
-            <button type="button" data-gallery-thumb="/assets/images/one/bringup/twr_solo.jpg" aria-label="View photo 4">
-              <img src="/assets/images/one/bringup/twr_solo.jpg" alt="" width="1920" height="1280" loading="lazy" decoding="async" />
-            </button>
+    <main class="one-main">
+      <section class="one-hero">
+        <div class="one-hero-copy">
+          <p class="simple-label">opentag one</p>
+          <h1>UWB hardware for robots.</h1>
+          <p>Measure distance between machines or locate them inside a workspace. Connect over USB-C or CAN FD and integrate through ROS 2.</p>
+          <div class="one-actions">
+            <a class="simple-button primary" href="/#kits">Buy a kit</a>
+            <a class="simple-button" href="/docs/quickstart/">Quickstart</a>
           </div>
         </div>
-
-        <aside class="purchase-panel" aria-label="Buy opentag one">
-          <div class="variant-stack" aria-label="Choose a kit">
-            <article class="variant-card">
-              <div class="variant-copy">
-                <span class="buy-kicker">Distance kit</span>
-                <h2>2 Tags <span>$199</span></h2>
-                <p>Live distance between two points, streamed over USB. Docking, follow-me, and proximity between robots.</p>
-              </div>
-              <a class="button primary checkout-button" href="https://buy.stripe.com/6oU8wOazx25cbkpgyQg7e0f" rel="noreferrer">Buy</a>
-            </article>
-
-            <article class="variant-card featured">
-              <div class="variant-copy">
-                <span class="buy-kicker">Location kit</span>
-                <h2>5 Tags <span>$499</span></h2>
-                <p>Five tags for indoor location: four fixed anchors and one mobile tag.</p>
-              </div>
-              <a class="button primary checkout-button" href="https://buy.stripe.com/5kQ14m5fdcJQagleqIg7e0g" rel="noreferrer">Buy</a>
-            </article>
-          </div>
-
-          <dl class="purchase-details">
-            <div><dt>Shipping</dt><dd>Ships in 1 week from San Diego, CA</dd></div>
-            <div><dt>Returns</dt><dd>30-day returns</dd></div>
-            <div><dt>Warranty</dt><dd>1-year limited warranty</dd></div>
-            <div><dt>Docs</dt><dd><a href="/docs/quickstart/">Quickstart guide</a></dd></div>
-          </dl>
-        </aside>
+        <figure class="one-hero-media">
+          <img src="/assets/images/one/site/hero.jpg" alt="Two opentag one devices" width="1920" height="960" fetchpriority="high" />
+          <figcaption>opentag one</figcaption>
+        </figure>
       </section>
 
-      <section class="band">
-        <div class="section-head">
-          <p class="eyebrow">V2 validation</p>
-          <h2>Performance targets</h2>
-        </div>
-        <div class="stat-row">
-          <div><strong>&plusmn;10 cm</strong><span>distance accuracy target</span></div>
-          <div><strong>&plusmn;20 cm</strong><span>location accuracy target</span></div>
-          <div><strong>50 Hz</strong><span>update-rate target</span></div>
-          <div><strong>60 m</strong><span>line-of-sight target</span></div>
-        </div>
-        <p class="stat-note">Engineering targets, not published benchmark results. Environment, mounting, and anchor geometry affect performance.</p>
-        <a class="inline-link" href="/validation/">Test protocol and current status &rarr;</a>
-      </section>
-
-      <section class="band">
-        <div class="section-head">
-          <h2>How it works</h2>
-        </div>
-        <div class="ranging-grid">
-          <figure class="ranging-card">
-            <figcaption>
-              <strong>Distance</strong>
-              <span>One tag pings, the other replies. Distance comes from the signal's round-trip time.</span>
-            </figcaption>
-            <svg class="ranging-svg" viewBox="0 0 400 220" role="img" aria-label="Two-way ranging animation">
-              <line x1="94" y1="110" x2="306" y2="110" class="ranging-link" />
-              <circle cx="80" cy="110" r="60" class="ranging-pulse ranging-pulse-a" fill="none" />
-              <circle cx="320" cy="110" r="60" class="ranging-pulse ranging-pulse-b" fill="none" />
-              <circle cx="80" cy="110" r="13" class="ranging-tag" />
-              <circle cx="320" cy="110" r="13" class="ranging-tag" />
-              <text x="80" y="160" class="ranging-label" text-anchor="middle">A</text>
-              <text x="320" y="160" class="ranging-label" text-anchor="middle">B</text>
-            </svg>
-          </figure>
-          <figure class="ranging-card">
-            <figcaption>
-              <strong>Location</strong>
-              <span>One mobile tag pings, four fixed anchors listen. Location comes from arrival-time differences.</span>
-            </figcaption>
-            <svg class="ranging-svg" viewBox="0 0 400 220" role="img" aria-label="Location animation with four anchors">
-              <line x1="70" y1="50" x2="330" y2="50" class="ranging-link" />
-              <line x1="330" y1="50" x2="330" y2="190" class="ranging-link" />
-              <line x1="330" y1="190" x2="70" y2="190" class="ranging-link" />
-              <line x1="70" y1="190" x2="70" y2="50" class="ranging-link" />
-              <circle cx="70" cy="50" r="80" class="ranging-pulse ranging-pulse-a1" fill="none" />
-              <circle cx="330" cy="50" r="80" class="ranging-pulse ranging-pulse-a2" fill="none" />
-              <circle cx="330" cy="190" r="80" class="ranging-pulse ranging-pulse-a3" fill="none" />
-              <circle cx="70" cy="190" r="80" class="ranging-pulse ranging-pulse-a4" fill="none" />
-              <circle cx="70" cy="50" r="11" class="ranging-anchor-pulse ranging-anchor-1" />
-              <circle cx="330" cy="50" r="11" class="ranging-anchor-pulse ranging-anchor-2" />
-              <circle cx="330" cy="190" r="11" class="ranging-anchor-pulse ranging-anchor-3" />
-              <circle cx="70" cy="190" r="11" class="ranging-anchor-pulse ranging-anchor-4" />
-              <circle cx="160" cy="100" r="9" class="ranging-tag" />
-              <text x="70" y="36" class="ranging-label" text-anchor="middle">A1</text>
-              <text x="330" y="36" class="ranging-label" text-anchor="middle">A2</text>
-              <text x="330" y="212" class="ranging-label" text-anchor="middle">A3</text>
-              <text x="70" y="212" class="ranging-label" text-anchor="middle">A4</text>
-              <text x="160" y="89" class="ranging-label" text-anchor="middle">T</text>
-            </svg>
-          </figure>
-        </div>
-      </section>
-
-      <section class="band">
-        <div class="section-head">
-          <h2>Getting data out</h2>
-        </div>
-        <div class="grid use-grid">
-          <article><h3>USB-C</h3><p>One cable powers the tag and streams distances and timestamps as plain serial. Plot live in the <a href="/firmware/">browser console</a> or parse from any language.</p></article>
-          <article><h3>CAN FD</h3><p>CAN and CAN FD hardware plus bus-test firmware are available. Streaming live ranges over CAN is in development.</p></article>
-          <article><h3>ROS 2</h3><p>Driver on the roadmap. The serial protocol is simple to wrap in a node today; follow along on <a href="https://github.com/open-tags" rel="noreferrer">GitHub</a>.</p></article>
-        </div>
-      </section>
-
-      <section class="band">
-        <div class="section-head">
-          <h2>In the box</h2>
-        </div>
-        <div class="grid use-grid">
-          <article><h3>Assembled Tags</h3><p>2 or 5 opentag one units in PETG enclosures with clear lids, built and tested in San Diego.</p></article>
-          <article><h3>Firmware Loaded</h3><p>Every tag ships flashed and ready to range. Update any time from the <a href="/firmware/">browser console</a>.</p></article>
-          <article><h3>Open Files</h3><p>Mechanical CAD (STEP) downloads below, firmware source on <a href="https://github.com/open-tags" rel="noreferrer">GitHub</a>.</p></article>
-        </div>
-      </section>
-
-      <section id="specs" class="band product-specs">
-        <div class="section-head">
-          <h2>Tech specs</h2>
-        </div>
-        <dl class="spec-list">
-          <div><dt>Radio</dt><dd>DWM3000 UWB</dd></div>
-          <div><dt>MCU</dt><dd>STM32-M4 &middot; 170 MHz &middot; 256K flash &middot; 128K RAM</dd></div>
-          <div><dt>Programming</dt><dd>SWD &middot; USB-C via web console</dd></div>
-          <div><dt>Power</dt><dd>USB-C or 6&ndash;24V in &middot; reverse-polarity protected</dd></div>
-          <div><dt>I/O</dt><dd>USB-C, CAN, CAN FD</dd></div>
-          <div><dt>Firmware</dt><dd>Embassy (Rust)</dd></div>
-          <div><dt>Enclosure</dt><dd>PETG case &middot; acrylic lid</dd></div>
+      <section class="one-section">
+        <div class="one-section-heading"><p class="simple-label">Hardware</p><h2>Built to integrate.</h2></div>
+        <dl class="one-specs">
+          <div><dt>UWB</dt><dd>Qorvo DWM3000</dd></div>
+          <div><dt>Processor</dt><dd>STM32G4, 170 MHz Cortex-M4F</dd></div>
+          <div><dt>Host</dt><dd>USB-C serial and DFU</dd></div>
+          <div><dt>Robot bus</dt><dd>CAN and CAN FD</dd></div>
+          <div><dt>Power</dt><dd>USB-C or 6–24 V input</dd></div>
+          <div><dt>Debug</dt><dd>10-pin Cortex SWD</dd></div>
+          <div><dt>Firmware</dt><dd>Embassy / Rust</dd></div>
+          <div><dt>Software</dt><dd>ROS 2 driver and documented serial protocol</dd></div>
         </dl>
       </section>
 
-      <section id="cad" class="band cad-band">
-        <div class="section-head">
-          <h2>CAD files</h2>
+      <section class="one-section one-mechanical">
+        <div class="one-section-heading">
+          <p class="simple-label">Mechanical</p>
+          <h2>Ready for your robot.</h2>
+          <p>PETG enclosure, clear acrylic lid, M3 board mounting, and access to USB-C, power, CAN, and debug connections. The enclosure footprint is approximately 186 × 132 mm from the released case CAD.</p>
         </div>
-        <div class="download-grid cad-card-grid">
-          <article class="download-card cad-viewer" data-step-url="/assets/cad/opentag_one_v2_full_assembly.step" data-label="assembly" data-transparent="lid">
-            <a href="/assets/cad/opentag_one_v2_full_assembly.step" download>
-              <span>STEP</span>
-              <strong>Assembly</strong>
-            </a>
-            <div class="viewer-canvas" role="img" aria-label="3D viewer">
-              <p class="viewer-status">Loading</p>
-            </div>
-          </article>
-          <article class="download-card cad-viewer" data-step-url="/assets/cad/opentag_one_v2_case.step" data-label="case">
-            <a href="/assets/cad/opentag_one_v2_case.step" download>
-              <span>STEP</span>
-              <strong>Case</strong>
-            </a>
-            <div class="viewer-canvas" role="img" aria-label="3D viewer">
-              <p class="viewer-status">Loading</p>
-            </div>
-          </article>
-          <article class="download-card cad-viewer" data-step-url="/assets/cad/opentag_one_v2_lid.step" data-label="lid" data-transparent="all">
-            <a href="/assets/cad/opentag_one_v2_lid.step" download>
-              <span>STEP</span>
-              <strong>Lid</strong>
-            </a>
-            <div class="viewer-canvas" role="img" aria-label="3D viewer">
-              <p class="viewer-status">Loading</p>
-            </div>
-          </article>
+        <article class="mechanical-render cad-viewer" data-step-url="/assets/cad/opentag_one_v2_full_assembly.step" data-label="assembly" data-transparent="lid">
+          <div class="viewer-canvas" role="img" aria-label="Interactive 3D model of the opentag one assembly">
+            <p class="viewer-status">Loading 3D assembly</p>
+          </div>
+          <p>Drag to rotate · scroll to zoom</p>
+        </article>
+        <div class="mechanical-files" aria-label="Mechanical CAD downloads">
+          <a href="/assets/cad/opentag_one_v2_full_assembly.step" download><span>STEP</span><strong>Assembly</strong><small>Complete mechanical reference</small></a>
+          <a href="/assets/cad/opentag_one_v2_case.step" download><span>STEP</span><strong>Case</strong><small>Printable enclosure body</small></a>
+          <a href="/assets/cad/opentag_one_v2_lid.step" download><span>STEP</span><strong>Lid</strong><small>Clear lid geometry</small></a>
         </div>
-        <a class="onshape-link" href="https://cad.onshape.com/documents/432dec42a257744f3b8f22d9/w/829cba9d7a4b997211a6277e/e/23eb042ed87c06c15fa7c407?renderMode=0&leftPanel=false&uiState=6a0c8f4fbfe51bee1b264aeb" rel="noreferrer">Open in Onshape</a>
+        <a class="one-text-link" href="https://cad.onshape.com/documents/432dec42a257744f3b8f22d9/w/829cba9d7a4b997211a6277e/e/23eb042ed87c06c15fa7c407?renderMode=0&amp;leftPanel=false&amp;uiState=6a0c8f4fbfe51bee1b264aeb" rel="noreferrer">Open the mechanical project in Onshape →</a>
       </section>
 
-      <section class="band">
-        <div class="section-head">
-          <h2>Applications</h2>
-        </div>
-        <div class="grid use-grid">
-          <article><h3>Robot Navigation</h3><p>A position estimate indoors, where GPS won't reach.</p></article>
-          <article><h3>Drones</h3><p>Indoor flight without a $10k mocap rig.</p></article>
-          <article><h3>Docking &amp; Follow-Me</h3><p>Live distance between two moving machines.</p></article>
-          <article><h3>Anchor Nets</h3><p>Build, debug, and time UWB anchor layouts.</p></article>
-          <article><h3>Asset Tracking</h3><p>Prototype a deployment before a custom design.</p></article>
-          <article><h3>Field Testing</h3><p>Antennas, placement, calibration drift.</p></article>
-        </div>
-      </section>
-
-      <section class="band faq-band">
-        <div class="section-head">
-          <h2>FAQ</h2>
-        </div>
-        <div class="faq-list">
-          <details>
-            <summary>How accurate is it?</summary>
-            <p>Preliminary indoor line-of-sight tests with one pair produced 28 mm P95 absolute error at the 1 m calibration point and under 78 mm at 3 m and 5 m using the original 50 Hz profile. Multi-unit, long-range, temperature, and location benchmarks are still pending; see the <a href="/validation/">validation page</a> for conditions and limitations.</p>
-          </details>
-          <details>
-            <summary>How do I get position into my robot?</summary>
-            <p>Live distance is available now over USB-C serial. Range streaming over CAN&nbsp;/&nbsp;CAN&nbsp;FD, location output, and a ROS&nbsp;2 driver are in development.</p>
-          </details>
-          <details>
-            <summary>What do I need for location?</summary>
-            <p>Use four tags as fixed anchors plus one mobile tag. The 5-tag Location kit includes all five.</p>
-          </details>
-          <details>
-            <summary>Can I flash it from the browser?</summary>
-            <p>Yes. The firmware page supports flashing and ranging workflows through browser tooling.</p>
-          </details>
-          <details>
-            <summary>Is the design open?</summary>
-            <p>Mostly. The mechanical CAD files are available, along with the firmware. Schematic / PCB files are not available currently.</p>
-          </details>
-          <details>
-            <summary>Shipping, returns, and warranty?</summary>
-            <p>Kits ship in about 1 week from San Diego, CA. Unused kits can be returned within 30 days of delivery for a refund. Manufacturing defects are covered by a 1-year limited warranty &mdash; email <a href="mailto:hello@open-tags.com">hello@open-tags.com</a> and we'll make it right.</p>
-          </details>
-          <details>
-            <summary>Is it FCC certified?</summary>
-            <p>opentag one is sold as a development kit for evaluation by qualified engineers; it is not authorized as a finished consumer product. If you integrate it into a product, end-product certification is your responsibility.</p>
-          </details>
+      <section class="one-section one-project">
+        <div class="one-section-heading"><p class="simple-label">Project</p><h2>Open where it matters.</h2></div>
+        <div class="one-project-links">
+          <a href="/docs/hardware/"><strong>Hardware reference</strong><span>Architecture, connectors, power, CAN, USB, and source files.</span></a>
+          <a href="/docs/protocol/"><strong>Serial protocol</strong><span>Stable messages for distance, position, status, and configuration.</span></a>
+          <a href="/docs/ros2/"><strong>ROS 2 driver</strong><span>Launch files, topics, parameters, diagnostics, and installation.</span></a>
+          <a href="https://github.com/open-tags/open-tags.github.io" rel="noreferrer"><strong>Source repository</strong><span>Website source and public documentation.</span></a>
         </div>
       </section>
     </main>
 
-    <footer>
-      <div class="footer-legal">
-        <p>Performance figures are V2 engineering targets pending ground-truthed validation. Environment, mounting, and anchor geometry affect accuracy and range.</p>
-        <p>opentag one is sold as a development kit for evaluation by qualified engineers and is not authorized as a finished consumer product under FCC rules. Integrators are responsible for regulatory approval of end products.</p>
-      </div>
-      <div class="footer-row">
-        <span>&copy; 2026 opentags</span>
-        <span>Designed &middot; assembled in San Diego, CA</span>
-        <a href="mailto:hello@open-tags.com">hello@open-tags.com</a>
-      </div>
-    </footer>
+    <footer class="site-footer"><div class="footer-row"><span>&copy; 2026 opentags</span><nav aria-label="Footer"><a href="/privacy/">Privacy</a><a href="/terms/">Terms</a><a href="mailto:hello@open-tags.com">Contact</a></nav></div></footer>
     <script type="importmap">
       {
         "imports": {
@@ -327,7 +100,7 @@
         }
       }
     </script>
-    <script type="module" src="/assets/site.js"></script>
-    <script type="module" src="/assets/cad-viewer.js"></script>
+    <script type="module" src="/assets/site.js?v=5"></script>
+    <script type="module" src="/assets/cad-viewer.js?v=2"></script>
   </body>
 </html>

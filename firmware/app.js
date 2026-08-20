@@ -537,7 +537,7 @@ function drawChart() {
 
   if (samples.length === 0) {
     ctx.fillStyle = "#777";
-    ctx.font = "12px ui-monospace, monospace";
+    ctx.font = "12px system-ui, sans-serif";
     ctx.fillText(
       "Waiting for distance samples — set one tag I, the other R…",
       padL + 8,
@@ -555,7 +555,7 @@ function drawChart() {
   hi += span * 0.1;
 
   ctx.fillStyle = "#777";
-  ctx.font = "11px ui-monospace, monospace";
+  ctx.font = "11px system-ui, sans-serif";
   ctx.textAlign = "right";
   for (let i = 0; i <= 4; i++) {
     const v = lo + (hi - lo) * (1 - i / 4);

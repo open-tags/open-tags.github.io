@@ -22,12 +22,12 @@
 
 .firmware-mode-picker span {
   color: var(--link);
-  font-family: var(--font-mono);
+  font-family: var(--font-body);
   font-size: 11px;
   text-transform: uppercase;
 }
 
-.firmware-mode-picker button.active span { color: #a8d8ff; }
+.firmware-mode-picker button.active span { color: #fff; }
 .firmware-mode-picker strong { margin-top: 10px; font-size: 20px; }
 .firmware-mode-picker button.active strong { color: #fff; }
 .firmware-mode-picker small { margin-top: 5px; color: var(--muted); font-size: 11px; }
@@ -51,22 +51,22 @@
 .workflow-label p { color: var(--muted); font-size: 11px; }
 
 .tdoa-lab {
-  --tdoa-bg: #080a0f;
-  --tdoa-panel: #10131b;
-  --tdoa-panel-2: #151925;
+  --tdoa-bg: #090909;
+  --tdoa-panel: #111;
+  --tdoa-panel-2: #181818;
   --tdoa-line: rgba(255, 255, 255, 0.1);
-  --tdoa-muted: #929aab;
+  --tdoa-muted: #999;
   --tdoa-lime: #c7ff3d;
-  --tdoa-blue: #5ea1ff;
+  --tdoa-light: #f7f7f7;
   --tdoa-pink: #ff4fb8;
   width: 100vw;
   margin: 74px calc(50% - 50vw) 0;
   padding: clamp(44px, 7vw, 88px) max(16px, calc((100vw - 1120px) / 2));
   background:
-    radial-gradient(circle at 76% 4%, rgba(42, 92, 190, 0.2), transparent 28%),
+    radial-gradient(circle at 76% 4%, rgba(255, 255, 255, 0.06), transparent 28%),
     radial-gradient(circle at 12% 26%, rgba(199, 255, 61, 0.07), transparent 24%),
     var(--tdoa-bg);
-  color: #f7f9ff;
+  color: #f7f7f7;
   overflow: hidden;
 }
 
@@ -165,10 +165,10 @@
 .location-role-select select {
   border: 1px solid var(--tdoa-line);
   border-radius: 9px;
-  background: #0b0e15;
+  background: #111;
   color: #fff;
   padding: 8px 10px;
-  font: 11px var(--font-mono);
+  font: 11px var(--font-body);
 }
 
 .location-tag-actions {
@@ -196,7 +196,7 @@
 .location-flash-grid article > small {
   display: block;
   color: var(--tdoa-muted);
-  font-family: var(--font-mono);
+  font-family: var(--font-body);
   font-size: 8px;
 }
 
@@ -208,7 +208,7 @@
   padding: 25px;
   border: 1px solid var(--tdoa-line);
   border-radius: 18px;
-  background: linear-gradient(135deg, rgba(94, 161, 255, 0.08), rgba(255, 255, 255, 0.02));
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0.02));
 }
 
 .location-calibration p {
@@ -227,7 +227,7 @@
 .location-cal-inputs label { color: var(--tdoa-muted); font-size: 9px; }
 .location-cal-inputs label span { display: flex; align-items: center; gap: 4px; margin-top: 4px; }
 .location-cal-actions { grid-column: 2; display: flex; align-items: center; gap: 12px; }
-.location-cal-actions span { color: var(--tdoa-muted); font-family: var(--font-mono); font-size: 8px; }
+.location-cal-actions span { color: var(--tdoa-muted); font-family: var(--font-body); font-size: 8px; }
 
 .tdoa-lab h2,
 .tdoa-lab h3,
@@ -237,7 +237,7 @@
 
 .tdoa-lab button {
   border-color: rgba(255, 255, 255, 0.18);
-  color: #f7f9ff;
+  color: #f7f7f7;
   min-height: 38px;
   padding: 7px 14px;
   font-size: 12px;
@@ -264,7 +264,7 @@
 
 .tdoa-kicker,
 .tdoa-step {
-  font-family: var(--font-mono);
+  font-family: var(--font-body);
   color: var(--tdoa-muted);
   font-size: 11px;
   letter-spacing: 0.06em;
@@ -305,7 +305,7 @@
 }
 
 .tdoa-hero-stat strong {
-  font-family: var(--font-mono);
+  font-family: var(--font-body);
   font-size: 35px;
   line-height: 1;
 }
@@ -331,7 +331,7 @@
   position: relative;
   min-width: 0;
   min-height: 540px;
-  background: #07090d;
+  background: #080808;
   overflow: hidden;
 }
 
@@ -374,8 +374,8 @@
   border-radius: 999px;
   background: rgba(5, 7, 11, 0.72);
   backdrop-filter: blur(12px);
-  color: #c9ced9;
-  font-family: var(--font-mono);
+  color: #ccc;
+  font-family: var(--font-body);
   font-size: 10px;
 }
 
@@ -403,7 +403,7 @@
   width: 7px;
   height: 7px;
   border-radius: 50%;
-  background: var(--tdoa-blue);
+  background: var(--tdoa-light);
 }
 
 .tdoa-legend i.master { background: var(--tdoa-lime); }
@@ -466,7 +466,7 @@
   gap: 4px;
   margin-top: 5px;
   color: var(--tdoa-muted);
-  font-family: var(--font-mono);
+  font-family: var(--font-body);
 }
 
 .tdoa-lab input[type="number"] {
@@ -478,13 +478,13 @@
   background: rgba(0, 0, 0, 0.22);
   color: #fff;
   padding: 8px;
-  font-family: var(--font-mono);
+  font-family: var(--font-body);
   font-size: 12px;
 }
 
 .tdoa-lab input[type="number"]:focus {
-  border-color: rgba(94, 161, 255, 0.75);
-  box-shadow: 0 0 0 3px rgba(94, 161, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.75);
+  box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.1);
 }
 
 .tdoa-divider {
@@ -497,7 +497,7 @@
   white-space: nowrap;
   padding: 4px 8px;
   border-radius: 999px;
-  font-family: var(--font-mono);
+  font-family: var(--font-body);
   font-size: 9px;
 }
 
@@ -549,7 +549,7 @@
   border: 0;
   background: rgba(255, 255, 255, 0.035);
   color: var(--tdoa-muted);
-  font-family: var(--font-mono);
+  font-family: var(--font-body);
   font-size: 9px;
 }
 
@@ -557,7 +557,7 @@
   display: flex;
   align-items: center;
   gap: 7px;
-  font-family: var(--font-mono);
+  font-family: var(--font-body);
   font-size: 11px;
 }
 
@@ -565,8 +565,8 @@
   width: 7px;
   height: 7px;
   border-radius: 50%;
-  background: var(--tdoa-blue);
-  box-shadow: 0 0 10px rgba(94, 161, 255, 0.45);
+  background: var(--tdoa-light);
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.35);
 }
 
 .tdoa-anchor-name.master i {
@@ -614,7 +614,7 @@
 
 .tdoa-geometry-readout strong {
   margin-top: 4px;
-  font-family: var(--font-mono);
+  font-family: var(--font-body);
   font-size: 13px;
 }
 
@@ -670,7 +670,7 @@
 }
 
 .tdoa-accuracy-head code {
-  color: #d9deeb;
+  color: #dedede;
 }
 
 .tdoa-bench-actions {
@@ -684,7 +684,7 @@
 .tdoa-bench-actions button:first-of-type {
   background: var(--tdoa-lime);
   border-color: var(--tdoa-lime);
-  color: #0b0d12;
+  color: #101010;
 }
 
 .tdoa-metrics {
@@ -727,7 +727,7 @@
 
 .tdoa-metrics strong {
   margin: 7px 0 3px;
-  font-family: var(--font-mono);
+  font-family: var(--font-body);
   font-size: clamp(19px, 2.3vw, 29px);
   line-height: 1;
 }
@@ -767,7 +767,7 @@
 
 .tdoa-chart-head span {
   color: var(--tdoa-muted);
-  font-family: var(--font-mono);
+  font-family: var(--font-body);
   font-size: 8px;
 }
 
@@ -780,7 +780,7 @@
 .tdoa-import-status {
   margin-top: 11px;
   color: var(--tdoa-muted);
-  font-family: var(--font-mono);
+  font-family: var(--font-body);
   font-size: 9px;
 }
 
@@ -814,7 +814,7 @@
 }
 
 .tdoa-method a {
-  color: var(--tdoa-blue);
+  color: var(--tdoa-light);
 }
 
 @media (max-width: 900px) {

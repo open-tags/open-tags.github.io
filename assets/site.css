@@ -1,16 +1,16 @@
 @font-face {
-  font-family: "JetBrains Mono";
-  src: url("/assets/fonts/JetBrainsMono-Regular.woff2") format("woff2");
-  font-weight: 400;
+  font-family: "Editorial New";
+  src: url("/assets/fonts/EditorialNew-Regular.woff2") format("woff2");
   font-style: normal;
+  font-weight: 400;
   font-display: swap;
 }
 
 @font-face {
-  font-family: "JetBrains Mono";
-  src: url("/assets/fonts/JetBrainsMono-Bold.woff2") format("woff2");
-  font-weight: 700;
+  font-family: "Editorial New";
+  src: url("/assets/fonts/EditorialNew-Regular.woff2") format("woff2");
   font-style: normal;
+  font-weight: 800;
   font-display: swap;
 }
 
@@ -18,19 +18,18 @@
   --bg: #fff;
   --fg: #1d1d1f;
   --ink: #0a0a0c;
-  --muted: #6e6e73;
+  --muted: #6b6b6b;
   --faint: #f5f5f7;
   --panel: #fbfbfd;
   --panel-2: #f5f5f7;
   --line: #e8e8ed;
   --line-strong: #d2d2d7;
   --accent: #1d1d1f;
-  --link: #0071e3;
-  --link-hover: #0077ed;
+  --link: #1d1d1f;
+  --link-hover: #000;
   --bad: #b00020;
   --font-body: system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
   --font-display: system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-  --font-mono: "JetBrains Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
   color-scheme: light;
   font-family: var(--font-body);
 }
@@ -55,6 +54,11 @@ body {
 
 a {
   color: inherit;
+}
+
+.hljs,
+.hljs * {
+  color: inherit !important;
 }
 
 .site-header,
@@ -83,7 +87,7 @@ nav a {
 }
 
 .brand {
-  font-family: var(--font-mono);
+  font-family: var(--font-body);
   font-weight: 700;
   font-size: 15px;
   color: var(--fg);
@@ -100,6 +104,19 @@ nav {
 nav a:hover,
 nav a[aria-current="page"] {
   color: var(--accent);
+}
+
+.site-header .nav-buy {
+  border-radius: 4px;
+  background: var(--ink);
+  color: #fff;
+  padding: 8px 14px;
+}
+
+.site-header .nav-buy:hover,
+.site-header .nav-buy[aria-current="page"] {
+  background: #303030;
+  color: #fff;
 }
 
 .hero {
@@ -294,9 +311,15 @@ footer a:hover {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
+  align-items: center;
   gap: 16px;
   padding-top: 16px;
   border-top: 1px solid var(--line);
+}
+
+.site-footer .footer-row nav {
+  gap: 18px;
+  font-size: 12px;
 }
 
 .page-title {
@@ -305,6 +328,20 @@ footer a:hover {
 
 .page-title h1 {
   font-size: clamp(34px, 6vw, 66px);
+}
+
+.firmware-page .page-title h1 {
+  font-family: "Editorial New", "Iowan Old Style", Georgia, serif;
+  font-weight: 800;
+  letter-spacing: -0.045em;
+  line-height: 0.96;
+}
+
+.docs-home-page .docs-page > h1 {
+  font-family: "Editorial New", "Iowan Old Style", Georgia, serif;
+  font-weight: 800;
+  letter-spacing: -0.045em;
+  line-height: 0.96;
 }
 
 .hint {
@@ -508,7 +545,7 @@ strong {
 }
 
 .purchase-panel .eyebrow {
-  font-family: var(--font-mono);
+  font-family: var(--font-body);
   font-size: 12px;
   font-weight: 400;
 }
@@ -525,7 +562,7 @@ strong {
 
 .store-price {
   color: var(--fg);
-  font-family: var(--font-mono);
+  font-family: var(--font-body);
   font-size: 15px;
   font-weight: 400;
   margin-top: 16px;
@@ -582,7 +619,7 @@ strong {
 
 .variant-copy h2 span {
   color: var(--accent);
-  font-family: var(--font-mono);
+  font-family: var(--font-body);
   font-size: 14px;
   font-weight: 400;
 }
@@ -666,7 +703,7 @@ strong {
 
 .spec-list dd {
   color: var(--fg);
-  font-family: var(--font-mono);
+  font-family: var(--font-body);
   font-size: 13px;
   font-weight: 400;
   text-align: right;
@@ -820,7 +857,7 @@ strong {
 
 .buy-kicker {
   color: var(--muted);
-  font-family: var(--font-mono);
+  font-family: var(--font-body);
   font-size: 11px;
 }
 
@@ -883,7 +920,7 @@ strong {
 
 .download-card span {
   color: var(--muted);
-  font-family: var(--font-mono);
+  font-family: var(--font-body);
   font-size: 11px;
 }
 
@@ -1267,6 +1304,10 @@ label {
     font-size: 13px;
   }
 
+  .site-header .nav-buy {
+    border-radius: 0;
+  }
+
   .site-header nav a:last-child {
     border-bottom: 0;
   }
@@ -1419,7 +1460,7 @@ label {
 .docs-sidebar .docs-home {
   padding: 0 9px 14px;
   color: var(--fg);
-  font-family: var(--font-mono);
+  font-family: var(--font-body);
   font-weight: 700;
 }
 
@@ -1430,7 +1471,7 @@ label {
 .docs-sidebar span {
   margin: 18px 9px 5px;
   color: var(--muted);
-  font-family: var(--font-mono);
+  font-family: var(--font-body);
   font-size: 10px;
   text-transform: uppercase;
 }
@@ -1446,7 +1487,7 @@ label {
 .docs-breadcrumb {
   margin-bottom: 16px;
   color: var(--muted);
-  font-family: var(--font-mono);
+  font-family: var(--font-body);
   font-size: 11px;
 }
 
@@ -1535,7 +1576,7 @@ label {
   min-width: max-content;
   padding: 18px 20px !important;
   background: transparent !important;
-  font: 12px/1.65 var(--font-mono) !important;
+  font: 12px/1.65 var(--font-body) !important;
 }
 
 .docs-meta {
@@ -1557,7 +1598,7 @@ label {
 
 .docs-meta strong {
   margin-bottom: 4px;
-  font-family: var(--font-mono);
+  font-family: var(--font-body);
   font-size: 10px;
   text-transform: uppercase;
 }
@@ -1570,7 +1611,7 @@ label {
 .docs-page .source-link {
   display: inline-block;
   margin-top: -8px;
-  font-family: var(--font-mono);
+  font-family: var(--font-body);
   font-size: 11px;
 }
 
@@ -1589,7 +1630,7 @@ label {
 }
 
 .docs-definition dt {
-  font-family: var(--font-mono);
+  font-family: var(--font-body);
   font-size: 12px;
   font-weight: 700;
 }
@@ -1675,21 +1716,38 @@ label {
 @media (max-width: 800px) {
   .docs-shell {
     grid-template-columns: 1fr;
-    gap: 40px;
+    gap: 30px;
     padding-top: 24px;
   }
 
   .docs-sidebar {
     position: static;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    padding: 0 0 22px;
+    display: flex;
+    gap: 4px;
+    overflow-x: auto;
+    padding: 0 0 14px;
     border-right: 0;
     border-bottom: 1px solid var(--line);
+    scrollbar-width: none;
   }
 
-  .docs-sidebar .docs-home,
+  .docs-sidebar::-webkit-scrollbar {
+    display: none;
+  }
+
   .docs-sidebar span {
-    grid-column: 1 / -1;
+    display: none;
+  }
+
+  .docs-sidebar a {
+    flex: 0 0 auto;
+    white-space: nowrap;
+  }
+
+  .docs-sidebar .docs-home {
+    margin-right: 6px;
+    padding: 6px 14px 6px 0;
+    border-right: 1px solid var(--line);
   }
 
   .docs-page h1 {
@@ -1759,7 +1817,7 @@ label {
 .step-number,
 .protocol-grid li > span {
   color: var(--muted);
-  font-family: var(--font-mono);
+  font-family: var(--font-body);
   font-size: 12px;
 }
 
@@ -1845,7 +1903,7 @@ label {
 .docs-directory span,
 .docs-index span {
   color: var(--muted);
-  font-family: var(--font-mono);
+  font-family: var(--font-body);
   font-size: 11px;
 }
 
@@ -1872,7 +1930,7 @@ label {
 
 .docs-index strong {
   margin-bottom: 8px;
-  font-family: var(--font-mono);
+  font-family: var(--font-body);
   font-size: 12px;
 }
 
@@ -1942,7 +2000,7 @@ label {
   padding: 17px 18px;
   border: 1px solid var(--line);
   border-radius: 6px;
-  font-family: var(--font-mono);
+  font-family: var(--font-body);
   font-size: 12px;
 }
 
@@ -1997,7 +2055,7 @@ label {
 .status-marker {
   align-self: start;
   color: var(--muted);
-  font-family: var(--font-mono);
+  font-family: var(--font-body);
   font-size: 12px;
 }
 
@@ -2033,14 +2091,14 @@ label {
 
 .evidence-table thead th {
   color: var(--muted);
-  font-family: var(--font-mono);
+  font-family: var(--font-body);
   font-size: 11px;
   font-weight: 400;
 }
 
 .evidence-table tbody th,
 .evidence-table tbody td {
-  font-family: var(--font-mono);
+  font-family: var(--font-body);
   font-size: 13px;
 }
 
@@ -2354,7 +2412,7 @@ label {
 }
 
 .ranging-card figcaption strong {
-  font-family: var(--font-mono);
+  font-family: var(--font-body);
   font-size: 12px;
   font-weight: 700;
   color: var(--fg);
@@ -2460,7 +2518,7 @@ label {
 }
 
 .hero-center .eyebrow {
-  font-family: var(--font-mono);
+  font-family: var(--font-body);
   font-size: 12px;
   font-weight: 400;
 }
@@ -2508,7 +2566,7 @@ label {
 .stat-row strong {
   display: block;
   color: var(--fg);
-  font-family: var(--font-mono);
+  font-family: var(--font-body);
   font-size: clamp(22px, 3vw, 34px);
   font-weight: 700;
   letter-spacing: -0.02em;
@@ -2525,7 +2583,7 @@ label {
 .stat-note {
   margin-top: 18px;
   color: #86868b;
-  font-family: var(--font-mono);
+  font-family: var(--font-body);
   font-size: 11px;
 }
 
@@ -2582,7 +2640,7 @@ label {
 
 .kit-price {
   color: var(--fg);
-  font-family: var(--font-mono);
+  font-family: var(--font-body);
   font-size: 15px;
   font-weight: 400;
   margin-top: 10px;

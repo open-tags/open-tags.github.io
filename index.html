@@ -1,31 +1,29 @@
 <!doctype html>
 <html lang="en">
   <head>
-    <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-JZYWGTNDLG"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
       gtag('js', new Date());
-
       gtag('config', 'G-JZYWGTNDLG');
     </script>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="description" content="Open UWB ranging hardware for robots. Browser-flashable Rust firmware, USB-C, CAN FD hardware, and a public validation workflow." />
-    <title>opentags</title>
-    <meta property="og:title" content="opentags" />
-    <meta property="og:description" content="Open UWB ranging hardware for robots with browser-flashable Rust firmware and a public validation workflow." />
+    <meta name="description" content="Open UWB distance and indoor location hardware for robotics, with USB and ROS 2 integration." />
+    <title>opentags | UWB for robotics</title>
+    <meta property="og:title" content="opentags | UWB for robotics" />
+    <meta property="og:description" content="Open UWB hardware for distance and indoor positioning." />
     <meta property="og:type" content="website" />
     <meta property="og:image" content="https://open-tags.com/assets/images/one/site/hero.jpg" />
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="opentags" />
-    <meta name="twitter:description" content="Open UWB ranging hardware for robots with browser-flashable Rust firmware and a public validation workflow." />
+    <link rel="canonical" href="https://open-tags.com/" />
     <link rel="icon" type="image/png" href="/favicon.png?v=2" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png?v=2" />
-    <link rel="stylesheet" href="assets/site.css" />
+    <link rel="stylesheet" href="/assets/site.css?v=8" />
+    <link rel="stylesheet" href="/assets/storefront.css?v=14" />
   </head>
-  <body>
+  <body class="simple-store">
     <header class="site-header" data-site-header>
       <a class="brand" href="/" aria-label="opentags home">opentags</a>
       <button class="nav-toggle" type="button" data-nav-toggle aria-label="Open menu" aria-expanded="false">
@@ -34,105 +32,44 @@
       <nav aria-label="Primary">
         <a href="/one/">One</a>
         <a href="/docs/">Docs</a>
-        <a href="/firmware/">Firmware</a>
+        <a href="/firmware/">Console</a>
         <a href="https://github.com/open-tags" rel="noreferrer">GitHub</a>
       </nav>
     </header>
 
-    <main>
-      <section class="hero-band">
-        <div class="hero-center">
-          <p class="eyebrow">opentag one</p>
-          <h1>Know where your robots are.</h1>
-          <p class="intro">Open ultra-wideband hardware for real-time distance and indoor location.</p>
-          <p class="store-price">From $199</p>
-          <div class="hero-actions" aria-label="Primary actions">
-            <a class="button primary" href="/one/#buy">Buy</a>
-            <a class="button" href="/one/">Learn more</a>
-          </div>
+    <main class="simple-main">
+      <section class="simple-hero">
+        <p class="simple-label">opentag one</p>
+        <h1>Know where your robots are.</h1>
+        <p>Open UWB hardware for distance and indoor positioning.</p>
+        <div class="simple-actions">
+          <a class="simple-button" href="/one/">View opentag one</a>
         </div>
-        <figure class="hero-figure">
-          <img src="/assets/images/one/site/hero.jpg" alt="opentag one pair measuring live distance" width="1920" height="960" fetchpriority="high" />
+        <figure class="simple-hero-media">
+          <img src="/assets/images/one/site/hero.jpg" alt="Two opentag one devices measuring distance" width="1920" height="960" fetchpriority="high" />
+          <figcaption>opentag one</figcaption>
         </figure>
       </section>
 
-      <section class="band">
-        <div class="section-head">
-          <p class="eyebrow">Choose by output</p>
-          <h2>Distance or location?</h2>
-        </div>
-        <div class="kit-grid">
-          <article class="kit-card">
-            <img src="/assets/images/one/site/kit_twr.jpg" alt="Two opentag one units in the Distance kit" width="1200" height="800" loading="lazy" decoding="async" />
-            <div class="kit-card-body">
-              <span class="buy-kicker">Distance kit</span>
-              <h3>Distance between two points</h3>
-              <p>Two tags report live range over USB. Start here for docking, follow-me, and proximity between robots.</p>
-              <span class="kit-price">2 tags &middot; $199</span>
-              <div class="kit-actions">
-                <a class="button primary" href="/one/#buy">Buy Distance</a>
-                <a class="inline-link" href="/docs/quickstart/">Quickstart</a>
-              </div>
-            </div>
-          </article>
-          <article class="kit-card">
-            <img src="/assets/images/one/site/kit_tdoa.jpg" alt="Five opentag one units in the Location kit" width="1200" height="800" loading="lazy" decoding="async" />
-            <div class="kit-card-body">
-              <span class="buy-kicker">Location kit</span>
-              <h3>Locate a tag inside a space</h3>
-              <p>Five tags for indoor location: four fixed anchors and one mobile tag.</p>
-              <span class="kit-price">5 tags &middot; $499</span>
-              <div class="kit-actions">
-                <a class="button primary" href="/one/#buy">Buy Location</a>
-                <a class="inline-link" href="/validation/">Validation plan</a>
-              </div>
-            </div>
-          </article>
-        </div>
-      </section>
+      <div class="simple-facts" aria-label="Product interfaces">
+        <span><strong>USB-C</strong> power + data</span>
+        <span><strong>ROS 2</strong> driver included</span>
+        <span><strong>6–24 V</strong> robot power</span>
+        <span><strong>CAN FD</strong> onboard</span>
+      </div>
 
-      <section class="band workflow-band">
-        <div class="workflow-media">
-          <img src="/assets/images/one/bringup/twr_double_blink.jpg" alt="Two opentag one units running a live two-way ranging exchange" width="1920" height="1280" loading="lazy" decoding="async" />
-        </div>
-        <div class="workflow-copy">
-          <p class="eyebrow">Real hardware workflow</p>
-          <h2>From two tags to a distance trace.</h2>
-          <ol class="step-list compact-steps">
-            <li><span>01</span><div><strong>Flash</strong><p>Assign initiator and responder roles in the browser.</p></div></li>
-            <li><span>02</span><div><strong>Connect</strong><p>Open both USB serial ports at 115200 baud.</p></div></li>
-            <li><span>03</span><div><strong>Measure</strong><p>Watch distance, mean, deviation, and sample count live.</p></div></li>
-            <li><span>04</span><div><strong>Export</strong><p>Download every sample and its ground-truth error as CSV.</p></div></li>
-          </ol>
-          <div class="section-actions">
-            <a class="button primary" href="/docs/quickstart/">Follow the quickstart</a>
-            <a class="button" href="/firmware/">Open console</a>
-          </div>
-        </div>
-      </section>
-
-      <section class="band validation-callout">
-        <div>
-          <p class="eyebrow">Validation status</p>
-          <h2>Preliminary evidence, clearly labeled.</h2>
-        </div>
-        <div>
-          <p>One hardware pair has now completed repeat indoor line-of-sight runs at 1 m, 3 m, and 5 m. The original 50 Hz profile stayed within 78 mm P95 absolute error across those tests. These are short preliminary runs, not a finished multi-unit benchmark.</p>
-          <a class="inline-link" href="/validation/">See the results and limitations &rarr;</a>
-        </div>
-      </section>
-
-      <section class="band">
-        <div class="section-head">
-          <h2>How it works</h2>
+      <section class="simple-section simple-how">
+        <div class="simple-section-title">
+          <p class="simple-label">Two modes</p>
+          <h2>Distance or location.</h2>
         </div>
         <div class="ranging-grid">
           <figure class="ranging-card">
             <figcaption>
               <strong>Distance</strong>
-              <span>One tag pings, the other replies. Distance comes from the signal's round-trip time.</span>
+              <span>Two tags measure the distance between them.</span>
             </figcaption>
-            <svg class="ranging-svg" viewBox="0 0 400 220" role="img" aria-label="Two-way ranging animation">
+            <svg class="ranging-svg" viewBox="0 0 400 220" role="img" aria-label="Two-way distance ranging animation">
               <line x1="94" y1="110" x2="306" y2="110" class="ranging-link" />
               <circle cx="80" cy="110" r="60" class="ranging-pulse ranging-pulse-a" fill="none" />
               <circle cx="320" cy="110" r="60" class="ranging-pulse ranging-pulse-b" fill="none" />
@@ -145,9 +82,9 @@
           <figure class="ranging-card">
             <figcaption>
               <strong>Location</strong>
-              <span>One mobile tag pings, four fixed anchors listen. Location comes from arrival-time differences.</span>
+              <span>Four fixed anchors locate one mobile tag.</span>
             </figcaption>
-            <svg class="ranging-svg" viewBox="0 0 400 220" role="img" aria-label="Location animation with four anchors">
+            <svg class="ranging-svg" viewBox="0 0 400 220" role="img" aria-label="Indoor location animation with four anchors">
               <line x1="70" y1="50" x2="330" y2="50" class="ranging-link" />
               <line x1="330" y1="50" x2="330" y2="190" class="ranging-link" />
               <line x1="330" y1="190" x2="70" y2="190" class="ranging-link" />
@@ -171,28 +108,59 @@
         </div>
       </section>
 
-      <section class="band split">
-        <div>
-          <h2>Flash from the browser</h2>
+      <section id="kits" class="simple-section">
+        <div class="simple-section-title">
+          <p class="simple-label">Products</p>
+          <h2>One device. Two outputs.</h2>
         </div>
-        <div>
-          <p>Flash, log, plot, and calibrate over WebUSB and Web Serial. No toolchain to install, no vendor IDE.</p>
-          <a class="inline-link" href="/firmware/">Open the firmware console &rarr;</a>
+        <div class="simple-kits">
+          <article class="simple-kit">
+            <figure class="simple-kit-media">
+              <img src="/assets/images/one/site/kit_twr.jpg" alt="Two-tag Distance Kit" width="1200" height="800" loading="lazy" decoding="async" />
+              <figcaption>Distance</figcaption>
+            </figure>
+            <div class="simple-kit-copy">
+              <div><p class="simple-label">Distance Kit</p><h3>Distance between two points.</h3></div>
+              <strong class="simple-price">$199</strong>
+              <p>Two tags. Live range over USB or ROS 2.</p>
+              <a class="simple-button primary" href="https://buy.stripe.com/6oU8wOazx25cbkpgyQg7e0f" rel="noreferrer">Buy Distance Kit</a>
+            </div>
+          </article>
+
+          <article class="simple-kit">
+            <figure class="simple-kit-media">
+              <img src="/assets/images/one/site/kit_tdoa.jpg" alt="Five-tag Location Kit" width="1200" height="800" loading="lazy" decoding="async" />
+              <figcaption>Location</figcaption>
+            </figure>
+            <div class="simple-kit-copy">
+              <div><p class="simple-label">Location Kit</p><h3>Position inside a space.</h3></div>
+              <strong class="simple-price">$499</strong>
+              <p>Four anchors and one mobile tag. 2D or 3D position.</p>
+              <a class="simple-button primary" href="https://buy.stripe.com/5kQ14m5fdcJQagleqIg7e0g" rel="noreferrer">Buy Location Kit</a>
+            </div>
+          </article>
         </div>
+      </section>
+
+      <section class="simple-integration">
+        <div>
+          <p class="simple-label">ROS 2</p>
+          <h2>Connect. Launch. Read.</h2>
+          <p>The driver publishes distance, position, device events, and diagnostics.</p>
+          <div class="simple-text-links">
+            <a href="/docs/ros2/">Driver guide</a>
+            <a href="/docs/protocol/">Serial protocol</a>
+            <a href="/validation/">Test data</a>
+          </div>
+        </div>
+        <pre><code>ros2 launch opentags_driver driver.launch.py \
+  port:=/dev/ttyACM0
+
+ros2 topic echo /opentags/range</code></pre>
       </section>
     </main>
 
-    <footer>
-      <div class="footer-legal">
-        <p>Performance figures are V2 engineering targets pending ground-truthed validation. Environment, mounting, and anchor geometry affect accuracy and range.</p>
-        <p>opentag one is sold as a development kit for evaluation by qualified engineers and is not authorized as a finished consumer product under FCC rules. Integrators are responsible for regulatory approval of end products.</p>
-      </div>
-      <div class="footer-row">
-        <span>&copy; 2026 opentags</span>
-        <span>Designed &middot; assembled in San Diego, CA</span>
-        <a href="mailto:hello@open-tags.com">hello@open-tags.com</a>
-      </div>
-    </footer>
-    <script type="module" src="/assets/site.js"></script>
+    <footer class="site-footer"><div class="footer-row"><span>&copy; 2026 opentags</span><nav aria-label="Footer"><a href="/privacy/">Privacy</a><a href="/terms/">Terms</a><a href="mailto:hello@open-tags.com">Contact</a></nav></div></footer>
+    <script type="module" src="/assets/site.js?v=5"></script>
   </body>
 </html>

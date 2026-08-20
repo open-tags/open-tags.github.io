@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="Install and run the OpenTags ROS 2 driver for UWB range, TDOA position, events, and device diagnostics." />
+    <title>ROS 2 driver | opentags docs</title>
+    <link rel="icon" type="image/png" href="/favicon.png?v=2" />
+    <link rel="stylesheet" href="/assets/site.css?v=8" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/styles/github.min.css" />
+  </head>
+  <body class="docs-site">
+    <header class="site-header" data-site-header><a class="brand" href="/" aria-label="opentags home">opentags</a><button class="nav-toggle" type="button" data-nav-toggle aria-label="Open menu" aria-expanded="false"><span class="nav-toggle-icon" aria-hidden="true"></span></button><nav aria-label="Primary"><a href="/#products">Products</a><a aria-current="page" href="/docs/">Docs</a><a href="/firmware/">Console</a><a href="https://github.com/open-tags" rel="noreferrer">GitHub</a></nav></header>
+    <main class="docs-shell">
+      <aside class="docs-sidebar" aria-label="Documentation navigation"><a class="docs-home" href="/docs/">opentag one</a><span>Get started</span><a href="/docs/">Overview</a><a href="/docs/quickstart/">Quickstart</a><span>Platform</span><a href="/docs/hardware/">Hardware</a><a href="/docs/firmware-build/">Firmware build</a><span>Interfaces</span><a href="/docs/protocol/">USB serial</a><a href="/docs/can/">CAN / CAN FD</a><span>Integrate</span><a href="/docs/scripts/">Python scripts</a><a aria-current="page" href="/docs/ros2/">ROS 2 driver</a><a href="/docs/rust/">Rust examples</a><span>Test</span><a href="/docs/calibration/">Calibration</a><a href="/validation/">Validation</a><a href="/firmware/">Browser console</a></aside>
+      <article class="docs-page">
+        <p class="docs-breadcrumb">Documentation / Integrate / ROS 2</p>
+        <h1>ROS 2 driver</h1>
+        <p class="docs-lead">A reconnect-capable ROS 2 node for live UWB range, TDOA position, serial events, and device health.</p>
+
+        <div class="docs-callout"><strong>Source available</strong><p>The driver and custom message packages live in the main repository under <code>ros2/</code>. The serial parser is independently tested and accepts both full and compact range records.</p></div>
+
+        <h2 id="build">Build</h2>
+        <p>From the repository root in a sourced ROS 2 environment:</p>
+        <pre class="docs-code"><code class="language-bash">rosdep install --from-paths ros2 --ignore-src -r -y
+colcon build --base-paths ros2 --symlink-install
+source install/setup.bash</code></pre>
+
+        <h2 id="run">Run</h2>
+        <p>Connect the measurement-producing tag and pass its stable USB serial path to the launch file.</p>
+        <pre class="docs-code"><code class="language-bash">ros2 launch opentags_driver driver.launch.py \
+  port:=/dev/serial/by-id/your-opentag
+
+ros2 topic echo /opentags/range
+ros2 topic echo /diagnostics</code></pre>
+
+        <h2 id="topics">Published topics</h2>
+        <table class="docs-table">
+          <thead><tr><th>Topic</th><th>Type</th><th>Contents</th></tr></thead>
+          <tbody>
+            <tr><td><code>/opentags/range</code></td><td><code>opentags_msgs/RangeMeasurement</code></td><td>Distance, sequence, exchange time, and RSSI.</td></tr>
+            <tr><td><code>/opentags/position</code></td><td><code>geometry_msgs/PointStamped</code></td><td>TDOA position in metres.</td></tr>
+            <tr><td><code>/opentags/position_raw</code></td><td><code>opentags_msgs/PositionMeasurement</code></td><td>Position, sequence, and raw TDOA values.</td></tr>
+            <tr><td><code>/opentags/events</code></td><td><code>std_msgs/String</code></td><td>INFO, DIAG, PHY, MISS, OK, and error records.</td></tr>
+            <tr><td><code>/diagnostics</code></td><td><code>diagnostic_msgs/DiagnosticArray</code></td><td>Connection, freshness, parsing, sequence gaps, and device data.</td></tr>
+          </tbody>
+        </table>
+
+        <div class="docs-warning"><strong>Generic range output is opt-in.</strong><p><code>sensor_msgs/Range</code> defines only ultrasound and infrared radiation values, not UWB. Set <code>publish_sensor_range:=true</code> only when an existing consumer requires that message and your application accepts the mapping.</p></div>
+
+        <h2 id="services">Command services</h2>
+        <p>Each service returns success when the command is written. Device responses appear on <code>/opentags/events</code>.</p>
+        <pre class="docs-code"><code class="language-bash">ros2 service call /opentags_driver/ping std_srvs/srv/Trigger
+ros2 service call /opentags_driver/request_info std_srvs/srv/Trigger
+ros2 service call /opentags_driver/reset_statistics std_srvs/srv/Trigger</code></pre>
+
+        <h2 id="failure">Failure behavior</h2>
+        <ul>
+          <li>The node reconnects after cable removal, device reset, or serial errors.</li>
+          <li>Malformed records are counted and discarded without terminating the node.</li>
+          <li>Sequence gaps, missed exchanges, stale data, and host queue drops appear in diagnostics.</li>
+          <li>TDOA position uses the surveyed anchor geometry configured for the target environment.</li>
+        </ul>
+
+        <p><a href="https://github.com/open-tags" rel="noreferrer">Browse opentags repositories on GitHub</a></p>
+        <div class="docs-next"><a href="/docs/scripts/">&larr; Python scripts</a><a href="/docs/rust/">Rust examples &rarr;</a></div>
+      </article>
+    </main>
+    <footer><div class="footer-row"><span>&copy; 2026 opentags</span><a href="mailto:hello@open-tags.com">hello@open-tags.com</a></div></footer>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/highlight.min.js" defer></script><script src="/assets/docs.js" defer></script><script type="module" src="/assets/site.js?v=5"></script>
+  </body>
+</html>
