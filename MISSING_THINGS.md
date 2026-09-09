@@ -96,9 +96,15 @@ Writing instructions or compiling code does not complete a hardware acceptance t
   CSVs and a separate current-profile run. Include pair IDs, calibration, geometry, environment,
   full observation duration, failures, mean error, spread, and P95 absolute error. Add independent
   pairs, warm-up/temperature, orientations, obstructions, and longer distances over time.
-- [ ] **Release range-over-CAN separately.** Define IDs, payloads, units, byte order, node identity,
-  cadence, error/health reporting, and bus timing; implement and validate them. Existing CAN
-  echo/load examples are not a ranging protocol.
+- [x] **Implement range-over-CAN separately.** Added the opt-in `range-can` responder, a
+  500 kbit/s Classical CAN v1 contract, unique node IDs (1–63), invalid measurements, a heartbeat,
+  bounded independent transmission, a node-image patcher, a Python reader, and a DBC file.
+  The standard console images remain unchanged.
+- [ ] **Validate and promote the CAN image.** Test USB/CAN measurement agreement, calibration,
+  reset-persistent node IDs, missing peers, missing CAN ACK, saturation, disconnection/reconnection,
+  controller bus-off, and power cycles on hardware. Record captures and the exact image hash;
+  confirm ranging continues during CAN faults. Do not promote the bench image to the console
+  default before these tests pass. CAN node IDs do not solve multi-pair UWB interference.
 - [ ] **Optimize rate after a reliable baseline.** Keep the current PHY fixed; reduce the 8 ms
   inter-range guard one step at a time and compare accuracy and complete-run delivery. Treat
   50 Hz as an experiment until it passes. Shorter reply delays, IRQ-driven waiting, and faster
@@ -109,7 +115,7 @@ Writing instructions or compiling code does not complete a hardware acceptance t
 Run from the website repository root in a Python environment with requirements installed:
 
 ```sh
-python -m pip install -r docs/scripts/requirements.txt
+python -m pip install -r docs/scripts/requirements.txt -r tests/requirements.txt
 python -m unittest discover -s tests -v
 PYTHONPATH=ros2/opentags_driver python -m unittest discover -s ros2/opentags_driver/test -p 'test_protocol.py' -v
 PYTHONPATH=ros2/opentags_driver python -m unittest discover -s ros2/opentags_driver/test -p 'test_transport.py' -v

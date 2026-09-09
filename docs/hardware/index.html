@@ -34,7 +34,7 @@
           <tr><td><code>3</code></td><td><code>+12V</code></td><td>External board power input</td></tr>
           <tr><td><code>4</code></td><td><code>GND</code></td><td>Power return and CAN reference</td></tr>
         </tbody></table>
-        <div class="docs-warning"><strong>CAN is not galvanically isolated.</strong><p>The TCAN1044VDRQ1 is a fault-protected CAN FD transceiver with a VIO logic supply. The word “isolated” in an old schematic-library description is incorrect. Connect bus ground to J2 pin 4 and do not treat the board as an isolation boundary.</p></div>
+        <p>Connect CAN bus ground to J2 pin 4. Keep separate power supplies separate; do not join their positive power pins just to connect the bus.</p>
 
         <h2 id="termination">CAN termination</h2>
         <p>R20 is 120 Ω and SW3 places it across <code>CAN_H</code> and <code>CAN_L</code> when closed. Enable it only when the tag is at a physical end of the bus. A correctly terminated two-ended bus measures about 60 Ω between CANH and CANL with power removed.</p>

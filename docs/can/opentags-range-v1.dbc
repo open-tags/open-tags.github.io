@@ -1,0 +1,36 @@
+VERSION "OpenTags range-over-CAN v1; node 1; 500 kbit/s Classical CAN"
+
+NS_ :
+    CM_
+    VAL_
+
+BS_:
+
+BU_: OpenTag Robot
+
+BO_ 1281 OpenTagRange: 8 OpenTag
+ SG_ RangeValid : 0|1@1+ (1,0) [0|1] "" Robot
+ SG_ RssiValid : 1|1@1+ (1,0) [0|1] "" Robot
+ SG_ ProtocolVersion : 4|4@1+ (1,0) [1|1] "" Robot
+ SG_ Sequence : 8|8@1+ (1,0) [0|255] "" Robot
+ SG_ Distance : 16|32@1+ (0.001,0) [0|4294967.294] "m" Robot
+ SG_ FirstPathPower : 48|16@1- (0.1,0) [-3276.8|3276.6] "dBm" Robot
+
+BO_ 1345 OpenTagStatus: 8 OpenTag
+ SG_ ProtocolVersion : 0|8@1+ (1,0) [1|1] "" Robot
+ SG_ RangeFresh : 8|1@1+ (1,0) [0|1] "" Robot
+ SG_ TxDropped : 9|1@1+ (1,0) [0|1] "" Robot
+ SG_ ErrorPassive : 10|1@1+ (1,0) [0|1] "" Robot
+ SG_ LastValidAge : 16|16@1+ (1,0) [0|65535] "ms" Robot
+ SG_ Uptime : 32|32@1+ (1,0) [0|4294967295] "ms" Robot
+
+CM_ "Node 1 only. For node N (1..63), use IDs 0x500+N for range and 0x540+N for status. All nodes need unique IDs. This is not CANopen or J1939.";
+CM_ BO_ 1281 "One record per completed or failed ranging exchange. Enforce a receiver-side 250 ms timeout; heartbeat reception alone does not make a range current.";
+CM_ SG_ 1281 Distance "Use only when RangeValid=1. Raw 0xFFFFFFFF is invalid, never a distance. The current TWR solver clamps negative corrected distance to zero.";
+CM_ SG_ 1281 FirstPathPower "Use only when RssiValid=1. Raw 0x7FFF means unavailable. This is the legacy RSSI field (first-path power), not an obstacle classifier.";
+CM_ BO_ 1345 "Heartbeat every second. RangeFresh requires the latest exchange to be valid and its age <=250 ms. Uptime wraps after about 49.7 days.";
+CM_ SG_ 1345 LastValidAge "65535 means no valid sample yet or saturated age. It does not mean a fresh range.";
+CM_ SG_ 1345 TxDropped "At least one CAN transmit/expiry failure since boot or RESET_STATS. Inspect USB INFO for counters.";
+VAL_ 1281 RangeValid 0 "Invalid" 1 "Valid";
+VAL_ 1281 RssiValid 0 "Unavailable" 1 "Valid";
+VAL_ 1345 RangeFresh 0 "Stale or invalid" 1 "Fresh";

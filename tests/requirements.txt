@@ -1,0 +1,2 @@
+# Validate the downloadable CAN DBC. Runtime readers do not require this package.
+cantools==43.0.2

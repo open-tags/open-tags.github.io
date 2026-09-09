@@ -6,13 +6,56 @@
     <main class="docs-shell"><aside class="docs-sidebar" aria-label="Documentation navigation"><a class="docs-home" href="/docs/">opentag one</a><span>Get started</span><a href="/docs/">Overview</a><a href="/docs/quickstart/">Distance quickstart</a><a href="/docs/location/">Location quickstart</a><span>Integrate</span><a href="/docs/scripts/">Python scripts</a><a href="/docs/ros2/">ROS 2 driver</a><span>Reference</span><a href="/docs/hardware/">Hardware</a><a href="/docs/protocol/">USB serial</a><span>Advanced</span><a href="/docs/firmware-build/">Firmware build</a><a aria-current="page" href="/docs/can/">CAN / CAN FD</a><a href="/docs/rust/">Rust examples</a><span>Test</span><a href="/docs/calibration/">Calibration</a><a href="/validation/">Validation</a><a href="/firmware/">Browser console</a></aside>
       <article class="docs-page">
         <p class="docs-breadcrumb">Documentation / Interfaces / CAN and CAN FD</p><h1>CAN and CAN FD</h1>
-        <p class="docs-lead">Wiring and standalone bus-test examples. To read distance from the current ranging firmware, use USB serial.</p>
+        <p class="docs-lead">Read Distance measurements over CAN, with USB output available at the same time.</p>
         <div class="docs-meta"><div><strong>Controller</strong><span>STM32 FDCAN2</span></div><div><strong>Transceiver</strong><span>TCAN1044VDRQ1</span></div><div><strong>Logic pins</strong><span>PB12 RX / PB13 TX</span></div></div>
-        <div class="docs-warning"><strong>Range-over-CAN is not released yet.</strong><p>The physical layer and standalone classical CAN / CAN FD test programs are present. The production ranging roles currently publish distance over USB CDC only; no stable CAN identifier or range payload contract has been assigned.</p></div>
+        <div class="docs-callout"><strong>CAN-enabled responder: bench-test image</strong><p><a href="/firmware/bins/twr_resp_can.bin" download>Download firmware</a> &middot; <a href="/docs/can/opentags_can.py" download>Python reader</a> &middot; <a href="/docs/can/opentags-range-v1.dbc" download>DBC file</a></p><p>The implementation and software tests are available. Physical-bus validation is still pending. The standard console firmware is unchanged. <a href="/firmware/bins/twr_resp_can.sha256">Firmware checksum (SHA-256)</a>.</p></div>
 
         <h2 id="electrical">Electrical interface</h2>
         <table class="docs-table"><thead><tr><th>J2 pin</th><th>Signal</th><th>Connection</th></tr></thead><tbody><tr><td><code>1</code></td><td><code>CAN_L</code></td><td>Twisted-pair low</td></tr><tr><td><code>2</code></td><td><code>CAN_H</code></td><td>Twisted-pair high</td></tr><tr><td><code>3</code></td><td><code>+12V</code></td><td>Board power</td></tr><tr><td><code>4</code></td><td><code>GND</code></td><td>Power return and bus reference</td></tr></tbody></table>
-        <p>The interface is non-isolated. SW3 closes a 120 Ω termination path through R20. Terminate only the two physical ends of a linear bus, keep stubs short, and use a twisted pair for CANH/CANL.</p>
+        <p>Connect a common bus ground through J2 pin 4. SW3 closes a 120 Ω termination path through R20. Terminate only the two physical ends of a linear bus, keep stubs short, and use a twisted pair for CANH/CANL.</p>
+
+        <h2 id="range-setup">Read distance over CAN</h2>
+        <ol class="docs-steps"><li>Set up a <a href="/docs/quickstart/">Distance pair</a>. The initiator stays on the standard firmware; only the responder needs the CAN image.</li><li>Leave CAN disconnected while flashing. Download the CAN firmware above and <a href="/docs/scripts/flash.sh" download>flash.sh</a> into the same directory. Install <code>dfu-util</code>, connect only the intended responder in DFU mode, and run the command below.</li><li>Reconnect normally. Send <code>INFO</code> in the console or a serial terminal; expect <code>fw=twr_resp-can-1</code> and a DIAG line with <code>can_node=1 can_bps=500000 can_proto=1</code>. Reapply and verify the pair's distance calibration.</li><li>Connect the responder to an active CAN adapter or robot controller at <strong>500 kbit/s, Classical CAN</strong>. It must acknowledge frames; a listen-only receiver is not enough. Keep the initiator powered.</li></ol>
+        <pre class="docs-code"><code class="language-bash">bash flash.sh responder twr_resp_can.bin</code></pre>
+        <p>On Linux, bring up your adapter and run the downloaded reader. Replace <code>can0</code> if your adapter uses a different interface. These commands change that interface's settings; use a dedicated test bus first.</p>
+        <pre class="docs-code"><code class="language-bash">sudo ip link set can0 down
+sudo ip link set can0 type can bitrate 500000 restart-ms 100
+sudo ip link set can0 up
+python3 opentags_can.py --interface can0 --node 1</code></pre>
+        <p>The reader prints distance in metres and reports stale data after 250 ms without a valid range. It uses Python's standard library and <a href="https://www.kernel.org/doc/html/latest/networking/can.html" rel="noreferrer">Linux SocketCAN</a>. The existing ROS 2 driver still uses USB; this reader does not add CAN transport to ROS.</p>
+
+        <h2 id="node-ids">More than one CAN device</h2>
+        <p>Give every responder on a bus a unique node ID from 1 to 63. The download defaults to 1. To make another ID survive a reset, download <a href="/docs/can/set_can_node.py" download>set_can_node.py</a>, personalize the image, then flash the new file:</p>
+        <pre class="docs-code"><code class="language-bash">python3 set_can_node.py twr_resp_can.bin --node 2 --output twr_resp_can-node2.bin
+bash flash.sh responder twr_resp_can-node2.bin</code></pre>
+        <p>The tool changes only the node-ID block and refuses to overwrite an existing file. Verify <code>can_node=2</code> after a power cycle before joining a shared bus. CAN IDs identify responders; they do not add UWB peer addressing or scheduling between multiple ranging pairs.</p>
+        <p>For temporary bench changes, send <code>CAN_NODE 2</code> over USB. <code>CAN OFF</code> and <code>CAN ON</code> disable or enable publication, not the physical transceiver. Runtime settings return to the image defaults at reset. Reserve this protocol's IDs on your bus; it is not CANopen or J1939.</p>
+
+        <h2 id="range-frames">Range frame — protocol v1</h2>
+        <p>Standard 11-bit ID <code>0x500 + node</code> (default <code>0x501</code>), DLC 8, no FD or bit-rate switching. A record follows each completed or failed ranging exchange, up to the current 40 Hz target. Multi-byte values are little-endian.</p>
+        <table class="docs-table"><thead><tr><th>Byte</th><th>Value</th></tr></thead><tbody>
+          <tr><td>0</td><td>Upper nibble: version 1. Bit 0: distance valid. Bit 1: RSSI valid. Bits 2–3 reserved, zero.</td></tr>
+          <tr><td>1</td><td>UWB sequence, unsigned 8-bit, wraps at 255.</td></tr>
+          <tr><td>2–5</td><td>Unsigned 32-bit distance in millimetres. <code>0xFFFFFFFF</code> means invalid.</td></tr>
+          <tr><td>6–7</td><td>Signed 16-bit legacy RSSI / first-path power in 0.1 dBm. <code>0x7FFF</code> means unavailable.</td></tr>
+        </tbody></table>
+        <p>Example: <code>501#132AE60B000014FD</code> is node 1, sequence 42, 3.046 m, −74.8 dBm. Check validity flags before using either measurement. Failed exchanges are invalid records, not zero distance; the existing TWR solver still clamps negative corrected distances to zero. Long sequence gaps are ambiguous.</p>
+
+        <h2 id="range-status">Status heartbeat</h2>
+        <p>Standard ID <code>0x540 + node</code> (default <code>0x541</code>), DLC 8, once per second while publication is enabled.</p>
+        <table class="docs-table"><thead><tr><th>Byte</th><th>Value</th></tr></thead><tbody>
+          <tr><td>0</td><td>Protocol version: 1.</td></tr>
+          <tr><td>1</td><td>Bit 0: latest observation valid and no older than 250 ms. Bit 1: a CAN transmission was dropped or expired. Bit 2: controller is error-passive. Other bits zero.</td></tr>
+          <tr><td>2–3</td><td>Unsigned 16-bit age of the last valid range, in milliseconds. <code>65535</code> means never seen or saturated.</td></tr>
+          <tr><td>4–7</td><td>Unsigned 32-bit device uptime in milliseconds; wraps after about 49.7 days.</td></tr>
+        </tbody></table>
+        <p>Apply your own 250 ms range timeout. Heartbeats can continue when the UWB peer is silent, and no heartbeat can be delivered over a disconnected bus. The DBC is for node 1; adjust its message IDs for other nodes and always respect the validity signals.</p>
+
+        <h2 id="range-recovery">Failure behavior and diagnostics</h2>
+        <p>CAN runs independently of the UWB and USB loops. A single latest-value slot replaces old unsent measurements. Transmit waits are bounded, expired mailboxes are cancelled, and bus-off recovery is enabled. Automatic frame retries are disabled: use the next measurement instead of replaying a backlog.</p>
+        <p><code>INFO</code> adds CAN configuration and counters: <code>can_tx</code> counts confirmed transmissions, <code>can_drop</code> counts failed/expired transmissions, and <code>can_coalesced</code> counts replaced pending measurements. <code>can_mode</code> is 0 (active), 1 (passive), or 2 (bus-off); <code>can_tec</code> and <code>can_rec</code> are controller error counters. <code>RESET_STATS</code> clears the software counters, not controller fault state.</p>
+
+        <details><summary>Standalone CAN and CAN FD test programs</summary>
 
         <h2 id="profiles">Example firmware profiles</h2>
         <table class="docs-table"><thead><tr><th>Targets</th><th>Nominal</th><th>Data</th><th>Payload</th></tr></thead><tbody>
@@ -23,7 +66,7 @@
 
         <h2 id="classic-frames">Classical CAN echo contract</h2>
         <table class="docs-table"><thead><tr><th>CAN ID</th><th>Direction</th><th>DLC</th><th>Bytes</th></tr></thead><tbody><tr><td><code>0x123</code></td><td>TX node → RX node</td><td>4</td><td><code>CA FE seq 00</code></td></tr><tr><td><code>0x456</code></td><td>RX node → TX node</td><td>4</td><td>Echo of received request</td></tr></tbody></table>
-        <p>This is a hardware-in-the-loop diagnostic contract only. IDs may change and are not reserved for the future range protocol.</p>
+        <p>These IDs are for the echo test only, separate from the range protocol above.</p>
 
         <h2 id="fd-frames">CAN FD load frame</h2>
         <table class="docs-table"><thead><tr><th>Offset</th><th>Type</th><th>Meaning</th></tr></thead><tbody><tr><td><code>0..3</code></td><td><code>u32 LE</code></td><td>Wrapping sequence number</td></tr><tr><td><code>4..7</code></td><td><code>u32 LE</code></td><td>Sender <code>embassy_time</code> tick count</td></tr><tr><td><code>8..63</code></td><td>bytes</td><td><code>0xAA</code> fill</td></tr></tbody></table>
@@ -36,10 +79,16 @@
 DEFMT_LOG=info cargo run --release --bin can_rx
 # In a second checkout / terminal with the other probe:
 DEFMT_LOG=info cargo run --release --bin can_tx</code></pre>
+        </details>
 
         <h2 id="faults">Fault isolation</h2>
         <table class="docs-table"><thead><tr><th>Symptom</th><th>Check first</th></tr></thead><tbody><tr><td>No frames, no bus activity</td><td>Common ground, CANH/CANL polarity, SWD image, transceiver supply</td></tr><tr><td>TX retries or no acknowledgement</td><td>A second active CAN node at the same nominal bit rate</td></tr><tr><td>Works at 500 kbit/s, fails in FD</td><td>Data-phase timing, BRS support, topology, cable length, termination</td></tr><tr><td>High sequence loss</td><td>RTT logging overhead, receiver servicing, wiring reflections, error counters</td></tr></tbody></table>
         <h2 id="source">Source access</h2>
+        <p>To build the CAN-enabled responder from the current firmware checkout, use the dedicated size-optimized profile below. RTT logging is disabled to fit the existing flash layout; USB output and INFO diagnostics remain available. The regular <code>twr_resp</code> build remains USB-only. No firmware source is added to the public website repository by this change.</p>
+        <pre class="docs-code"><code class="language-bash">cd firmware/rust_bringup/stm32g4
+mkdir -p out
+DEFMT_LOG=off cargo objcopy --profile can-release --features range-can --bin twr_resp -- \
+  -O binary out/twr_resp_can.bin</code></pre>
         <p>In the supplied checkout, the complete examples are <code>can_tx.rs</code>, <code>can_rx.rs</code>, <code>can_fd_tx.rs</code>, and <code>can_fd_rx.rs</code> under <code>firmware/rust_bringup/stm32g4/src/bin/</code>. No current public source download is linked. Follow the <a href="/docs/firmware-build/">source-access and build prerequisites</a> before attempting these commands.</p>
         <div class="docs-next"><a href="/docs/protocol/">&larr; USB serial</a><a href="/docs/rust/">Rust examples &rarr;</a></div>
       </article>

@@ -29,6 +29,7 @@ Key facts:
 - [ROS 2 driver](https://open-tags.com/docs/ros2/): public source download, Jazzy build instructions, topics, services, and validation status
 - [ROS 2 source ZIP](https://open-tags.com/docs/ros2/opentags-ros2.zip): driver, message definitions, launch file, configuration, tests, and Apache-2.0 license
 - [ROS 2 source on GitHub](https://github.com/open-tags/open-tags.github.io/tree/main/ros2): the source included in the download
+- [Range over CAN](https://open-tags.com/docs/can/): optional 500 kbit/s Distance responder bench image, protocol v1, persistent node IDs, Python reader, and DBC; physical-bus validation pending and standard console firmware unchanged
 - [Serial protocol](https://open-tags.com/docs/protocol/): commands, responses, distance records, and integration examples
 - [Validation](https://open-tags.com/validation/): current benchmark status, engineering targets, and reproducible test protocol
 - [Firmware console](https://open-tags.com/firmware/): flash firmware, log data, plot live distance, and calibrate from the browser over WebUSB / Web Serial
