@@ -11,7 +11,7 @@ Key facts:
 - Interfaces: USB-C serial stream, CAN and CAN FD; powered over USB-C or a 6–24V input with reverse-polarity protection
 - MCU: STM32 Cortex-M4 at 170 MHz, 256K flash, 128K RAM; radio: Qorvo DWM3000
 - Firmware: Rust (Embassy framework); prebuilt roles can be flashed and their serial output monitored in the browser via WebUSB / Web Serial, with no local toolchain. Building the current firmware requires a supplied source checkout; no current public source release is linked.
-- Available files: mechanical CAD (STEP) for the full assembly, case, and lid; prebuilt role binaries; Python distance tools. Current schematics/PCB files are not published. The current ROS 2 driver also requires a source package.
+- Available files: mechanical CAD (STEP) for the full assembly, case, and lid; prebuilt role binaries; Python distance tools; ROS 2 driver and message source packages under Apache-2.0. Current schematics/PCB files are not published.
 - Use cases: indoor robot navigation, drone flight without a motion-capture rig, docking and follow-me between machines, UWB anchor network bring-up, asset-tracking prototypes, RF field testing
 - Integration: parse live TWR distance and TDOA position from USB serial; ROS 2 publishes range, position, events, and diagnostics
 - Availability: ships in about 1 week from San Diego, CA, USA
@@ -26,12 +26,15 @@ Key facts:
 - [Quickstart](https://open-tags.com/docs/quickstart/): browser-based flashing, connection, calibration, and static testing
 - [Location quickstart](https://open-tags.com/docs/location/): anchor survey, 2D/3D configuration, flashing, calibration, and validation limitations
 - [Host scripts](https://open-tags.com/docs/scripts/): runnable Python and shell tools for discovery, info, monitoring, calibration, testing, and DFU flashing
+- [ROS 2 driver](https://open-tags.com/docs/ros2/): public source download, Jazzy build instructions, topics, services, and validation status
+- [ROS 2 source ZIP](https://open-tags.com/docs/ros2/opentags-ros2.zip): driver, message definitions, launch file, configuration, tests, and Apache-2.0 license
+- [ROS 2 source on GitHub](https://github.com/open-tags/open-tags.github.io/tree/main/ros2): the source included in the download
 - [Serial protocol](https://open-tags.com/docs/protocol/): commands, responses, distance records, and integration examples
 - [Validation](https://open-tags.com/validation/): current benchmark status, engineering targets, and reproducible test protocol
 - [Firmware console](https://open-tags.com/firmware/): flash firmware, log data, plot live distance, and calibrate from the browser over WebUSB / Web Serial
 - [Privacy](https://open-tags.com/privacy/): website and order privacy policy
 - [Terms](https://open-tags.com/terms/): product, ordering, returns, and warranty terms
-- [Website source](https://github.com/open-tags/open-tags.github.io): public documentation, distributed binaries, host tools, and the Missing things checklist
+- [Website source](https://github.com/open-tags/open-tags.github.io): public documentation, distributed binaries, host tools, ROS 2 packages, and the Missing things checklist
 
 ## Glossary
 

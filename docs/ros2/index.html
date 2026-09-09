@@ -18,14 +18,14 @@
         <h1>ROS 2 driver</h1>
         <p class="docs-lead">A reconnect-capable ROS 2 node for live UWB range, TDOA position, serial events, and device health.</p>
 
-        <div class="docs-callout"><strong>Source package required</strong><p>The current driver is not included in the public website repository or a linked public release. Request the current ROS 2 package from <a href="mailto:hello@open-tags.com">hello@open-tags.com</a>. The instructions below apply to a supplied checkout containing <code>ros2/opentags_driver</code> and <code>ros2/opentags_msgs</code>.</p></div>
+        <div class="docs-callout" id="source"><strong>ROS 2 source</strong><p><a href="/docs/ros2/opentags-ros2.zip" download>Download source (.zip)</a> &middot; <a href="https://github.com/open-tags/open-tags.github.io/tree/main/ros2" rel="noreferrer">View on GitHub</a></p><p>Includes <code>opentags_driver</code>, <code>opentags_msgs</code>, launch files, configuration, and tests under Apache-2.0. No source-access request is needed.</p></div>
 
         <h2 id="build">Build</h2>
-        <p>The package targets ROS 2 Jazzy. First install and source <a href="https://docs.ros.org/en/jazzy/Installation/Ubuntu-Install-Debs.html" rel="noreferrer">ROS 2 Jazzy</a>, and install colcon and rosdep. Then, from the supplied checkout's root:</p>
+        <p>The package targets ROS 2 Jazzy. First install and source <a href="https://docs.ros.org/en/jazzy/Installation/Ubuntu-Install-Debs.html" rel="noreferrer">ROS 2 Jazzy</a>, and install colcon and rosdep. Extract the ZIP into an empty workspace. From the directory containing <code>ros2/</code>, run:</p>
         <pre class="docs-code"><code class="language-bash">rosdep install --from-paths ros2 --ignore-src -r -y
 colcon build --base-paths ros2 --symlink-install
 source install/setup.bash</code></pre>
-        <p>Missing <code>ros2/</code> means you do not have the driver source package; cloning the website does not provide it. A full ROS 2 build and hardware acceptance run still need to be recorded for a published release.</p>
+        <p>A checkout of the website repository also includes <code>ros2/</code>; the same commands work from its root. Parser and serial-loopback tests run automatically before publication. A full ROS 2 Jazzy build and physical-device acceptance run have not yet been recorded.</p>
 
         <h2 id="run">Run</h2>
         <p>For distance, flash one initiator and one responder using the <a href="/docs/quickstart/">quickstart</a>; connect the responder to ROS and keep the initiator powered. For location, finish the <a href="/docs/location/">anchor survey and configuration</a>, then connect only the mobile tag.</p>
@@ -60,7 +60,7 @@ ros2 topic echo /diagnostics</code></pre>
 ros2 service call /opentags_driver/request_info std_srvs/srv/Trigger
 ros2 service call /opentags_driver/reset_statistics std_srvs/srv/Trigger</code></pre>
         <h2 id="configuration">Configuration and calibration</h2>
-        <p>The launch file exposes <code>port</code>, <code>frame_id</code> (default <code>opentag</code>), and <code>publish_sensor_range</code>. For other settings, run the node with your supplied YAML file:</p>
+        <p>The launch file exposes <code>port</code>, <code>frame_id</code> (default <code>opentag</code>), and <code>publish_sensor_range</code>. For other settings, edit the included YAML file and run the node from the workspace root:</p>
         <pre class="docs-code"><code class="language-bash">ros2 run opentags_driver opentags_driver --ros-args \
   --params-file ros2/opentags_driver/config/driver.yaml \
   -p port:=/dev/serial/by-id/your-opentag</code></pre>

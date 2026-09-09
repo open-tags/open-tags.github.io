@@ -1,0 +1,19 @@
+opentags_driver:
+  ros__parameters:
+    port: /dev/ttyACM0
+    baud_rate: 115200
+    frame_id: opentag
+    reconnect_interval_s: 2.0
+    serial_timeout_s: 0.1
+    stale_after_s: 2.0
+    request_info_on_connect: true
+    publish_sensor_range: false
+    sensor_range_radiation_type: 0
+    sensor_range_field_of_view: 0.0
+    sensor_range_min_m: 0.05
+    sensor_range_max_m: 60.0
+    range_topic: opentags/range
+    sensor_range_topic: opentags/range_sensor
+    position_topic: opentags/position
+    position_raw_topic: opentags/position_raw
+    events_topic: opentags/events

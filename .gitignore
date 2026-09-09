@@ -5,3 +5,12 @@ resources/
 
 # Editor
 .vscode/
+
+# ROS workspace and Python build output
+/build/
+/install/
+/log/
+__pycache__/
+*.pyc
+*.egg-info/
+.pytest_cache/

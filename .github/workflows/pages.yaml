@@ -34,10 +34,12 @@ jobs:
         with:
           python-version: '3.12'
 
-      - name: Check documentation and host tools
+      - name: Check documentation, host tools, and ROS 2 source
         run: |
           python -m pip install -r docs/scripts/requirements.txt
           python -B -m unittest discover -s tests -v
+          PYTHONPATH=ros2/opentags_driver python -B -m unittest discover -s ros2/opentags_driver/test -p 'test_protocol.py' -v
+          PYTHONPATH=ros2/opentags_driver python -B -m unittest discover -s ros2/opentags_driver/test -p 'test_transport.py' -v
 
       - name: Prepare site
         run: |

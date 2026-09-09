@@ -17,7 +17,9 @@ Writing instructions or compiling code does not complete a hardware acceptance t
 - [x] Explain that runtime calibration, browser storage, and Python storage are different.
 - [x] Correct the firmware clock documentation: ranging roles use 144 MHz; CAN examples use 170 MHz.
 - [x] Remove misleading source-file links that only opened the GitHub organization.
-- [x] Make current firmware and ROS source-package access a prerequisite, not a presumed public download.
+- [x] Make current firmware source-package access a prerequisite, not a presumed public download.
+- [x] Publish the ROS 2 driver and messages in the website repository with their Apache-2.0 license,
+  a source ZIP, setup instructions, and automated parser, serial-loopback, and archive-parity checks.
 - [x] Add a Python calibration collection timeout and require device acknowledgement before saving an offset.
 - [x] Verify restored calibration with fresh INFO output; add info.py --no-restore for boot-state checks.
 - [x] Propagate dfu-util errors instead of reporting an unconfirmed flash as successful.
@@ -27,9 +29,10 @@ Writing instructions or compiling code does not complete a hardware acceptance t
 
 ## P0 — complete before calling setup fully self-service
 
-- [ ] **Decide how to distribute the current software.** The current firmware checkout is private;
+- [ ] **Decide how to distribute the current MCU firmware source.** The current firmware checkout is private;
   the public opentag repository contains older material and does not supply the documented
-  STM32/Embassy and ROS packages. Publish a reviewed, software-only release with licenses and
+  STM32/Embassy packages. The ROS 2 packages are now public under `ros2/` in the website repository.
+  Publish a reviewed, firmware-only release with licenses and
   versioned download links, or establish an explicit source-access process. Do not publish the
   private hardware/business checkout as a shortcut. Acceptance: a new customer can obtain the
   documented package without guessing a repository or missing dependency.
@@ -38,7 +41,7 @@ Writing instructions or compiling code does not complete a hardware acceptance t
   on the supported operating systems; write the exact Windows DFU and Linux permission steps
   from those tests. Acceptance: flash, reconnect, measure, calibrate, export, and recover after
   unplugging without undocumented intervention.
-- [ ] **Validate ROS 2 Jazzy end to end.** The local source has parser/transport tests, but a
+- [ ] **Validate ROS 2 Jazzy end to end.** The published source has parser/transport tests, but a
   release needs a clean ROS workspace build plus distance/location and disconnect/reconnect
   checks. Verify topic units, timestamps, frame convention, diagnostics, and services against
   each firmware role. Acceptance: archive build/test results and a short hardware recording.
@@ -108,8 +111,10 @@ Run from the website repository root in a Python environment with requirements i
 ```sh
 python -m pip install -r docs/scripts/requirements.txt
 python -m unittest discover -s tests -v
+PYTHONPATH=ros2/opentags_driver python -m unittest discover -s ros2/opentags_driver/test -p 'test_protocol.py' -v
+PYTHONPATH=ros2/opentags_driver python -m unittest discover -s ros2/opentags_driver/test -p 'test_transport.py' -v
 git diff --check
 ```
 
 The automated suite does not connect to, flash, or claim validation of a physical module.
-Hardware firmware and private source publication are intentionally outside this website change.
+MCU firmware source and private hardware/business files are intentionally outside this publication.
