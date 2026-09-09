@@ -19,6 +19,8 @@ const firmwareCache = new Map();   // url -> ArrayBuffer
 // Live distance stream (whichever tag emits D lines)
 const samples = []; // {seq, mm, t, src}
 const MAX_SAMPLES = 200;
+const CHART_MIN_MM = 0;
+const CHART_MAX_MM = 5000;
 const LIVE_RENDER_INTERVAL_MS = 50;
 let paused = false;
 let renderPending = false;
@@ -535,8 +537,25 @@ function drawChart() {
   ctx.lineWidth = 1;
   ctx.strokeRect(padL, padT, innerW, innerH);
 
+  const lo = CHART_MIN_MM;
+  const hi = CHART_MAX_MM;
+
+  ctx.fillStyle = "#777";
+  ctx.font = "11px system-ui, sans-serif";
+  ctx.textAlign = "right";
+  for (let i = 0; i <= 5; i++) {
+    const v = lo + (hi - lo) * (1 - i / 5);
+    const y = padT + (innerH * i) / 5;
+    ctx.fillText(`${(v / 1000).toFixed(0)} m`, padL - 6, y + 4);
+    ctx.strokeStyle = "#0f0f0f";
+    ctx.beginPath();
+    ctx.moveTo(padL, y);
+    ctx.lineTo(padL + innerW, y);
+    ctx.stroke();
+  }
+
+  ctx.textAlign = "left";
   if (samples.length === 0) {
-    ctx.fillStyle = "#777";
     ctx.font = "12px system-ui, sans-serif";
     ctx.fillText(
       "Waiting for distance samples — set one tag I, the other R…",
@@ -546,28 +565,11 @@ function drawChart() {
     return;
   }
 
-  const xs = samples.map((s) => s.mm);
-  let lo = Math.min(...xs);
-  let hi = Math.max(...xs);
-  if (hi === lo) { lo -= 100; hi += 100; }
-  const span = hi - lo;
-  lo -= span * 0.1;
-  hi += span * 0.1;
-
-  ctx.fillStyle = "#777";
-  ctx.font = "11px system-ui, sans-serif";
-  ctx.textAlign = "right";
-  for (let i = 0; i <= 4; i++) {
-    const v = lo + (hi - lo) * (1 - i / 4);
-    const y = padT + (innerH * i) / 4;
-    ctx.fillText(v.toFixed(0), padL - 6, y + 4);
-    ctx.strokeStyle = "#0f0f0f";
-    ctx.beginPath();
-    ctx.moveTo(padL, y);
-    ctx.lineTo(padL + innerW, y);
-    ctx.stroke();
-  }
-
+  // Clip the trace to the fixed plot bounds without changing the raw data.
+  ctx.save();
+  ctx.beginPath();
+  ctx.rect(padL, padT, innerW, innerH);
+  ctx.clip();
   ctx.strokeStyle = "#111111";
   ctx.lineWidth = 1.5;
   ctx.beginPath();
@@ -585,10 +587,10 @@ function drawChart() {
   ctx.beginPath();
   ctx.arc(lx, ly, 3, 0, Math.PI * 2);
   ctx.fill();
+  ctx.restore();
 
   ctx.textAlign = "left";
   ctx.fillStyle = "#777";
-  ctx.fillText("mm", 8, padT + 12);
   ctx.fillText(`From ${last.src}`, padL + innerW - 70, padT + 12);
 }
 
