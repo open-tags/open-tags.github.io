@@ -1,5 +1,10 @@
 # Rebuilding firmware bins
 
+These maintainer commands require the current source checkout, which is not
+included in the public website repository. See the [firmware build guide](https://open-tags.com/docs/firmware-build/)
+for source access and toolchain setup. Customers can use the browser quickstarts
+without building firmware.
+
 The firmware console fetches prebuilt `.bin` files from `firmware/bins/`.
 
 From the umbrella repo root:

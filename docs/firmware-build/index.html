@@ -3,18 +3,24 @@
   <head><meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" /><meta name="description" content="Build, flash, and debug opentag STM32G474 Rust firmware." /><title>Firmware build | opentags docs</title><link rel="icon" type="image/png" href="/favicon.png?v=3" /><link rel="stylesheet" href="/assets/site.css?v=9" /><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/styles/github.min.css" /></head>
   <body class="docs-site">
     <header class="site-header" data-site-header><a class="brand" href="/" aria-label="opentags home">opentags</a><button class="nav-toggle" type="button" data-nav-toggle aria-label="Open menu" aria-expanded="false"><span class="nav-toggle-icon" aria-hidden="true"></span></button><nav aria-label="Primary"><a href="/one/">One</a><a aria-current="page" href="/docs/">Docs</a><a href="/firmware/">Console</a><a href="https://github.com/open-tags" rel="noreferrer">GitHub</a></nav></header>
-    <main class="docs-shell"><aside class="docs-sidebar" aria-label="Documentation navigation"><a class="docs-home" href="/docs/">opentag one</a><span>Get started</span><a href="/docs/">Overview</a><a href="/docs/quickstart/">Quickstart</a><span>Platform</span><a href="/docs/hardware/">Hardware</a><a aria-current="page" href="/docs/firmware-build/">Firmware build</a><span>Interfaces</span><a href="/docs/protocol/">USB serial</a><a href="/docs/can/">CAN / CAN FD</a><span>Integrate</span><a href="/docs/scripts/">Python scripts</a><a href="/docs/ros2/">ROS 2 driver</a><a href="/docs/rust/">Rust examples</a><span>Test</span><a href="/docs/calibration/">Calibration</a><a href="/validation/">Validation</a><a href="/firmware/">Browser console</a></aside>
+    <main class="docs-shell"><aside class="docs-sidebar" aria-label="Documentation navigation"><a class="docs-home" href="/docs/">opentag one</a><span>Get started</span><a href="/docs/">Overview</a><a href="/docs/quickstart/">Distance quickstart</a><a href="/docs/location/">Location quickstart</a><span>Integrate</span><a href="/docs/scripts/">Python scripts</a><a href="/docs/ros2/">ROS 2 driver</a><span>Reference</span><a href="/docs/hardware/">Hardware</a><a href="/docs/protocol/">USB serial</a><span>Advanced</span><a aria-current="page" href="/docs/firmware-build/">Firmware build</a><a href="/docs/can/">CAN / CAN FD</a><a href="/docs/rust/">Rust examples</a><span>Test</span><a href="/docs/calibration/">Calibration</a><a href="/validation/">Validation</a><a href="/firmware/">Browser console</a></aside>
       <article class="docs-page">
         <p class="docs-breadcrumb">Documentation / Platform / Firmware build</p><h1>Firmware build</h1><p class="docs-lead">Compile and run the Rust firmware on opentag one V2 with the repository-pinned Embassy tree.</p>
-        <div class="docs-callout"><strong>Use the project checkout.</strong><p>The application depends on the Embassy submodule through local paths. Initialize submodules in your existing project checkout before building.</p></div>
+        <div class="docs-callout"><strong>Current source checkout required.</strong><p>The current STM32 firmware is not in the public website repository. Request source access from <a href="mailto:hello@open-tags.com">hello@open-tags.com</a>. A supplied checkout must include <code>firmware/rust_bringup/stm32g4</code> and the pinned <code>firmware/embassy</code> dependency. For normal setup, use the <a href="/docs/quickstart/">browser quickstart</a>; building is optional.</p></div>
         <h2 id="toolchain">Toolchain</h2>
-        <pre class="docs-code"><code class="language-bash">cd firmware/rust_bringup/stm32g4
+        <p>Install Rust first. From the supplied checkout's root, initialize the required submodule and enter the firmware package:</p>
+        <pre class="docs-code"><code class="language-bash">git submodule update --init --recursive firmware/embassy
+cd firmware/rust_bringup/stm32g4
 rustup target add thumbv7em-none-eabi
-cargo install probe-rs-tools --locked</code></pre>
+rustup component add llvm-tools-preview
+cargo install cargo-binutils --locked</code></pre>
+        <p>Install <a href="https://probe.rs/docs/getting-started/installation/" rel="noreferrer">probe-rs tools</a> only if you plan to use an SWD probe. The package's Cargo configuration selects the ARM target automatically.</p>
         <h2 id="targets">Firmware targets</h2>
         <table class="docs-table"><thead><tr><th>Binary</th><th>Purpose</th><th>Interface</th></tr></thead><tbody>
           <tr><td><code>twr_init</code></td><td>40 Hz two-way-ranging initiator</td><td>DWM3000 + USB CDC</td></tr>
           <tr><td><code>twr_resp</code></td><td>Ranging responder, calibration, distance stream</td><td>DWM3000 + USB CDC</td></tr>
+          <tr><td><code>tdoa_anchor</code></td><td>Configurable location anchor</td><td>UWB; configured by browser before flashing</td></tr>
+          <tr><td><code>tdoa_tag</code></td><td>Onboard 2D/3D position solver</td><td>UWB + USB CDC</td></tr>
           <tr><td><code>can_tx</code></td><td>Classical CAN request / echo test</td><td>FDCAN2 at 500 kbit/s</td></tr>
           <tr><td><code>can_rx</code></td><td>Classical CAN echo peer</td><td>FDCAN2 at 500 kbit/s</td></tr>
           <tr><td><code>can_fd_tx</code></td><td>64-byte CAN FD load generator</td><td>1 Mbit/s nominal, 2 Mbit/s data</td></tr>
@@ -23,14 +29,20 @@ cargo install probe-rs-tools --locked</code></pre>
         <h2 id="build">Build without hardware</h2>
         <pre class="docs-code"><code class="language-bash">cargo check --release --bin twr_init
 cargo check --release --bin twr_resp
+cargo check --release --bin tdoa_anchor --bin tdoa_tag
 cargo check --release --bin can_tx --bin can_rx
 cargo check --release --bin can_fd_tx --bin can_fd_rx</code></pre>
+        <h2 id="binary">Build a distance binary for DFU</h2>
+        <pre class="docs-code"><code class="language-bash">mkdir -p out
+cargo objcopy --release --bin twr_init -- -O binary out/twr_init.bin
+cargo objcopy --release --bin twr_resp -- -O binary out/twr_resp.bin</code></pre>
+        <p>These commands produce flat binaries without touching the website's distributed images. Pass your binary's absolute path to the <a href="/docs/scripts/#flash">DFU script</a> as its second argument. Location images need the surveyed configuration described in the <a href="/docs/location/">Location quickstart</a>; an unpatched build does not contain your installation's survey.</p>
         <h2 id="run">Flash and attach RTT</h2>
         <p>Connect a compatible SWD probe to the 10-pin Cortex Debug header. The package runner is already configured for <code>STM32G474CC</code>.</p>
         <pre class="docs-code"><code class="language-bash">DEFMT_LOG=info cargo run --release --bin can_tx</code></pre>
         <p><code>probe-rs</code> erases and programs the image, resets the target, and displays <code>defmt</code> RTT output. For release role images and no local toolchain, use the <a href="/firmware/">browser DFU console</a>.</p>
         <h2 id="clocking">Clocking assumptions</h2>
-        <p>The current V2 examples configure the 8 MHz HSE through PLL1 for a 170 MHz system clock. CAN FD explicitly routes FDCAN from PCLK1; timing constants on every bus node must match.</p>
+        <p>The supplied TWR and Location roles use the 8 MHz HSE with an 8 / 2 × 72 / 2 = 144 MHz system clock. The CAN examples use an 8 / 2 × 85 / 2 = 170 MHz system clock. CAN FD routes FDCAN from PCLK1. Do not copy one target's bus timing into another clock configuration.</p>
         <div class="docs-next"><a href="/docs/hardware/">&larr; Hardware</a><a href="/docs/protocol/">USB serial &rarr;</a></div>
       </article>
     </main><footer><div class="footer-row"><span>&copy; 2026 opentags</span><a href="mailto:hello@open-tags.com">hello@open-tags.com</a></div></footer><script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/highlight.min.js" defer></script><script src="/assets/docs.js" defer></script><script type="module" src="/assets/site.js?v=5"></script>

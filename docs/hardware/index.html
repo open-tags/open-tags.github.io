@@ -8,21 +8,24 @@
   <body class="docs-site">
     <header class="site-header" data-site-header><a class="brand" href="/" aria-label="opentags home">opentags</a><button class="nav-toggle" type="button" data-nav-toggle aria-label="Open menu" aria-expanded="false"><span class="nav-toggle-icon" aria-hidden="true"></span></button><nav aria-label="Primary"><a href="/one/">One</a><a aria-current="page" href="/docs/">Docs</a><a href="/firmware/">Console</a><a href="https://github.com/open-tags" rel="noreferrer">GitHub</a></nav></header>
     <main class="docs-shell">
-      <aside class="docs-sidebar" aria-label="Documentation navigation"><a class="docs-home" href="/docs/">opentag one</a><span>Get started</span><a href="/docs/">Overview</a><a href="/docs/quickstart/">Quickstart</a><span>Platform</span><a aria-current="page" href="/docs/hardware/">Hardware</a><a href="/docs/firmware-build/">Firmware build</a><span>Interfaces</span><a href="/docs/protocol/">USB serial</a><a href="/docs/can/">CAN / CAN FD</a><span>Integrate</span><a href="/docs/scripts/">Python scripts</a><a href="/docs/ros2/">ROS 2 driver</a><a href="/docs/rust/">Rust examples</a><span>Test</span><a href="/docs/calibration/">Calibration</a><a href="/validation/">Validation</a><a href="/firmware/">Browser console</a></aside>
+      <aside class="docs-sidebar" aria-label="Documentation navigation"><a class="docs-home" href="/docs/">opentag one</a><span>Get started</span><a href="/docs/">Overview</a><a href="/docs/quickstart/">Distance quickstart</a><a href="/docs/location/">Location quickstart</a><span>Integrate</span><a href="/docs/scripts/">Python scripts</a><a href="/docs/ros2/">ROS 2 driver</a><span>Reference</span><a aria-current="page" href="/docs/hardware/">Hardware</a><a href="/docs/protocol/">USB serial</a><span>Advanced</span><a href="/docs/firmware-build/">Firmware build</a><a href="/docs/can/">CAN / CAN FD</a><a href="/docs/rust/">Rust examples</a><span>Test</span><a href="/docs/calibration/">Calibration</a><a href="/validation/">Validation</a><a href="/firmware/">Browser console</a></aside>
       <article class="docs-page">
         <p class="docs-breadcrumb">Documentation / Platform / Hardware</p><h1>Hardware reference</h1>
-        <p class="docs-lead">Board-level interfaces and constraints for opentag one V2.2. Values here are taken from the released schematic, netlist, BOM, and firmware pin assignments.</p>
+        <p class="docs-lead">Board-level interfaces and constraints for opentag one V2.2. Values here are taken from the schematic, netlist, BOM, and firmware pin assignments.</p>
         <div class="docs-meta"><div><strong>Revision</strong><span>V2.2</span></div><div><strong>MCU</strong><span>STM32G474CCT6</span></div><div><strong>UWB</strong><span>Qorvo DWM3000</span></div></div>
 
         <h2 id="architecture">Architecture</h2>
         <table class="docs-table"><thead><tr><th>Subsystem</th><th>Part</th><th>Connection</th></tr></thead><tbody>
-          <tr><td>Controller</td><td>STM32G474CCT6</td><td>170 MHz Cortex-M4F</td></tr>
+          <tr><td>Controller</td><td>STM32G474CCT6</td><td>Cortex-M4F; current ranging roles run at 144 MHz</td></tr>
           <tr><td>UWB</td><td>DWM3000</td><td>SPI1; channel 9 ranging firmware</td></tr>
           <tr><td>CAN physical layer</td><td>TCAN1044VDRQ1</td><td>FDCAN2, PB12 RX / PB13 TX</td></tr>
           <tr><td>Host / programming</td><td>USB-C</td><td>USB CDC serial and STM32 ROM DFU</td></tr>
           <tr><td>Debug</td><td>10-pin Cortex Debug</td><td>SWDIO, SWCLK, NRST, VTref, GND</td></tr>
         </tbody></table>
 
+        <h2 id="power">Start with USB power</h2>
+        <p>Use USB-C data cables for the first measurement and firmware setup. Anchors or the distance initiator can use power-only USB connections after configuration. Match the reference below to the physical board before using J2; the connector's orientation is not specified by the pin table alone.</p>
+        <p>Confirm your board's input rating and power-source arrangement with <a href="mailto:hello@open-tags.com">support</a> before external wiring or combining USB and J2 power. Do not treat the <code>+12V</code> net name as a complete electrical specification.</p>
         <h2 id="j2">J2 power and CAN connector</h2>
         <p>Pin numbering follows the KiCad schematic and exported V2.2 netlist. Verify the physical pin-1 marker before attaching power.</p>
         <table class="docs-table"><thead><tr><th>Pin</th><th>Net</th><th>Function</th></tr></thead><tbody>
@@ -39,8 +42,8 @@
         <h2 id="usb">USB modes</h2>
         <dl class="docs-definition"><dt>Normal boot</dt><dd>Enumerates as USB CDC serial when a ranging image is installed.</dd><dt>BOOT0 held</dt><dd>Enters the STM32 system bootloader and enumerates as STM32 DFU for role flashing.</dd><dt>SWD</dt><dd>Used by <code>probe-rs</code> for development builds, RTT logs, and hardware debugging.</dd></dl>
 
-        <h2 id="source">Source files</h2>
-        <p>The hardware is open source. Use the current KiCad source for layout work and the exported netlist for machine-readable connectivity.</p>
+        <h2 id="source">Hardware resources</h2>
+        <p>Mechanical CAD downloads are available on the <a href="/one/">opentag one product page</a>. Schematics and PCB design files are not currently published.</p>
         <p><a href="https://github.com/open-tags">Browse opentags repositories</a> · <a href="https://www.ti.com/product/TCAN1044-Q1">TCAN1044-Q1 product page</a></p>
         <div class="docs-next"><a href="/docs/quickstart/">&larr; Quickstart</a><a href="/docs/firmware-build/">Firmware build &rarr;</a></div>
       </article>

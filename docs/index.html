@@ -17,66 +17,39 @@
       <nav aria-label="Primary"><a href="/one/">One</a><a aria-current="page" href="/docs/">Docs</a><a href="/firmware/">Console</a><a href="https://github.com/open-tags" rel="noreferrer">GitHub</a></nav>
     </header>
     <main class="docs-shell">
-      <aside class="docs-sidebar" aria-label="Documentation navigation">
-        <a class="docs-home" href="/docs/">opentag one</a>
-        <span>Get started</span>
-        <a aria-current="page" href="/docs/">Overview</a>
-        <a href="/docs/quickstart/">Quickstart</a>
-        <span>Platform</span>
-        <a href="/docs/hardware/">Hardware</a>
-        <a href="/docs/firmware-build/">Firmware build</a>
-        <span>Interfaces</span>
-        <a href="/docs/protocol/">USB serial</a>
-        <a href="/docs/can/">CAN / CAN FD</a>
-        <span>Integrate</span>
-        <a href="/docs/scripts/">Python scripts</a>
-        <a href="/docs/ros2/">ROS 2 driver</a><a href="/docs/rust/">Rust examples</a>
-        <span>Test</span>
-        <a href="/docs/calibration/">Calibration</a>
-        <a href="/validation/">Validation</a>
-        <a href="/firmware/">Browser console</a>
-      </aside>
+      <aside class="docs-sidebar" aria-label="Documentation navigation"><a class="docs-home" href="/docs/">opentag one</a><span>Get started</span><a aria-current="page" href="/docs/">Overview</a><a href="/docs/quickstart/">Distance quickstart</a><a href="/docs/location/">Location quickstart</a><span>Integrate</span><a href="/docs/scripts/">Python scripts</a><a href="/docs/ros2/">ROS 2 driver</a><span>Reference</span><a href="/docs/hardware/">Hardware</a><a href="/docs/protocol/">USB serial</a><span>Advanced</span><a href="/docs/firmware-build/">Firmware build</a><a href="/docs/can/">CAN / CAN FD</a><a href="/docs/rust/">Rust examples</a><span>Test</span><a href="/docs/calibration/">Calibration</a><a href="/validation/">Validation</a><a href="/firmware/">Browser console</a></aside>
       <article class="docs-page">
         <p class="docs-breadcrumb">Documentation / Overview</p>
         <h1>opentag one documentation</h1>
-        <p class="docs-lead">Flash two tags, read live UWB ranges, calibrate a hardware pair, and collect reproducible test data.</p>
+        <p class="docs-lead">Measure distance between two tags, or set up anchors for indoor location.</p>
 
-        <div class="docs-callout"><strong>Reference profile</strong><p>Channel 9 at 850 kbps with a 128-symbol preamble, IEEE SFD, and a 40 Hz target.</p></div>
-
-        <h2 id="choose-workflow">Choose a workflow</h2>
+        <h2 id="choose-workflow">Start here</h2>
         <div class="docs-link-list">
-          <a href="/docs/quickstart/"><strong>Browser quickstart</strong><span>Flash, connect, calibrate, and measure without installing a toolchain.</span></a>
-          <a href="/docs/hardware/"><strong>Hardware reference</strong><span>MCU, UWB, CAN FD, connector pinout, power, termination, and debug interfaces.</span></a>
-          <a href="/docs/firmware-build/"><strong>Firmware build</strong><span>Toolchain, targets, clocks, SWD flashing, and repository layout.</span></a>
-          <a href="/docs/protocol/"><strong>USB serial</strong><span>Commands, stream records, field types, diagnostics, and integration examples.</span></a>
-          <a href="/docs/can/"><strong>CAN / CAN FD</strong><span>Wiring, bus timing, test frames, bring-up procedure, and current protocol status.</span></a>
-          <a href="/docs/scripts/"><strong>Python scripts</strong><span>Automate discovery, device info, monitoring, calibration, static tests, and DFU flashing.</span></a>
-          <a href="/docs/ros2/"><strong>ROS 2 driver</strong><span>Publish range, position, events, and diagnostics from the USB serial stream.</span></a>
-          <a href="/docs/rust/"><strong>Rust examples</strong><span>Buildable Embassy examples for classical CAN and 64-byte CAN FD frames.</span></a>
+          <a href="/docs/quickstart/"><strong>Distance quickstart</strong><span>Two tags. Flash the roles, connect USB, and get your first measurement.</span></a>
+          <a href="/docs/location/"><strong>Location quickstart</strong><span>Three anchors for 2D or four for 3D, plus one mobile tag.</span></a>
+          <a href="/docs/scripts/"><strong>Python tools</strong><span>Download the scripts to read distance and save CSVs outside the browser.</span></a>
+          <a href="/docs/ros2/"><strong>ROS 2 integration</strong><span>Package requirements, setup, topics, and connection checks.</span></a>
         </div>
 
-        <h2 id="install">Install the host tools</h2>
-        <p>The scripts require Python 3.10 or newer and <code>pyserial</code>. Download the script directory, then install its single dependency.</p>
-        <pre class="docs-code"><code class="language-bash">python3 -m venv .venv
-source .venv/bin/activate
-python3 -m pip install -r requirements.txt
-python3 list_ports.py</code></pre>
-        <p><a href="/docs/scripts/requirements.txt" download>Download requirements.txt</a> or continue to the <a href="/docs/scripts/">script reference</a>.</p>
-
-        <h2 id="supported">What works today</h2>
+        <h2 id="supported">Choose the right interface</h2>
         <table class="docs-table">
-          <thead><tr><th>Capability</th><th>Status</th><th>Interface</th></tr></thead>
+          <thead><tr><th>Task</th><th>Use</th><th>Know before starting</th></tr></thead>
           <tbody>
-            <tr><td>Two-way ranging</td><td><span class="status-text stable">Operational</span></td><td>USB serial or browser</td></tr>
-            <tr><td>Pair calibration</td><td><span class="status-text stable">Operational</span></td><td>Host script or browser</td></tr>
-            <tr><td>Static CSV test</td><td><span class="status-text stable">Operational</span></td><td>Host script or browser</td></tr>
-            <tr><td>ROS 2 driver</td><td><span class="status-text stable">Available</span></td><td>USB serial</td></tr>
-            <tr><td>CAN range stream</td><td><span class="status-text experimental">In development</span></td><td>CAN hardware available</td></tr>
-            <tr><td>TDOA position</td><td><span class="status-text stable">Operational</span></td><td>Browser console or ROS 2</td></tr>
+            <tr><td>Distance</td><td>Browser or USB serial</td><td>The responder reports the measurement; the initiator also needs power.</td></tr>
+            <tr><td>Location</td><td>Browser or USB serial</td><td>Survey the anchors before configuring firmware.</td></tr>
+            <tr><td>Calibration</td><td>Browser; Python for distance</td><td>Runtime calibration is lost on reset unless restored or included in the flashed image.</td></tr>
+            <tr><td>ROS 2</td><td>USB serial</td><td>Requires the driver source package; no public package download is linked yet.</td></tr>
+            <tr><td>Range over CAN</td><td>Not released</td><td>CAN hardware and standalone test programs are separate from the USB ranging firmware.</td></tr>
           </tbody>
         </table>
 
-        <div class="docs-next"><span>Next</span><a href="/docs/quickstart/">Quickstart &rarr;</a></div>
+        <h2 id="install">Use it without the browser</h2>
+        <p>Start with the <a href="/docs/scripts/#setup">Python tools download and installation</a>. Only one application can own a tag's serial port at a time: disconnect it in the console before opening Python or ROS 2.</p>
+
+        <h2 id="reference">Reference</h2>
+        <p><a href="/docs/hardware/">Hardware and wiring</a> · <a href="/docs/protocol/">USB serial protocol</a> · <a href="/docs/calibration/">Distance calibration</a> · <a href="/validation/">Validation and limitations</a></p>
+        <p>Building firmware and running the CAN examples require access to the current source checkout. They are not prerequisites for the browser quickstarts.</p>
+        <div class="docs-next"><span>First measurement</span><a href="/docs/quickstart/">Distance quickstart &rarr;</a></div>
       </article>
     </main>
     <footer><div class="footer-row"><span>&copy; 2026 opentags</span><a href="mailto:hello@open-tags.com">hello@open-tags.com</a></div></footer>

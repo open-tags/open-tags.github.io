@@ -4,10 +4,11 @@
   <body class="docs-site">
     <header class="site-header" data-site-header><a class="brand" href="/" aria-label="opentags home">opentags</a><button class="nav-toggle" type="button" data-nav-toggle aria-label="Open menu" aria-expanded="false"><span class="nav-toggle-icon" aria-hidden="true"></span></button><nav aria-label="Primary"><a href="/one/">One</a><a aria-current="page" href="/docs/">Docs</a><a href="/firmware/">Console</a><a href="https://github.com/open-tags" rel="noreferrer">GitHub</a></nav></header>
     <main class="docs-shell">
-      <aside class="docs-sidebar" aria-label="Documentation navigation"><a class="docs-home" href="/docs/">opentag one</a><span>Get started</span><a href="/docs/">Overview</a><a href="/docs/quickstart/">Quickstart</a><span>Platform</span><a href="/docs/hardware/">Hardware</a><a href="/docs/firmware-build/">Firmware build</a><span>Interfaces</span><a aria-current="page" href="/docs/protocol/">USB serial</a><a href="/docs/can/">CAN / CAN FD</a><span>Integrate</span><a href="/docs/scripts/">Python scripts</a><a href="/docs/ros2/">ROS 2 driver</a><a href="/docs/rust/">Rust examples</a><span>Test</span><a href="/docs/calibration/">Calibration</a><a href="/validation/">Validation</a><a href="/firmware/">Browser console</a></aside>
+      <aside class="docs-sidebar" aria-label="Documentation navigation"><a class="docs-home" href="/docs/">opentag one</a><span>Get started</span><a href="/docs/">Overview</a><a href="/docs/quickstart/">Distance quickstart</a><a href="/docs/location/">Location quickstart</a><span>Integrate</span><a href="/docs/scripts/">Python scripts</a><a href="/docs/ros2/">ROS 2 driver</a><span>Reference</span><a href="/docs/hardware/">Hardware</a><a aria-current="page" href="/docs/protocol/">USB serial</a><span>Advanced</span><a href="/docs/firmware-build/">Firmware build</a><a href="/docs/can/">CAN / CAN FD</a><a href="/docs/rust/">Rust examples</a><span>Test</span><a href="/docs/calibration/">Calibration</a><a href="/validation/">Validation</a><a href="/firmware/">Browser console</a></aside>
       <article class="docs-page">
         <p class="docs-breadcrumb">Documentation / Interfaces / USB serial</p><h1>USB serial protocol</h1><p class="docs-lead">USB CDC at 115200 baud. Commands and responses are UTF-8, newline-delimited records.</p>
-        <h2 id="commands">Commands</h2>
+        <p>Open the normal serial device, not STM32 DFU. Send <code>INFO\n</code> after connection to identify the role and start the current TWR host stream. Device events and measurements share the same stream; parse by the first token and ignore unknown records.</p>
+        <h2 id="commands">Distance commands</h2>
         <table class="docs-table"><thead><tr><th>Command</th><th>Roles</th><th>Response</th></tr></thead><tbody>
           <tr><td><code>PING</code></td><td>I, R</td><td><code>PONG</code></td></tr>
           <tr><td><code>INFO</code></td><td>I, R</td><td><code>INFO</code>, one or more <code>DIAG</code> lines, then <code>PHY</code></td></tr>
@@ -17,15 +18,30 @@
         <h2 id="records">Stream records</h2>
         <h3>Distance</h3><pre class="docs-code"><code class="language-plaintext">D &lt;seq&gt; &lt;millimeters&gt; &lt;exchange_us&gt; &lt;rssi_tenths_dbm&gt;
 D 42 3046 16174 -748</code></pre>
-        <table class="docs-table"><tbody><tr><th><code>seq</code></th><td>Unsigned 8-bit exchange sequence, wrapping at 256.</td></tr><tr><th><code>millimeters</code></th><td>Calibrated two-way range.</td></tr><tr><th><code>exchange_us</code></th><td>Elapsed exchange time reported by the responder.</td></tr><tr><th><code>rssi_tenths_dbm</code></th><td>Receive power in tenths of dBm; divide by 10.</td></tr></tbody></table>
+        <table class="docs-table"><tbody><tr><th><code>seq</code></th><td>Unsigned 8-bit exchange sequence, wrapping at 256. It is not a timestamp or device ID; long losses and resets cannot be reconstructed reliably from this field alone.</td></tr><tr><th><code>millimeters</code></th><td>Corrected two-way range. The current firmware clamps negative corrected results to zero; zero is not proof of contact.</td></tr><tr><th><code>exchange_us</code></th><td>Responder-side processing interval from receipt of the poll to range computation. It excludes the full cycle's inter-range pause and is not end-to-end host latency.</td></tr><tr><th><code>rssi_tenths_dbm</code></th><td>First-path signal power from the final packet in tenths of dBm; divide by 10. The legacy field name says RSSI; it is not total received power or an NLOS confidence score.</td></tr></tbody></table>
+        <p>Older images may emit only <code>D &lt;seq&gt; &lt;millimeters&gt;</code>. Treat omitted exchange time and signal power as unavailable, not zero.</p>
         <h3>Miss</h3><pre class="docs-code"><code class="language-plaintext">MISS &lt;seq&gt; &lt;reason&gt;
 MISS 193 no-final</code></pre>
-        <p>Known reasons include <code>no-final</code>, <code>bad-final-id</code>, <code>final-seq-N</code>, and <code>compute-fail</code>.</p>
+        <p>Initiator reasons include <code>no-resp</code>, <code>bad-resp-id</code>, <code>resp-seq-N</code>, and <code>final-tx</code>. Responder reasons include <code>no-final</code>, <code>bad-final-id</code>, <code>final-seq-N</code>, and <code>compute-fail</code>. Not every failure produces a MISS line; inspect DIAG counters too.</p>
         <h2 id="info">INFO response</h2><pre class="docs-code"><code class="language-plaintext">INFO mode=R calib=12255 fw=twr_resp-5 id=... target_hz=40 drops=0
 DIAG polls=2602 no_final=1 bad_final=4 seq_final=0
 DIAG rx_err=0 resp_tx_err=0
 PHY br=850 pre=128 sfd=ieee ch=9</code></pre>
-        <div class="docs-warning"><strong><code>CALIB</code> is volatile.</strong><p>The command changes the active responder offset in RAM. Reapply it after reconnecting, use the host scripts' saved calibration, or let the browser console restore its saved value.</p></div>
+        <p><code>target_hz</code> is a configured target, not measured throughput. <code>drops</code> counts host-output queue drops, not all radio failures. INFO and DIAG lines are asynchronous and are not one atomic snapshot. Unknown commands return <code>ERR unknown</code>; malformed calibration values return <code>ERR bad-int</code>.</p>
+        <div class="docs-warning"><strong><code>CALIB</code> is volatile.</strong><p>The command changes the active responder offset in RAM. Reapply it after a reset or power cycle. Browser and Python saved values are separate; see <a href="/docs/calibration/#persistence">persistence</a>.</p></div>
+        <h2 id="location">Location records and commands</h2>
+        <p>The mobile location tag uses the same newline-delimited USB transport, but a different command set. It does not implement the distance role's PING, RESET_STATS, or CALIB commands.</p>
+        <pre class="docs-code"><code class="language-plaintext">INFO mode=TDOA dimensions=3 anchors=4 biases=0,0,0
+P &lt;seq&gt; &lt;x_mm&gt; &lt;y_mm&gt; &lt;z_mm&gt; &lt;raw10&gt; &lt;raw20&gt; &lt;raw30&gt;
+MISS &lt;seq&gt; mask=&lt;received_anchor_bitmask&gt;</code></pre>
+        <p>Position coordinates are signed millimetres in the surveyed frame. The raw fields are signed, master-clock-corrected arrival-time differences relative to A0, in device-time units, before per-anchor bias correction and median filtering. In 2D the third raw field is unused and Z is the configured tag height. Other MISS reasons include <code>geometry</code> and <code>solve</code>.</p>
+        <table class="docs-table"><thead><tr><th>Command</th><th>Purpose / response</th></tr></thead><tbody>
+          <tr><td><code>INFO</code></td><td>Returns mode, dimensions, anchor count, and active biases.</td></tr>
+          <tr><td><code>BIAS b10 b20 [b30]</code></td><td>Sets signed DTU biases in RAM; returns <code>OK BIAS b10 b20 b30</code>.</td></tr>
+          <tr><td><code>CAL START x_mm y_mm z_mm samples</code></td><td>Calibrates at a surveyed point using 10–500 samples. Returns <code>OK CAL START ...</code>, then <code>CAL result b10 b20 b30 n=...</code> when complete.</td></tr>
+          <tr><td><code>CAL STOP</code></td><td>Stops collection; returns <code>OK CAL STOP</code>.</td></tr>
+        </tbody></table>
+        <p>Configuration and calibration persistence are described in the <a href="/docs/location/">Location quickstart</a>. Do not send distance calibration commands to a location tag.</p>
         <h2 id="python">Minimal Python reader</h2><pre class="docs-code"><code class="language-python">import serial
 
 with serial.Serial("/dev/tty.usbmodem1201", 115200, timeout=1) as tag:

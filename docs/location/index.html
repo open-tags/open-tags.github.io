@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="Set up 2D or 3D indoor location with surveyed anchors and an opentag one mobile tag." />
+    <title>Location quickstart | opentags docs</title><link rel="icon" type="image/png" href="/favicon.png?v=3" /><link rel="stylesheet" href="/assets/site.css?v=9" /><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/styles/github.min.css" />
+  </head>
+  <body class="docs-site">
+    <header class="site-header" data-site-header><a class="brand" href="/" aria-label="opentags home">opentags</a><button class="nav-toggle" type="button" data-nav-toggle aria-label="Open menu" aria-expanded="false"><span class="nav-toggle-icon" aria-hidden="true"></span></button><nav aria-label="Primary"><a href="/one/">One</a><a aria-current="page" href="/docs/">Docs</a><a href="/firmware/">Console</a><a href="https://github.com/open-tags" rel="noreferrer">GitHub</a></nav></header>
+    <main class="docs-shell">
+      <aside class="docs-sidebar" aria-label="Documentation navigation"><a class="docs-home" href="/docs/">opentag one</a><span>Get started</span><a href="/docs/">Overview</a><a href="/docs/quickstart/">Distance quickstart</a><a aria-current="page" href="/docs/location/">Location quickstart</a><span>Integrate</span><a href="/docs/scripts/">Python scripts</a><a href="/docs/ros2/">ROS 2 driver</a><span>Reference</span><a href="/docs/hardware/">Hardware</a><a href="/docs/protocol/">USB serial</a><span>Advanced</span><a href="/docs/firmware-build/">Firmware build</a><a href="/docs/can/">CAN / CAN FD</a><a href="/docs/rust/">Rust examples</a><span>Test</span><a href="/docs/calibration/">Calibration</a><a href="/validation/">Validation</a><a href="/firmware/">Browser console</a></aside>
+      <article class="docs-page">
+        <p class="docs-breadcrumb">Documentation / Location quickstart</p><h1>Location quickstart</h1>
+        <p class="docs-lead">Survey fixed anchors, flash their configuration, and read the mobile tag's position over USB.</p>
+        <div class="docs-callout"><strong>You need</strong><p>For 2D: three anchors and one tag at a known, fixed height. For 3D: four anchors at non-coplanar positions and one tag. Use desktop Chrome or Edge, a USB data cable, power for every device, and measured anchor coordinates.</p></div>
+
+        <h2 id="survey">1. Survey before flashing</h2>
+        <ol class="docs-steps">
+          <li>Open <a href="/firmware/#location">Console → Location</a> and choose <strong>2D location</strong> or <strong>3D location</strong> first. Changing dimensions resets the planner's anchor positions.</li>
+          <li>Set room width, depth, and height before entering anchor coordinates. Resizing the room also rescales the planner's anchors.</li>
+          <li>Use one coordinate origin: the front-left floor corner. Enter each anchor's measured X, Y, and Z in <strong>feet</strong>. Label the physical units A0, A1, A2, and A3 for 3D.</li>
+          <li>Keep the anchors spread around the working area. A0 is the time master and needs a clear radio path to the slaves. For 3D, do not put all four anchors in the same plane.</li>
+          <li>For 2D, enter the mobile tag's fixed Z height under <strong>TDOA calibration</strong> before flashing the tag. This height is included in its firmware configuration.</li>
+        </ol>
+        <p>The preset and geometry heatmap are planning aids, not measured positions or accuracy results. Save a separate record of your survey; the planner is not a saved installation profile.</p>
+
+        <h2 id="flash">2. Flash each device</h2>
+        <ol class="docs-steps">
+          <li>Put one anchor in DFU mode: unplug it, hold BOOT0, and reconnect USB.</li>
+          <li>Choose its <strong>Anchor number</strong>, then select <strong>Flash selected anchor</strong>. After flashing, unplug, release BOOT0, and reconnect to power.</li>
+          <li>Repeat for A0–A2 in 2D, or A0–A3 in 3D. Each anchor number must be used once.</li>
+          <li>Put the mobile tag in DFU mode and select <strong>Flash location tag</strong>. Reconnect normally afterward.</li>
+        </ol>
+        <p>The console configures the images from the current survey. Reflash the affected configuration after moving anchors; a full changed survey requires updating the tag and the anchors. Downloading an unconfigured location binary alone does not apply your installation's coordinates.</p>
+
+        <h2 id="connect">3. Connect only the mobile tag</h2>
+        <p>Power all anchors. Select <strong>Connect tag USB</strong> for the mobile tag; the anchors do not connect to the visualizer. Confirm the status reports <code>mode=TDOA</code>, the correct dimension, and three or four anchors. Live fixes should appear once reports arrive.</p>
+        <p>The tag solves position onboard. The room planner uses feet, the USB <code>P</code> record uses millimetres, and ROS 2 publishes metres. See the <a href="/docs/protocol/#location">Location serial protocol</a>.</p>
+
+        <h2 id="calibrate">4. Calibrate at a surveyed point</h2>
+        <ol class="docs-steps">
+          <li>Keep the tag still at a measured X/Y/Z point. Enter those coordinates in feet under <strong>TDOA calibration</strong>.</li>
+          <li>Choose 10–500 samples and select <strong>Calibrate connected tag</strong>. Wait for the completed bias values.</li>
+          <li>To preserve those values across a power cycle, reflash the mobile tag from the same configured console session after calibration.</li>
+        </ol>
+        <div class="docs-warning"><strong>Calibration belongs to this installation.</strong><p>Runtime bias changes are volatile. The browser saves biases by 2D/3D mode, not by device or anchor survey. Do not reuse another installation's saved values; repeat calibration when the hardware or geometry changes.</p></div>
+
+        <h2 id="validate">5. Check other surveyed points</h2>
+        <p>Keep the calibration fixed. Move to another measured point, update the ground-truth X/Y/Z fields, select <strong>Clear</strong>, and collect a fresh static dataset. In 2D, keep the tag at its configured height. Do not mix measurements from different truth points in one static accuracy result.</p>
+        <p>The live error metrics compare fixes with the entered static truth point. Walking around without updating truth does not measure tracking accuracy. Use <strong>Import CSV</strong> with externally recorded ground truth for a moving path; <strong>CSV template</strong> gives the required columns. <strong>Run example</strong> uses synthetic data, not hardware.</p>
+        <p>The browser currently keeps only the latest 2,000 live rows and has no live Location CSV export. Record USB <code>P</code> and <code>MISS</code> lines through your own reader or ROS 2 for a longer test. The <a href="/docs/scripts/">Python distance tools</a> do not collect Location records.</p>
+
+        <h2 id="troubleshooting">If fixes are missing or wrong</h2>
+        <ul>
+          <li><strong>No fixes:</strong> check anchor power, unique IDs, selected dimensions, and that the tag and anchors were flashed from the same survey.</li>
+          <li><strong>Geometry or solve misses:</strong> check coordinates and units, anchor spread, 2D height, and radio obstructions.</li>
+          <li><strong>Large constant error:</strong> verify ground truth and installation-specific bias calibration.</li>
+          <li><strong>Lost setup after reload:</strong> re-enter the saved survey before flashing again; do not flash the default room layout onto your installation.</li>
+        </ul>
+        <p>For USB/DFU problems, use the <a href="/docs/quickstart/#troubleshooting">connection checks</a>. Save the INFO response, survey, and raw records when requesting help.</p>
+        <div class="docs-next"><a href="/docs/">&larr; Overview</a><a href="/docs/protocol/#location">Location protocol &rarr;</a></div>
+      </article>
+    </main>
+    <footer><div class="footer-row"><span>&copy; 2026 opentags</span><a href="mailto:hello@open-tags.com">hello@open-tags.com</a></div></footer><script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/highlight.min.js" defer></script><script src="/assets/docs.js" defer></script><script type="module" src="/assets/site.js?v=5"></script>
+  </body>
+</html>

@@ -68,6 +68,19 @@ def read_for(port: serial.Serial, seconds: float) -> list[str]:
     return lines
 
 
+def send_and_expect(port: serial.Serial, command: str, expected: str, timeout: float = 2.0) -> None:
+    """Wait for the device acknowledgement, ignoring interleaved measurements."""
+    send_command(port, command)
+    deadline = time.monotonic() + timeout
+    while time.monotonic() < deadline:
+        line = read_line(port)
+        if line == expected:
+            return
+        if line and line.startswith("ERR "):
+            raise RuntimeError(f"{command}: {line}")
+    raise TimeoutError(f"No acknowledgement for {command}; expected {expected!r}")
+
+
 def request_info(port: serial.Serial, timeout: float = 0.7) -> tuple[dict[str, str], list[str]]:
     port.reset_input_buffer()
     send_command(port, "INFO")
@@ -130,6 +143,8 @@ def collect_samples(port: serial.Serial, *, count: int | None = None, seconds: f
             samples.append(sample)
         elif line.startswith(("MISS ", "ERR ")):
             events.append(line)
+    if count is not None and len(samples) < count:
+        raise TimeoutError(f"Collected {len(samples)} of {count} samples before timeout. Check the powered initiator and radio link.")
     return samples, events
 
 
@@ -209,7 +224,7 @@ def apply_saved_calibration(port: serial.Serial, info: dict[str, str]) -> int | 
     offset = load_calibrations().get(info["id"])
     if offset is None:
         return None
-    send_command(port, f"CALIB {offset}")
+    send_and_expect(port, f"CALIB {offset}", f"OK CALIB {offset}")
     return offset
 
 

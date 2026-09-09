@@ -29,10 +29,20 @@ jobs:
       - name: Setup Pages
         uses: actions/configure-pages@v5
 
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Check documentation and host tools
+        run: |
+          python -m pip install -r docs/scripts/requirements.txt
+          python -B -m unittest discover -s tests -v
+
       - name: Prepare site
         run: |
           mkdir _site
-          cp -R index.html llms.txt favicon.png favicon-64.png apple-touch-icon.png assets docs firmware one branding barcode output start validation .nojekyll _site/
+          cp -R index.html llms.txt MISSING_THINGS.md favicon.png favicon-64.png apple-touch-icon.png assets docs firmware one branding barcode output start validation privacy terms .nojekyll _site/
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3

@@ -32,7 +32,14 @@ fi
 
 echo "Hold BOOT0, plug in the tag, then press Enter."
 read -r
-dfu-util -d 0483:df11 -a 0 --dfuse-address 0x08000000:leave -D "$BIN" || true
+if dfu-util -d 0483:df11 -a 0 --dfuse-address 0x08000000:leave -D "$BIN"; then
+  echo "dfu-util completed successfully."
+else
+  flash_status=$?
+  echo "dfu-util returned an error ($flash_status). Flash completion is unconfirmed." >&2
+  echo "The device may have reset during DFU exit. Reconnect normally and check INFO before assuming the new image is installed." >&2
+  exit "$flash_status"
+fi
 echo "Unplug the tag, release BOOT0, and reconnect normally."
 if [[ "$ROLE" == "responder" ]]; then
   echo "The responder image contains the default calibration. Run calibrate.py or connect with the browser console to reapply the saved pair offset."

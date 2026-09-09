@@ -39,7 +39,7 @@
     <main>
       <section class="page-title validation-title">
         <p class="eyebrow">Validation</p>
-        <h1>What is measured, what is targeted, and what is still unknown.</h1>
+        <h1>Validation.</h1>
         <p class="intro">This page separates engineering goals from measured evidence. Early TWR runs are reported here with their hardware, firmware, geometry, and limitations.</p>
       </section>
 
@@ -54,7 +54,7 @@
       <section class="band evidence-band">
         <div class="section-head">
           <p class="eyebrow">July 2026 baseline</p>
-          <h2>What the current runs show</h2>
+          <h2>Earlier distance results</h2>
         </div>
         <div class="evidence-table" role="region" aria-label="Preliminary static TWR results" tabindex="0">
           <table>
@@ -74,6 +74,13 @@
           <p><strong>Profile experiments:</strong> longer preamble and SFD configurations raised packet delivery to roughly 99&ndash;100% at 40 Hz, but increased static P95 error at 5 m. The current <code>twr-5</code> release is an experimental diagnostic profile, not a new benchmark result.</p>
         </div>
         <p class="doc-note">These short runs are preliminary engineering evidence, not a product guarantee or a completed public benchmark. Raw datasets will be linked after the test metadata and naming are normalized.</p>
+      </section>
+
+      <section class="band" id="measurement-limits">
+        <div class="section-head"><p class="eyebrow">Measurement limits</p><h2>Keep outages visible.</h2></div>
+        <p>The current browser and Python distance summaries calculate rate between the first and last received sample, not over the entire test. Packet-success estimates use an 8-bit sequence and cannot reliably count long outages or resets. A stream that stops early can still report a high rate and success percentage.</p>
+        <p>Preserve the full test duration, valid sample count, raw records, and a note of every interruption. Compute delivered rate as valid samples divided by the full elapsed test time; do not use the reported packet-success figure alone as an acceptance test. A zero-range sample may also be a negative corrected value clamped by firmware.</p>
+        <p>The July figures above are historical results from the earlier profile, not validation of today's release. The raw datasets and current-profile acceptance run still need publication. These limitations are tracked in the repository's <a href="https://github.com/open-tags/open-tags.github.io/blob/main/MISSING_THINGS.md" rel="noreferrer">Missing things checklist</a>.</p>
       </section>
 
       <section class="band">

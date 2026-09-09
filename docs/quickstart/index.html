@@ -8,37 +8,60 @@
   <body class="docs-site">
     <header class="site-header" data-site-header><a class="brand" href="/" aria-label="opentags home">opentags</a><button class="nav-toggle" type="button" data-nav-toggle aria-label="Open menu" aria-expanded="false"><span class="nav-toggle-icon" aria-hidden="true"></span></button><nav aria-label="Primary"><a href="/one/">One</a><a aria-current="page" href="/docs/">Docs</a><a href="/firmware/">Console</a><a href="https://github.com/open-tags" rel="noreferrer">GitHub</a></nav></header>
     <main class="docs-shell">
-      <aside class="docs-sidebar" aria-label="Documentation navigation"><a class="docs-home" href="/docs/">opentag one</a><span>Get started</span><a href="/docs/">Overview</a><a aria-current="page" href="/docs/quickstart/">Quickstart</a><span>Platform</span><a href="/docs/hardware/">Hardware</a><a href="/docs/firmware-build/">Firmware build</a><span>Interfaces</span><a href="/docs/protocol/">USB serial</a><a href="/docs/can/">CAN / CAN FD</a><span>Integrate</span><a href="/docs/scripts/">Python scripts</a><a href="/docs/ros2/">ROS 2 driver</a><a href="/docs/rust/">Rust examples</a><span>Test</span><a href="/docs/calibration/">Calibration</a><a href="/validation/">Validation</a><a href="/firmware/">Browser console</a></aside>
+      <aside class="docs-sidebar" aria-label="Documentation navigation"><a class="docs-home" href="/docs/">opentag one</a><span>Get started</span><a href="/docs/">Overview</a><a aria-current="page" href="/docs/quickstart/">Distance quickstart</a><a href="/docs/location/">Location quickstart</a><span>Integrate</span><a href="/docs/scripts/">Python scripts</a><a href="/docs/ros2/">ROS 2 driver</a><span>Reference</span><a href="/docs/hardware/">Hardware</a><a href="/docs/protocol/">USB serial</a><span>Advanced</span><a href="/docs/firmware-build/">Firmware build</a><a href="/docs/can/">CAN / CAN FD</a><a href="/docs/rust/">Rust examples</a><span>Test</span><a href="/docs/calibration/">Calibration</a><a href="/validation/">Validation</a><a href="/firmware/">Browser console</a></aside>
       <article class="docs-page">
-        <p class="docs-breadcrumb">Documentation / Quickstart</p><h1>Quickstart</h1>
-        <p class="docs-lead">Bring up a calibrated two-tag distance stream using the browser console.</p>
-        <div class="docs-callout"><strong>Requirements</strong><p>Two tags, two USB-C data cables, Chrome or Edge on desktop, and a tape or laser distance meter.</p></div>
+        <p class="docs-breadcrumb">Documentation / Distance quickstart</p><h1>Distance quickstart</h1>
+        <p class="docs-lead">Use two tags to measure one distance. For position, follow the <a href="/docs/location/">Location quickstart</a>.</p>
+        <div class="docs-callout"><strong>You need</strong><p>Two tags, two USB-C data cables, desktop Chrome or Edge, and a measured separation. Use the hosted console over HTTPS, or a local preview on localhost. No firmware toolchain is needed.</p></div>
 
-        <h2 id="flash">1. Flash the roles</h2>
+        <h2 id="flash">1. Flash one tag per role</h2>
         <ol class="docs-steps">
-          <li>Open the <a href="/firmware/">firmware console</a>.</li>
-          <li>Unplug Tag A. Hold <strong>BOOT0</strong>, reconnect USB, and select <strong>Flash Initiator</strong>.</li>
+          <li>Open <a href="/firmware/#distance">Console → Distance</a>. Disconnect other DFU devices so you can identify the tag being flashed.</li>
+          <li>Unplug Tag A. Hold <strong>BOOT0</strong> while reconnecting USB. Select <strong>Flash Initiator</strong>, choose the STM32 DFU device, and wait for the flash result.</li>
           <li>Unplug Tag A, release BOOT0, and reconnect normally.</li>
-          <li>Repeat with Tag B and <strong>Flash Responder</strong>.</li>
+          <li>Repeat for Tag B using <strong>Flash Responder</strong>.</li>
         </ol>
-        <p class="docs-note">For automated DFU flashing, use <a href="/docs/scripts/#flash">flash.sh</a>.</p>
+        <p class="docs-note">Flashing replaces the installed firmware. An existing calibrated pair does not need to be reflashed for every session. If you already have the correct roles, continue below.</p>
 
-        <h2 id="connect">2. Connect</h2>
-        <ol class="docs-steps"><li>Select <strong>Connect serial</strong> for each slot and choose a different USB serial device.</li><li>Confirm Tag A reports mode <code>I</code> and Tag B reports mode <code>R</code>.</li><li>Verify live <code>D</code> records appear.</li></ol>
+        <h2 id="connect">2. Get a measurement</h2>
+        <ol class="docs-steps">
+          <li>Select <strong>Connect serial</strong> in each slot. Choose Tag A for the initiator and Tag B for the responder. Connect one at a time if the device names look alike.</li>
+          <li>Confirm <strong>Mode I</strong> in slot A and <strong>Mode R</strong> in slot B. Use <strong>INFO</strong> to inspect each device.</li>
+          <li>Keep both tags powered with clear line of sight. The responder log should show changing <code>D</code> records and <strong>Live Distance</strong> should update.</li>
+        </ol>
+        <pre class="docs-code"><code class="language-plaintext">D 42 1000 16174 -748</code></pre>
+        <p>This example reports 1,000 mm (1 m). The graph is fixed at 0–5 m; a trace outside those bounds is clipped, but the numeric reading and CSV retain the measurement. The current distance firmware targets 40 Hz; this is not a delivery guarantee.</p>
 
-        <h2 id="calibrate">3. Calibrate once</h2>
-        <ol class="docs-steps"><li>Hold both tags still at an accurately measured distance with clear line of sight and the same antenna orientation.</li><li>Enter the true distance in millimeters under <strong>Pair Calibration</strong>.</li><li>Select responder slot B, collect at least 100 samples, and start calibration.</li></ol>
-        <div class="docs-warning"><strong>Do not recalibrate at each test distance.</strong><p>Keep the same responder offset for the full distance sweep. Recalibrating would hide distance-dependent error.</p></div>
+        <h2 id="calibrate">3. Calibrate the pair</h2>
+        <ol class="docs-steps">
+          <li>Fix both tags at a measured separation, using consistent antenna reference points and orientation. Start with 1 m in clear line of sight.</li>
+          <li>Under <strong>Pair Calibration</strong>, enter <strong>1000 mm</strong>, choose responder slot <strong>B</strong>, and collect at least 100 samples with <strong>Start calibration</strong>.</li>
+          <li>Wait for the result and verify the responder acknowledges <code>OK CALIB</code>. Record both device IDs and the offset.</li>
+        </ol>
+        <div class="docs-warning"><strong>Keep the same calibration for the distance sweep.</strong><p>The active offset is in RAM. The browser saves a copy for that responder on this browser and site; another computer, Python, or ROS 2 does not automatically share it. See <a href="/docs/calibration/#persistence">calibration persistence</a>.</p></div>
 
-        <h2 id="test">4. Run a static test</h2>
-        <ol class="docs-steps"><li>Move the pair to a new known separation without changing orientation.</li><li>Enter distance and duration under <strong>Static Test</strong>.</li><li>Start the test, keep the tags still, then download the CSV.</li></ol>
+        <h2 id="test">4. Save a test</h2>
+        <ol class="docs-steps">
+          <li>Move the stationary pair to another known separation without recalibrating.</li>
+          <li>In <strong>Static Test</strong>, select the correct distance unit and enter the duration in <strong>minutes</strong>.</li>
+          <li>Select <strong>Start Test</strong>, keep the pair still, then select <strong>Download Test CSV</strong>.</li>
+        </ol>
+        <p><strong>Export Chart CSV</strong> contains only the live chart's recent samples. Use the static-test download for a full timed run. Current rate and packet-success estimates can hide long outages; record interruptions and read the <a href="/validation/#measurement-limits">measurement limitations</a>.</p>
 
-        <h2 id="next">5. Automate the workflow</h2>
-        <pre class="docs-code"><code class="language-bash">python3 list_ports.py
-python3 info.py /dev/tty.usbmodem1101
-python3 calibrate.py /dev/tty.usbmodem1201 --true-mm 1000
-python3 static_test.py /dev/tty.usbmodem1201 --true-mm 5000 --seconds 60</code></pre>
-        <div class="docs-next"><a href="/docs/">&larr; Overview</a><a href="/docs/scripts/">Host scripts &rarr;</a></div>
+        <h2 id="troubleshooting">If it does not work</h2>
+        <table class="docs-table"><thead><tr><th>Symptom</th><th>Check</th></tr></thead><tbody>
+          <tr><td>No STM32 DFU device</td><td>Use a data cable; hold BOOT0 while powering on. DFU is for flashing, not serial measurement.</td></tr>
+          <tr><td>No serial device after flashing</td><td>Unplug, release BOOT0, and reconnect. Select the serial device again; it is different from the DFU entry.</td></tr>
+          <tr><td>Port busy or access denied</td><td>Close other console tabs, Python readers, ROS nodes, and serial terminals. Check OS permissions; Linux serial access is commonly controlled by the dialout group.</td></tr>
+          <tr><td>INFO works, but no distance</td><td>Confirm one I and one R, matching PHY settings, both powered, and a clear radio path. Inspect MISS and DIAG records.</td></tr>
+          <tr><td>Graph empty, numbers updating</td><td>Check whether the distance is outside 0–5 m and whether the chart is paused.</td></tr>
+          <tr><td>Offset changed after reconnecting</td><td>Check the device ID and saved calibration. Browser storage is separate for localhost and the live site.</td></tr>
+        </tbody></table>
+        <p>Still stuck? Send <a href="mailto:hello@open-tags.com">hello@open-tags.com</a> your OS/browser, both INFO and DIAG outputs, the failing step, and a short raw log. Browser capability details: <a href="https://developer.chrome.com/docs/capabilities/serial" rel="noreferrer">Web Serial documentation</a>.</p>
+
+        <h2 id="next">5. Connect your software</h2>
+        <p>Disconnect the responder from the console, keep the initiator powered, and follow the <a href="/docs/scripts/#setup">Python setup</a> or <a href="/docs/ros2/">ROS 2 guide</a>.</p>
+        <div class="docs-next"><a href="/docs/">&larr; Overview</a><a href="/docs/scripts/">Python tools &rarr;</a></div>
       </article>
     </main>
     <footer><div class="footer-row"><span>&copy; 2026 opentags</span><a href="mailto:hello@open-tags.com">hello@open-tags.com</a></div></footer><script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/highlight.min.js" defer></script><script src="/assets/docs.js" defer></script><script type="module" src="/assets/site.js?v=5"></script>
