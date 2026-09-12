@@ -10,10 +10,10 @@
     </script>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="description" content="Simple UWB distance and indoor location hardware for robotics, with USB and ROS 2 integration." />
-    <title>opentags | UWB for robotics</title>
-    <meta property="og:title" content="opentags | UWB for robotics" />
-    <meta property="og:description" content="Simple UWB hardware for distance and indoor positioning." />
+    <meta name="description" content="Precise localization, built for robots. opentags is making advanced localization practical with UWB hardware, integration tools, and measured performance." />
+    <title>opentags | Precise localization, built for robots</title>
+    <meta property="og:title" content="opentags | Precise localization, built for robots" />
+    <meta property="og:description" content="We're making advanced localization practical. Explore opentag one, robot integration tools, and measured performance." />
     <meta property="og:type" content="website" />
     <meta property="og:image" content="https://open-tags.com/assets/images/one/site/hero.jpg" />
     <meta name="twitter:card" content="summary_large_image" />
@@ -21,7 +21,7 @@
     <link rel="icon" type="image/png" href="/favicon.png?v=3" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png?v=2" />
     <link rel="stylesheet" href="/assets/site.css?v=9" />
-    <link rel="stylesheet" href="/assets/storefront.css?v=15" />
+    <link rel="stylesheet" href="/assets/storefront.css?v=16" />
   </head>
   <body class="simple-store">
     <header class="site-header" data-site-header>
@@ -30,7 +30,7 @@
         <span class="nav-toggle-icon" aria-hidden="true"></span>
       </button>
       <nav aria-label="Primary">
-        <a href="/one/">One</a>
+        <a href="/one/">One</a><a href="/validation/">Performance</a>
         <a href="/docs/">Docs</a>
         <a href="/firmware/">Console</a>
         <a href="https://github.com/open-tags" rel="noreferrer">GitHub</a>
@@ -39,107 +39,55 @@
 
     <main class="simple-main">
       <section class="simple-hero">
-        <p class="simple-label">opentag one</p>
-        <h1>Know where your robots are.</h1>
-        <p>Simple UWB hardware for distance and indoor positioning.</p>
+        <p class="simple-label">Localization for robotics</p>
+        <h1>Precise localization,<br />built for robots.</h1>
+        <p>We’re making advanced localization practical—with open hardware, software, and tools that help robots know where they are.</p>
         <div class="simple-actions">
-          <a class="simple-button" href="/one/">View opentag one</a>
+          <a class="simple-button primary" href="/one/">Explore opentag one</a>
+          <a class="simple-button" href="/validation/">See performance</a>
         </div>
         <figure class="simple-hero-media">
           <img src="/assets/images/one/site/hero.jpg" alt="Two opentag one devices measuring distance" width="1920" height="960" fetchpriority="high" />
-          <figcaption>opentag one</figcaption>
+          <figcaption>opentag one<span>Our first platform for robot localization.</span></figcaption>
         </figure>
       </section>
 
-      <div class="simple-facts" aria-label="Product interfaces">
-        <span><strong>USB-C</strong> power + data</span>
-        <span><strong>ROS 2</strong> driver included</span>
-        <span><strong>6–24 V</strong> robot power</span>
-        <span><strong>CAN FD</strong> onboard</span>
-      </div>
-
-      <section class="simple-section simple-how">
+      <section class="simple-section localization-mission" aria-labelledby="mission-title">
         <div class="simple-section-title">
-          <p class="simple-label">Two modes</p>
-          <h2>Distance or location.</h2>
+          <p class="simple-label">Our mission</p>
+          <h2 id="mission-title">Make the best localization practical.</h2>
+          <p>Useful localization takes more than a radio. We’re bringing together positioning hardware, calibration, and robot integration so advances in localization can become tools you can build with.</p>
         </div>
-        <div class="ranging-grid">
-          <figure class="ranging-card">
-            <figcaption>
-              <strong>Distance</strong>
-              <span>Two tags measure the distance between them.</span>
-            </figcaption>
-            <svg class="ranging-svg" viewBox="0 0 400 220" role="img" aria-label="Two-way distance ranging animation">
-              <line x1="94" y1="110" x2="306" y2="110" class="ranging-link" />
-              <circle cx="80" cy="110" r="60" class="ranging-pulse ranging-pulse-a" fill="none" />
-              <circle cx="320" cy="110" r="60" class="ranging-pulse ranging-pulse-b" fill="none" />
-              <circle cx="80" cy="110" r="13" class="ranging-tag" />
-              <circle cx="320" cy="110" r="13" class="ranging-tag" />
-              <text x="80" y="160" class="ranging-label" text-anchor="middle">A</text>
-              <text x="320" y="160" class="ranging-label" text-anchor="middle">B</text>
-            </svg>
-          </figure>
-          <figure class="ranging-card">
-            <figcaption>
-              <strong>Location</strong>
-              <span>Four fixed anchors locate one mobile tag.</span>
-            </figcaption>
-            <svg class="ranging-svg" viewBox="0 0 400 220" role="img" aria-label="Indoor location animation with four anchors">
-              <line x1="70" y1="50" x2="330" y2="50" class="ranging-link" />
-              <line x1="330" y1="50" x2="330" y2="190" class="ranging-link" />
-              <line x1="330" y1="190" x2="70" y2="190" class="ranging-link" />
-              <line x1="70" y1="190" x2="70" y2="50" class="ranging-link" />
-              <circle cx="70" cy="50" r="80" class="ranging-pulse ranging-pulse-a1" fill="none" />
-              <circle cx="330" cy="50" r="80" class="ranging-pulse ranging-pulse-a2" fill="none" />
-              <circle cx="330" cy="190" r="80" class="ranging-pulse ranging-pulse-a3" fill="none" />
-              <circle cx="70" cy="190" r="80" class="ranging-pulse ranging-pulse-a4" fill="none" />
-              <circle cx="70" cy="50" r="11" class="ranging-anchor-pulse ranging-anchor-1" />
-              <circle cx="330" cy="50" r="11" class="ranging-anchor-pulse ranging-anchor-2" />
-              <circle cx="330" cy="190" r="11" class="ranging-anchor-pulse ranging-anchor-3" />
-              <circle cx="70" cy="190" r="11" class="ranging-anchor-pulse ranging-anchor-4" />
-              <circle cx="160" cy="100" r="9" class="ranging-tag" />
-              <text x="70" y="36" class="ranging-label" text-anchor="middle">A1</text>
-              <text x="330" y="36" class="ranging-label" text-anchor="middle">A2</text>
-              <text x="330" y="212" class="ranging-label" text-anchor="middle">A3</text>
-              <text x="70" y="212" class="ranging-label" text-anchor="middle">A4</text>
-              <text x="160" y="89" class="ranging-label" text-anchor="middle">T</text>
-            </svg>
-          </figure>
+        <div class="localization-pillars">
+          <article>
+            <h3>Precise position.</h3>
+            <p>Measure distance between devices or develop indoor positioning with fixed anchors. See what we’ve measured and where testing continues.</p>
+            <a href="/validation/">Explore performance</a>
+          </article>
+          <article>
+            <h3>Built to integrate.</h3>
+            <p>Go from mounting and calibration to measurements in your robot. Start with USB and ROS 2, with guides for each step.</p>
+            <a href="/docs/">Start building</a>
+          </article>
+          <article>
+            <h3>Open and inspectable.</h3>
+            <p>Work with published ROS 2 source, host tools, mechanical CAD, and documented interfaces. See which resources are available today.</p>
+            <a href="/one/#resources">Explore the resources</a>
+          </article>
         </div>
       </section>
 
-      <section id="kits" class="simple-section">
+      <section id="kits" class="simple-section localization-product">
         <div class="simple-section-title">
-          <p class="simple-label">Products</p>
-          <h2>One device. Two outputs.</h2>
+          <p class="simple-label">Our first product · opentag one</p>
+          <h2>Start with your robot.</h2>
+          <p>A UWB development platform for distance and indoor position. Choose a two-tag Distance Kit or a five-tag Location Kit, then follow the setup and integration guides.</p>
         </div>
-        <div class="simple-kits">
-          <article class="simple-kit">
-            <figure class="simple-kit-media">
-              <img src="/assets/images/one/site/kit_twr.jpg" alt="Two-tag Distance Kit" width="1200" height="800" loading="lazy" decoding="async" />
-              <figcaption>Distance</figcaption>
-            </figure>
-            <div class="simple-kit-copy">
-              <div><p class="simple-label">Distance Kit</p><h3>Distance between two points.</h3></div>
-              <strong class="simple-price">$199</strong>
-              <p>Two tags. Live range over USB or ROS 2.</p>
-              <a class="simple-button primary" href="https://buy.stripe.com/6oU8wOazx25cbkpgyQg7e0f" rel="noreferrer">Buy Distance Kit</a>
-            </div>
-          </article>
-
-          <article class="simple-kit">
-            <figure class="simple-kit-media">
-              <img src="/assets/images/one/site/kit_tdoa.jpg" alt="Five-tag Location Kit" width="1200" height="800" loading="lazy" decoding="async" />
-              <figcaption>Location</figcaption>
-            </figure>
-            <div class="simple-kit-copy">
-              <div><p class="simple-label">Location Kit</p><h3>Position inside a space.</h3></div>
-              <strong class="simple-price">$499</strong>
-              <p>Four anchors and one mobile tag. 2D or 3D position.</p>
-              <a class="simple-button primary" href="https://buy.stripe.com/5kQ14m5fdcJQagleqIg7e0g" rel="noreferrer">Buy Location Kit</a>
-            </div>
-          </article>
+        <div class="one-actions">
+          <a class="simple-button primary" href="/one/#kits">Choose a kit</a>
+          <a class="simple-button" href="/one/">Explore the hardware</a>
         </div>
+        <p class="resource-note">Current performance evidence covers preliminary static distance tests. Full position benchmarks and testing during motion are still in progress.</p>
       </section>
 
       <section class="simple-integration">
@@ -150,7 +98,7 @@
           <div class="simple-text-links">
             <a href="/docs/ros2/">Driver guide</a>
             <a href="/docs/protocol/">Serial protocol</a>
-            <a href="/validation/">Test data</a>
+            <a href="/validation/">Performance</a>
           </div>
         </div>
         <pre><code>ros2 launch opentags_driver driver.launch.py \
@@ -161,6 +109,6 @@ ros2 topic echo /opentags/range</code></pre>
     </main>
 
     <footer class="site-footer"><div class="footer-row"><span>&copy; 2026 opentags</span><nav aria-label="Footer"><a href="/privacy/">Privacy</a><a href="/terms/">Terms</a><a href="mailto:hello@open-tags.com">Contact</a></nav></div></footer>
-    <script type="module" src="/assets/site.js?v=5"></script>
+    <script type="module" src="/assets/site.js?v=6"></script>
   </body>
 </html>

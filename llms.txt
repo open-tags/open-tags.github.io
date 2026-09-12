@@ -1,6 +1,6 @@
 # opentags
 
-> opentags makes simple ultra-wideband (UWB) hardware for real-time ranging and positioning development in robotics. The product, opentag one, is a compact UWB tag (STM32 + Qorvo DWM3000 radio, Rust/Embassy firmware, USB-C, CAN FD hardware, 6–24V input) for work where GPS will not reach. Designed and assembled in San Diego, CA.
+> Precise localization, built for robots. opentags is working to make advanced localization practical, starting with opentag one: a UWB development platform for distance and indoor position. Its mission is to make the best localization practical. Current performance evidence and source availability are described below; the mission is not a claim of demonstrated state-of-the-art performance.
 
 Key facts:
 
@@ -20,8 +20,8 @@ Key facts:
 
 ## Pages
 
-- [Home](https://open-tags.com/): overview, kit pricing, how UWB ranging works
-- [opentag one](https://open-tags.com/one/): project page — hardware specs, mechanical details, CAD downloads, source, and integration links
+- [Home](https://open-tags.com/): localization mission, product introduction, and robot integration
+- [opentag one](https://open-tags.com/one/): product page — kit selection and pricing, ranging modes, hardware specs, CAD downloads, source availability, and integration links
 - [Documentation](https://open-tags.com/docs/): developer overview and current capability status
 - [Quickstart](https://open-tags.com/docs/quickstart/): browser-based flashing, connection, calibration, and static testing
 - [Location quickstart](https://open-tags.com/docs/location/): anchor survey, 2D/3D configuration, flashing, calibration, and validation limitations
@@ -31,7 +31,7 @@ Key facts:
 - [ROS 2 source on GitHub](https://github.com/open-tags/open-tags.github.io/tree/main/ros2): the source included in the download
 - [Range over CAN](https://open-tags.com/docs/can/): optional 500 kbit/s Distance responder bench image, protocol v1, persistent node IDs, Python reader, and DBC; physical-bus validation pending and standard console firmware unchanged
 - [Serial protocol](https://open-tags.com/docs/protocol/): commands, responses, distance records, and integration examples
-- [Validation](https://open-tags.com/validation/): current benchmark status, engineering targets, and reproducible test protocol
+- [Performance](https://open-tags.com/validation/): historical distance chart and table, downloadable summary CSV, benchmark status, development targets, and reproducible test protocol
 - [Firmware console](https://open-tags.com/firmware/): flash firmware, log data, plot live distance, and calibrate from the browser over WebUSB / Web Serial
 - [Privacy](https://open-tags.com/privacy/): website and order privacy policy
 - [Terms](https://open-tags.com/terms/): product, ordering, returns, and warranty terms

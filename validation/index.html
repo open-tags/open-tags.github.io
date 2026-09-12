@@ -11,25 +11,27 @@
     </script>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="description" content="Preliminary opentag one TWR results, engineering targets, test limitations, and a reproducible CSV validation workflow." />
-    <title>Validation | opentags</title>
-    <meta property="og:title" content="opentag one validation" />
-    <meta property="og:description" content="Preliminary TWR evidence, current limitations, engineering targets, and the reproducible opentag one test protocol." />
+    <meta name="description" content="opentag one performance: preliminary distance measurements, test conditions, downloadable summary data, and localization development targets." />
+    <title>Performance | opentags</title>
+    <meta property="og:title" content="Performance | opentags" />
+    <meta property="og:description" content="Explore measured distance performance, test conditions, and the development targets for opentag one localization." />
     <meta property="og:type" content="article" />
     <meta property="og:image" content="https://open-tags.com/assets/images/one/site/hero.jpg" />
     <meta name="twitter:card" content="summary_large_image" />
+    <link rel="canonical" href="https://open-tags.com/validation/" />
     <link rel="icon" type="image/png" href="/favicon.png?v=3" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png?v=2" />
     <link rel="stylesheet" href="/assets/site.css?v=9" />
+    <link rel="stylesheet" href="/assets/storefront.css?v=16" />
   </head>
-  <body>
+  <body class="simple-store performance-page">
     <header class="site-header" data-site-header>
       <a class="brand" href="/" aria-label="opentags home">opentags</a>
       <button class="nav-toggle" type="button" data-nav-toggle aria-label="Open menu" aria-expanded="false">
         <span class="nav-toggle-icon" aria-hidden="true"></span>
       </button>
       <nav aria-label="Primary">
-        <a href="/one/">One</a>
+        <a href="/one/">One</a><a aria-current="page" href="/validation/">Performance</a>
         <a href="/docs/">Docs</a>
         <a href="/firmware/">Console</a>
         <a href="https://github.com/open-tags" rel="noreferrer">GitHub</a>
@@ -38,42 +40,55 @@
 
     <main>
       <section class="page-title validation-title">
-        <p class="eyebrow">Validation</p>
-        <h1>Validation.</h1>
-        <p class="intro">This page separates engineering goals from measured evidence. Early TWR runs are reported here with their hardware, firmware, geometry, and limitations.</p>
+        <p class="eyebrow">Measured performance</p>
+        <h1>Precision you can examine.</h1>
+        <p class="intro">Understand how opentag one performs, how we test it, and what we’re working toward. Each measurement belongs to a specific setup and firmware version.</p>
       </section>
 
       <section class="status-banner" aria-label="Current benchmark status">
-        <span class="status-marker">Current status</span>
+        <span class="status-marker">Evidence so far</span>
         <div>
-          <h2>Preliminary TWR evidence collected</h2>
-          <p>One pair has completed repeated indoor line-of-sight runs at 1 m, 3 m, and 5 m. The results below establish a useful baseline, but multi-unit, long-range, temperature, obstruction, and TDOA testing are not complete.</p>
+          <h2>Distance measured. Position still under test.</h2>
+          <p>One pair has completed repeated static, indoor line-of-sight distance tests at 1 m, 3 m, and 5 m. Full position accuracy, performance during motion, and obstruction testing have not yet been established.</p>
         </div>
       </section>
 
-      <section class="band evidence-band">
+      <section class="band evidence-band" id="distance-results">
         <div class="section-head">
           <p class="eyebrow">July 2026 baseline</p>
           <h2>Earlier distance results</h2>
         </div>
+        <figure class="performance-chart" aria-labelledby="distance-chart-title" aria-describedby="distance-chart-note">
+          <figcaption id="distance-chart-title">Distance error for 95% of valid samples</figcaption>
+          <p>Static two-way ranging · lower is better</p>
+          <dl class="performance-bars">
+            <div><dt>1 m <span>calibration point</span></dt><dd><span class="performance-track" aria-hidden="true"><span style="width: 28%"></span></span><strong>28.0 mm</strong></dd></div>
+            <div><dt>3 m</dt><dd><span class="performance-track" aria-hidden="true"><span style="width: 77.9%"></span></span><strong>77.9 mm</strong></dd></div>
+            <div><dt>5 m</dt><dd><span class="performance-track" aria-hidden="true"><span style="width: 77.3%"></span></span><strong>77.3 mm</strong></dd></div>
+          </dl>
+          <div class="performance-axis" aria-hidden="true"><span>0 mm</span><span>100 mm</span></div>
+          <p id="distance-chart-note">Historical results from one hardware pair and the original firmware profile. These are distance errors, not 2D or 3D position errors. The 1 m measurement was taken at the calibration point.</p>
+        </figure>
         <div class="evidence-table" role="region" aria-label="Preliminary static TWR results" tabindex="0">
           <table>
             <thead>
-              <tr><th>Distance</th><th>Valid samples</th><th>Mean error</th><th>P95 absolute error</th><th>Valid rate</th><th>Packet success</th></tr>
+              <tr><th scope="col">Distance</th><th scope="col">Valid samples</th><th scope="col">Mean error</th><th scope="col">P95 absolute error</th><th scope="col">Reported valid rate*</th><th scope="col">Reported packet success*</th></tr>
             </thead>
             <tbody>
-              <tr><th>1 m</th><td>3,125</td><td>+4.9 mm</td><td>28.0 mm</td><td>52.08 Hz</td><td>99.71%</td></tr>
-              <tr><th>3 m</th><td>9,245</td><td>&minus;57.2 mm</td><td>77.9 mm</td><td>~51.4 Hz</td><td>97.70%</td></tr>
-              <tr><th>5 m</th><td>9,256</td><td>+54.8 mm</td><td>77.3 mm</td><td>~51.4 Hz</td><td>97.88%</td></tr>
+              <tr><th scope="row">1 m</th><td>3,125</td><td>+4.9 mm</td><td>28.0 mm</td><td>52.08 Hz</td><td>99.71%</td></tr>
+              <tr><th scope="row">3 m</th><td>9,245</td><td>&minus;57.2 mm</td><td>77.9 mm</td><td>~51.4 Hz</td><td>97.70%</td></tr>
+              <tr><th scope="row">5 m</th><td>9,256</td><td>+54.8 mm</td><td>77.3 mm</td><td>~51.4 Hz</td><td>97.88%</td></tr>
             </tbody>
           </table>
         </div>
+        <p class="resource-note">*Reported rate and packet success use legacy estimates that can hide outages. Read the <a href="#measurement-limits">measurement limits</a> before comparing reliability.</p>
         <div class="evidence-notes">
           <p><strong>Conditions:</strong> one hardware pair, indoor clear line of sight, same antenna orientation, tape-measured ground truth, and one responder calibration preserved across the sweep. The 1 m row is the calibration-point run; 3 m and 5 m pool three approximately one-minute runs each.</p>
           <p><strong>Firmware:</strong> the original <code>twr_init-2</code> / <code>twr_resp-2</code> 50 Hz profile. P95 absolute error means 95% of valid samples were within the stated magnitude of ground truth.</p>
           <p><strong>Profile experiments:</strong> longer preamble and SFD configurations raised packet delivery to roughly 99&ndash;100% at 40 Hz, but increased static P95 error at 5 m. The current <code>twr-5</code> release is an experimental diagnostic profile, not a new benchmark result.</p>
         </div>
-        <p class="doc-note">These short runs are preliminary engineering evidence, not a product guarantee or a completed public benchmark. Raw datasets will be linked after the test metadata and naming are normalized.</p>
+        <div class="simple-text-links"><a href="/validation/july-2026-distance-summary.csv" download>Download summary CSV</a><a href="#test-protocol">Read the test protocol</a></div>
+        <p class="doc-note">The download contains the summary values above and their test context. Raw sample logs and exact board revision metadata are not yet published. These short runs are preliminary evidence, not a completed public benchmark or validation of the current firmware.</p>
       </section>
 
       <section class="band" id="measurement-limits">
@@ -83,7 +98,7 @@
         <p>The July figures above are historical results from the earlier profile, not validation of today's release. The raw datasets and current-profile acceptance run still need publication. These limitations are tracked in the repository's <a href="https://github.com/open-tags/open-tags.github.io/blob/main/MISSING_THINGS.md" rel="noreferrer">Missing things checklist</a>.</p>
       </section>
 
-      <section class="band">
+      <section class="band" id="development-targets">
         <div class="section-head">
           <p class="eyebrow">V2 engineering goals</p>
           <h2>Targets under test</h2>
@@ -97,7 +112,7 @@
         <p class="stat-note">Targets are acceptance goals, not guarantees. Final results must identify hardware revision, firmware revision, environment, geometry, and sample count.</p>
       </section>
 
-      <section class="band protocol-band">
+      <section class="band protocol-band" id="test-protocol">
         <div class="section-head">
           <p class="eyebrow">Reproducible TWR test</p>
           <h2>Static ranging protocol</h2>
@@ -145,6 +160,6 @@
         <a href="mailto:hello@open-tags.com">hello@open-tags.com</a>
       </div>
     </footer>
-    <script type="module" src="/assets/site.js?v=5"></script>
+    <script type="module" src="/assets/site.js?v=6"></script>
   </body>
 </html>

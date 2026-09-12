@@ -11,6 +11,7 @@ if (header) {
     </button>
     <nav aria-label="Primary">
       <a ${current("/one") ? 'aria-current="page"' : ""} href="/one/">One</a>
+      <a ${current("/validation") ? 'aria-current="page"' : ""} href="/validation/">Performance</a>
       <a ${current("/docs") ? 'aria-current="page"' : ""} href="/docs/">Docs</a>
       <a ${current("/firmware") ? 'aria-current="page"' : ""} href="/firmware/">Console</a>
       <a href="https://github.com/open-tags" rel="noreferrer">GitHub</a>
