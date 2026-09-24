@@ -15,21 +15,21 @@
 }
 
 :root {
-  --bg: #fff;
-  --fg: #1d1d1f;
-  --ink: #0a0a0c;
-  --muted: #6b6b6b;
-  --faint: #f5f5f5;
-  --panel: #fbfbfb;
-  --panel-2: #f5f5f5;
-  --line: #e8e8e8;
-  --line-strong: #d2d2d2;
-  --accent: #1d1d1f;
-  --link: #1d1d1f;
-  --link-hover: #000;
-  --bad: #b00020;
-  --font-body: system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-  --font-display: system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  --bg: var(--brand-paper);
+  --fg: var(--brand-ink);
+  --ink: var(--brand-ink);
+  --muted: var(--brand-muted);
+  --faint: var(--brand-soft);
+  --panel: var(--brand-paper);
+  --panel-2: var(--brand-soft);
+  --line: var(--brand-line);
+  --line-strong: var(--brand-line-strong);
+  --accent: var(--brand-ink);
+  --link: var(--brand-ink);
+  --link-hover: var(--brand-ink);
+  --bad: var(--brand-error);
+  --font-body: var(--brand-font-body);
+  --font-display: var(--brand-font-body);
   color-scheme: light;
   font-family: var(--font-body);
 }
@@ -64,7 +64,7 @@ a {
 .site-header,
 main,
 footer {
-  width: min(1120px, calc(100% - 32px));
+  width: min(var(--brand-content-width), calc(100% - 32px));
   margin-inline: auto;
   position: relative;
 }
@@ -107,16 +107,16 @@ nav a[aria-current="page"] {
 }
 
 .site-header .nav-buy {
-  border-radius: 4px;
+  border-radius: var(--brand-radius);
   background: var(--ink);
-  color: #fff;
+  color: var(--brand-paper);
   padding: 8px 14px;
 }
 
 .site-header .nav-buy:hover,
 .site-header .nav-buy[aria-current="page"] {
-  background: #303030;
-  color: #fff;
+  background: var(--brand-hover);
+  color: var(--brand-paper);
 }
 
 .hero {
@@ -179,7 +179,7 @@ button {
   justify-content: center;
   min-height: 44px;
   border: 1px solid var(--line-strong);
-  border-radius: 4px;
+  border-radius: var(--brand-radius);
   background: transparent;
   color: var(--fg);
   padding: 9px 22px;
@@ -201,13 +201,13 @@ button:hover:not(:disabled) {
 button.active {
   background: var(--link);
   border-color: var(--link);
-  color: #fff;
+  color: var(--brand-paper);
 }
 
 .button.primary:hover {
   background: var(--link-hover);
   border-color: var(--link-hover);
-  color: #fff;
+  color: var(--brand-paper);
 }
 
 button:disabled {
@@ -242,7 +242,7 @@ h2 {
 
 article {
   background: var(--faint);
-  border-radius: 4px;
+  border-radius: var(--brand-radius);
   min-height: 0;
   padding: 26px 24px;
 }
@@ -298,7 +298,7 @@ footer a:hover {
 .footer-legal {
   max-width: 880px;
   margin: 0 0 18px;
-  color: #868686;
+  color: var(--brand-disabled);
   font-size: 11px;
   line-height: 1.55;
 }
@@ -331,14 +331,14 @@ footer a:hover {
 }
 
 .firmware-page .page-title h1 {
-  font-family: "Editorial New", "Iowan Old Style", Georgia, serif;
+  font-family: var(--brand-font-editorial);
   font-weight: 800;
   letter-spacing: -0.045em;
   line-height: 0.96;
 }
 
 .docs-home-page .docs-page > h1 {
-  font-family: "Editorial New", "Iowan Old Style", Georgia, serif;
+  font-family: var(--brand-font-editorial);
   font-weight: 800;
   letter-spacing: -0.045em;
   line-height: 0.96;
@@ -385,7 +385,7 @@ strong {
   object-fit: cover;
   object-position: center bottom;
   display: block;
-  border-radius: 4px;
+  border-radius: var(--brand-radius);
 }
 
 .home-store-hero {
@@ -412,7 +412,7 @@ strong {
   grid-template-columns: minmax(0, 0.92fr) minmax(280px, 0.72fr);
   gap: 1px;
   border: 1px solid var(--line);
-  border-radius: 4px;
+  border-radius: var(--brand-radius);
   background: var(--line);
   overflow: hidden;
   padding: 0;
@@ -463,7 +463,7 @@ strong {
   justify-content: space-between;
   gap: 14px;
   border: 1px solid var(--line);
-  border-radius: 4px;
+  border-radius: var(--brand-radius);
   color: inherit;
   padding: 12px;
   text-decoration: none;
@@ -509,7 +509,7 @@ strong {
 
 .store-gallery-main {
   margin: 0;
-  border-radius: 4px;
+  border-radius: var(--brand-radius);
   overflow: hidden;
   background: var(--faint);
 }
@@ -535,7 +535,7 @@ strong {
   aspect-ratio: 1 / 1;
   object-fit: cover;
   display: block;
-  border-radius: 4px;
+  border-radius: var(--brand-radius);
   background: var(--faint);
 }
 
@@ -577,7 +577,7 @@ strong {
 
 .purchase-badges span {
   border: 1px solid var(--line);
-  border-radius: 4px;
+  border-radius: var(--brand-radius);
   color: var(--muted);
   font-size: 11px;
   padding: 5px 9px;
@@ -594,7 +594,7 @@ strong {
   grid-template-columns: minmax(0, 1fr);
   gap: 16px;
   border: 1px solid var(--line-strong);
-  border-radius: 4px;
+  border-radius: var(--brand-radius);
   background: var(--bg);
   padding: 18px;
 }
@@ -735,7 +735,7 @@ strong {
   position: relative;
   overflow: hidden;
   border: 1px solid var(--line);
-  border-radius: 4px;
+  border-radius: var(--brand-radius);
   background: var(--panel);
   touch-action: pan-y;
 }
@@ -768,7 +768,7 @@ strong {
   bottom: 14px;
   max-width: min(520px, calc(100% - 28px));
   border: 1px solid var(--line);
-  border-radius: 4px;
+  border-radius: var(--brand-radius);
   background: rgba(255, 255, 255, 0.82);
   color: var(--fg);
   font-size: 12px;
@@ -782,7 +782,7 @@ strong {
   width: 38px;
   min-height: 38px;
   height: 38px;
-  border-radius: 4px;
+  border-radius: var(--brand-radius);
   background: rgba(255, 255, 255, 0.86);
   font-size: 24px;
   line-height: 1;
@@ -808,7 +808,7 @@ strong {
   min-width: 0;
   height: auto;
   min-height: 0;
-  border-radius: 4px;
+  border-radius: var(--brand-radius);
   padding: 0;
   overflow: hidden;
   background: var(--panel);
@@ -890,7 +890,7 @@ strong {
   justify-content: space-between;
   gap: 12px;
   background: var(--faint);
-  border-radius: 4px;
+  border-radius: var(--brand-radius);
   padding: 20px 22px 22px;
   text-decoration: none;
   min-width: 0;
@@ -1025,7 +1025,7 @@ strong {
 .panel {
   background: var(--panel);
   border: 1px solid var(--line);
-  border-radius: 4px;
+  border-radius: var(--brand-radius);
   padding: 16px;
   margin-bottom: 12px;
 }
@@ -1289,7 +1289,7 @@ label {
     gap: 0;
     margin-top: 12px;
     border: 1px solid var(--line);
-    border-radius: 4px;
+    border-radius: var(--brand-radius);
     background: var(--panel);
     overflow: hidden;
   }
@@ -1535,7 +1535,7 @@ label {
 }
 
 .docs-warning {
-  border-left-color: #b45f06;
+  border-left-color: var(--brand-warning);
 }
 
 .docs-callout p,
@@ -1567,8 +1567,8 @@ label {
   overflow-x: auto;
   margin: 20px 0;
   border: 1px solid var(--line);
-  border-radius: 4px;
-  background: #f7f7f7;
+  border-radius: var(--brand-radius);
+  background: var(--brand-soft);
 }
 
 .docs-code code {
@@ -1677,11 +1677,11 @@ label {
 }
 
 .status-text.stable {
-  color: #247a3d;
+  color: var(--brand-success);
 }
 
 .status-text.experimental {
-  color: #9b5500;
+  color: var(--brand-warning);
 }
 
 .docs-steps {
@@ -1784,7 +1784,7 @@ label {
 
 .workflow-media {
   overflow: hidden;
-  border-radius: 4px;
+  border-radius: var(--brand-radius);
   background: var(--faint);
 }
 
@@ -1862,7 +1862,7 @@ label {
 .docs-hero figure {
   margin: 0;
   overflow: hidden;
-  border-radius: 4px;
+  border-radius: var(--brand-radius);
   background: var(--faint);
 }
 
@@ -1999,7 +1999,7 @@ label {
   margin-top: 24px;
   padding: 17px 18px;
   border: 1px solid var(--line);
-  border-radius: 4px;
+  border-radius: var(--brand-radius);
   font-family: var(--font-body);
   font-size: 12px;
 }
@@ -2049,7 +2049,7 @@ label {
   gap: 36px;
   padding: 34px;
   border: 1px solid var(--line-strong);
-  border-radius: 4px;
+  border-radius: var(--brand-radius);
 }
 
 .status-marker {
@@ -2200,7 +2200,7 @@ label {
     grid-template-columns: repeat(2, minmax(0, 1fr));
     padding: 18px;
     border: 1px solid var(--line);
-    border-radius: 4px;
+    border-radius: var(--brand-radius);
   }
 
   .docs-directory {
@@ -2373,7 +2373,7 @@ label {
   width: 100%;
   aspect-ratio: 4 / 3;
   border: 1px solid var(--line);
-  border-radius: 4px;
+  border-radius: var(--brand-radius);
   overflow: hidden;
   background: var(--panel);
 }
@@ -2397,7 +2397,7 @@ label {
 
 .ranging-card {
   margin: 0;
-  border-radius: 4px;
+  border-radius: var(--brand-radius);
   background: var(--faint);
   overflow: hidden;
   display: flex;
@@ -2543,7 +2543,7 @@ label {
 
 .hero-figure {
   margin: 52px 0 0;
-  border-radius: 4px;
+  border-radius: var(--brand-radius);
   overflow: hidden;
   background: var(--faint);
 }
@@ -2582,7 +2582,7 @@ label {
 
 .stat-note {
   margin-top: 18px;
-  color: #868686;
+  color: var(--brand-disabled);
   font-family: var(--font-body);
   font-size: 11px;
 }
@@ -2597,7 +2597,7 @@ label {
   display: flex;
   flex-direction: column;
   min-height: 0;
-  border-radius: 4px;
+  border-radius: var(--brand-radius);
   overflow: hidden;
   background: var(--faint);
   padding: 0;
@@ -2661,7 +2661,7 @@ label {
   min-height: 0;
   height: auto;
   border-color: transparent;
-  border-radius: 4px;
+  border-radius: var(--brand-radius);
   padding: 0;
   overflow: hidden;
   opacity: 0.55;
@@ -2708,4 +2708,12 @@ label {
     flex-direction: column;
     gap: 12px;
   }
+}
+
+/* Technical content and keyboard focus are explicit brand exceptions. */
+pre, code, kbd, samp { font-family: var(--brand-font-code); }
+a:focus-visible, button:focus-visible, input:focus-visible,
+select:focus-visible, textarea:focus-visible, [tabindex]:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 4px;
 }

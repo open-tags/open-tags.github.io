@@ -1,16 +1,16 @@
 :root {
-  --store-ink: #111;
-  --store-muted: #666;
-  --store-line: #ddd;
-  --store-soft: #f7f7f7;
-  --store-accent: #111;
+  --store-ink: var(--brand-ink);
+  --store-muted: var(--brand-muted);
+  --store-line: var(--brand-line);
+  --store-soft: var(--brand-soft);
+  --store-accent: var(--brand-ink);
 }
 
 .simple-store {
   margin: 0;
   color: var(--store-ink);
-  background: #fff;
-  font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+  background: var(--brand-paper);
+  font-family: var(--brand-font-body);
 }
 
 .simple-store .brand {
@@ -19,7 +19,7 @@
 
 .simple-main,
 .one-main {
-  width: min(1120px, calc(100% - 40px));
+  width: min(var(--brand-content-width), calc(100% - 2 * var(--brand-gutter)));
   margin-inline: auto;
 }
 
@@ -47,7 +47,7 @@
 }
 
 .simple-header nav a {
-  color: #555;
+  color: var(--brand-muted);
   text-decoration: none;
 }
 
@@ -56,15 +56,15 @@
 }
 
 .simple-header .simple-buy-link {
-  border-radius: 4px;
+  border-radius: var(--brand-radius);
   background: var(--store-ink);
-  color: #fff;
+  color: var(--brand-paper);
   padding: 9px 15px;
 }
 
 .simple-header .simple-buy-link:hover {
-  color: #fff;
-  background: #2f2f2f;
+  color: var(--brand-paper);
+  background: var(--brand-hover);
 }
 
 .simple-hero {
@@ -93,7 +93,7 @@
 .simple-hero h1 {
   max-width: 900px;
   margin-inline: auto;
-  font-family: "Editorial New", "Iowan Old Style", Georgia, serif;
+  font-family: var(--brand-font-editorial);
   font-size: clamp(44px, 5.8vw, 68px);
   font-optical-sizing: auto;
   font-weight: 800;
@@ -121,9 +121,9 @@
   min-height: 46px;
   align-items: center;
   justify-content: center;
-  border: 1px solid #c4c4c4;
-  border-radius: 4px;
-  background: #fff;
+  border: 1px solid var(--brand-line-strong);
+  border-radius: var(--brand-radius);
+  background: var(--brand-paper);
   color: var(--store-ink);
   padding: 10px 20px;
   font-size: 13px;
@@ -138,12 +138,12 @@
 .simple-button.primary {
   border-color: var(--store-ink);
   background: var(--store-ink);
-  color: #fff;
+  color: var(--brand-paper);
 }
 
 .simple-button.primary:hover {
-  border-color: #2f2f2f;
-  background: #2f2f2f;
+  border-color: var(--brand-hover);
+  background: var(--brand-hover);
 }
 
 .simple-hero-media {
@@ -153,7 +153,7 @@
   height: min(50vw, 560px);
   min-height: 400px;
   margin: 52px 0 0;
-  border-radius: 4px;
+  border-radius: var(--brand-radius);
   isolation: isolate;
 }
 
@@ -179,8 +179,8 @@
   right: 38px;
   bottom: 28px;
   left: 38px;
-  color: #fff;
-  font-family: "Editorial New", "Iowan Old Style", Georgia, serif;
+  color: var(--brand-paper);
+  font-family: var(--brand-font-editorial);
   font-size: clamp(38px, 6vw, 72px);
   font-weight: 800;
   line-height: 0.95;
@@ -222,7 +222,7 @@
 
 .simple-how .ranging-card {
   border: 1px solid var(--store-line);
-  border-radius: 4px;
+  border-radius: var(--brand-radius);
   background: var(--store-soft);
 }
 
@@ -249,8 +249,8 @@
 .simple-kit {
   overflow: hidden;
   border: 1px solid var(--store-line);
-  border-radius: 4px;
-  background: #fff;
+  border-radius: var(--brand-radius);
+  background: var(--brand-paper);
   padding: 0;
 }
 
@@ -285,8 +285,8 @@
   right: 24px;
   bottom: 19px;
   left: 24px;
-  color: #fff;
-  font-family: "Editorial New", "Iowan Old Style", Georgia, serif;
+  color: var(--brand-paper);
+  font-family: var(--brand-font-editorial);
   font-size: clamp(38px, 4.5vw, 56px);
   font-weight: 800;
   line-height: 0.95;
@@ -358,9 +358,9 @@
 .simple-integration pre {
   margin: 0;
   overflow-x: auto;
-  border-radius: 4px;
-  background: #111;
-  color: #f3f3f3;
+  border-radius: var(--brand-radius);
+  background: var(--brand-ink);
+  color: var(--brand-soft);
   padding: 34px;
   font: 12px/1.9 var(--font-body);
 }
@@ -419,7 +419,7 @@
     border: 0;
     border-bottom: 1px solid var(--store-line);
     border-radius: 0;
-    background: #fff;
+    background: var(--brand-paper);
     color: var(--store-ink);
     padding: 12px 14px;
   }
@@ -427,7 +427,7 @@
   .simple-header .simple-buy-link {
     border-bottom: 0;
     background: var(--store-ink);
-    color: #fff;
+    color: var(--brand-paper);
   }
 
   .simple-hero {
@@ -535,7 +535,7 @@
 
 .one-hero-copy h1 {
   margin: 0;
-  font-family: "Editorial New", "Iowan Old Style", Georgia, serif;
+  font-family: var(--brand-font-editorial);
   font-size: clamp(46px, 5.5vw, 72px);
   font-weight: 800;
   line-height: 1;
@@ -561,7 +561,7 @@
   margin: 0;
   width: 100%;
   aspect-ratio: 4 / 3;
-  border-radius: 4px;
+  border-radius: var(--brand-radius);
   isolation: isolate;
 }
 
@@ -587,8 +587,8 @@
   right: 26px;
   bottom: 20px;
   left: 26px;
-  color: #fff;
-  font-family: "Editorial New", "Iowan Old Style", Georgia, serif;
+  color: var(--brand-paper);
+  font-family: var(--brand-font-editorial);
   font-size: clamp(38px, 4vw, 54px);
   font-weight: 800;
   line-height: 0.95;
@@ -659,7 +659,7 @@
   overflow: hidden;
   margin: 0;
   border: 1px solid var(--store-line);
-  border-radius: 4px;
+  border-radius: var(--brand-radius);
   background: var(--store-soft);
   padding: 0;
 }
@@ -696,7 +696,7 @@
 .mechanical-files a,
 .one-project-links a {
   border: 1px solid var(--store-line);
-  border-radius: 4px;
+  border-radius: var(--brand-radius);
   color: var(--store-ink);
   text-decoration: none;
 }
@@ -708,7 +708,7 @@
 
 .mechanical-files a:hover,
 .one-project-links a:hover {
-  border-color: #a3a3a3;
+  border-color: var(--brand-disabled);
 }
 
 .mechanical-files span {
@@ -760,7 +760,7 @@
 
 /* Legal pages */
 .legal-main {
-  width: min(760px, calc(100% - 40px));
+  width: min(760px, calc(100% - 2 * var(--brand-gutter)));
   margin-inline: auto;
   padding: 72px 0 96px;
 }
@@ -780,7 +780,7 @@
 
 .legal-main > p:not(.simple-label):not(.legal-date) {
   margin-top: 20px;
-  color: #555;
+  color: var(--brand-muted);
   line-height: 1.75;
 }
 
@@ -793,7 +793,7 @@
 .legal-main ul {
   margin: 18px 0 0;
   padding-left: 22px;
-  color: #555;
+  color: var(--brand-muted);
 }
 
 .legal-main li + li {
@@ -997,7 +997,7 @@
   padding: 32px;
   background: var(--store-soft);
   border: 1px solid var(--store-line);
-  border-radius: 4px;
+  border-radius: var(--brand-radius);
 }
 
 .performance-chart figcaption {
@@ -1054,7 +1054,7 @@
 .performance-track {
   display: block;
   height: 24px;
-  background: #e5e5e5;
+  background: var(--brand-line);
 }
 
 .performance-track > span {
@@ -1109,4 +1109,42 @@
   .simple-hero h1 {
     font-size: clamp(2.5rem, 10vw, 3.4rem);
   }
+}
+
+/* Shared product family: current hardware and clearly labeled development work. */
+.product-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--brand-space-md);
+}
+.product-card {
+  min-width: 0;
+  padding: var(--brand-space-md);
+  border: 1px solid var(--brand-line);
+  border-radius: var(--brand-radius);
+  background: var(--brand-paper);
+  color: var(--brand-ink);
+}
+.product-card h2,
+.product-card h3 {
+  margin: 0 0 var(--brand-space-sm);
+  font-family: var(--brand-font-body);
+  font-size: 30px;
+  font-weight: 650;
+  letter-spacing: -0.035em;
+}
+.product-card p { line-height: 1.6; }
+.product-card .product-status {
+  margin: 0 0 var(--brand-space-md);
+  color: var(--brand-muted);
+  font-size: 12px;
+  font-weight: 600;
+}
+.product-descriptor { font-weight: 600; }
+.product-card .resource-note { color: var(--brand-muted); font-size: 13px; }
+.brand-rules { max-width: 760px; margin: 0 0 var(--brand-space-md); padding-left: 22px; }
+.brand-rules li { margin-bottom: var(--brand-space-sm); }
+@media (max-width: 700px) {
+  .product-grid { grid-template-columns: 1fr; gap: var(--brand-space-sm); }
+  .product-card { padding: 24px; }
 }

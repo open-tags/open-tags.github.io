@@ -2,16 +2,21 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="description" content="opentag one V2 hardware reference: MCU, UWB radio, CAN FD, power, connectors, and board-level constraints." />
-    <title>Hardware reference | opentags docs</title><link rel="icon" type="image/png" href="/favicon.png?v=3" /><link rel="stylesheet" href="/assets/site.css?v=9" /><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/styles/github.min.css" />
+    <meta name="description" content="opentag U1 V2 hardware reference: MCU, UWB radio, CAN FD, power, connectors, and board-level constraints." />
+    <title>Hardware reference | opentags docs</title><link rel="icon" type="image/png" href="/favicon.png?v=3" /><link rel="stylesheet" href="/assets/brand.css?v=1" />
+    <link rel="stylesheet" href="/assets/site.css?v=10" /><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/styles/github.min.css" />
   </head>
   <body class="docs-site">
-    <header class="site-header" data-site-header><a class="brand" href="/" aria-label="opentags home">opentags</a><button class="nav-toggle" type="button" data-nav-toggle aria-label="Open menu" aria-expanded="false"><span class="nav-toggle-icon" aria-hidden="true"></span></button><nav aria-label="Primary"><a href="/one/">One</a><a href="/validation/">Performance</a><a aria-current="page" href="/docs/">Docs</a><a href="/firmware/">Console</a><a href="https://github.com/open-tags" rel="noreferrer">GitHub</a></nav></header>
+    <header class="site-header" data-site-header>
+      <a class="brand" href="/" aria-label="opentags home">opentags</a>
+      <button class="nav-toggle" type="button" data-nav-toggle aria-label="Open menu" aria-expanded="false"><span class="nav-toggle-icon" aria-hidden="true"></span></button>
+      <nav aria-label="Primary"><a href="/products/">Products</a><a href="/validation/">Performance</a><a aria-current="page" href="/docs/">Developers</a><a href="/firmware/">Console</a></nav>
+    </header>
     <main class="docs-shell">
-      <aside class="docs-sidebar" aria-label="Documentation navigation"><a class="docs-home" href="/docs/">opentag one</a><span>Get started</span><a href="/docs/">Overview</a><a href="/docs/quickstart/">Distance quickstart</a><a href="/docs/location/">Location quickstart</a><span>Integrate</span><a href="/docs/scripts/">Python scripts</a><a href="/docs/ros2/">ROS 2 driver</a><span>Reference</span><a aria-current="page" href="/docs/hardware/">Hardware</a><a href="/docs/protocol/">USB serial</a><span>Advanced</span><a href="/docs/firmware-build/">Firmware build</a><a href="/docs/can/">CAN / CAN FD</a><a href="/docs/rust/">Rust examples</a><span>Test</span><a href="/docs/calibration/">Calibration</a><a href="/validation/">Performance</a><a href="/firmware/">Browser console</a></aside>
+      <aside class="docs-sidebar" aria-label="Documentation navigation"><a class="docs-home" href="/docs/">opentag U1</a><span>Get started</span><a href="/docs/">Overview</a><a href="/docs/quickstart/">Distance quickstart</a><a href="/docs/location/">Location quickstart</a><span>Integrate</span><a href="/docs/scripts/">Python scripts</a><a href="/docs/ros2/">ROS 2 driver</a><span>Reference</span><a aria-current="page" href="/docs/hardware/">Hardware</a><a href="/docs/protocol/">USB serial</a><span>Advanced</span><a href="/docs/firmware-build/">Firmware build</a><a href="/docs/can/">CAN / CAN FD</a><a href="/docs/rust/">Rust examples</a><span>Test</span><a href="/docs/calibration/">Calibration</a><a href="/validation/">Performance</a><a href="/firmware/">Browser console</a></aside>
       <article class="docs-page">
         <p class="docs-breadcrumb">Documentation / Platform / Hardware</p><h1>Hardware reference</h1>
-        <p class="docs-lead">Board-level interfaces and constraints for opentag one V2.2. Values here are taken from the schematic, netlist, BOM, and firmware pin assignments.</p>
+        <p class="docs-lead">Board-level interfaces and constraints for opentag U1 V2.2. Values here are taken from the schematic, netlist, BOM, and firmware pin assignments.</p>
         <div class="docs-meta"><div><strong>Revision</strong><span>V2.2</span></div><div><strong>MCU</strong><span>STM32G474CCT6</span></div><div><strong>UWB</strong><span>Qorvo DWM3000</span></div></div>
 
         <h2 id="architecture">Architecture</h2>
@@ -43,11 +48,11 @@
         <dl class="docs-definition"><dt>Normal boot</dt><dd>Enumerates as USB CDC serial when a ranging image is installed.</dd><dt>BOOT0 held</dt><dd>Enters the STM32 system bootloader and enumerates as STM32 DFU for role flashing.</dd><dt>SWD</dt><dd>Used by <code>probe-rs</code> for development builds, RTT logs, and hardware debugging.</dd></dl>
 
         <h2 id="source">Hardware resources</h2>
-        <p>Mechanical CAD downloads are available on the <a href="/one/">opentag one product page</a>. Schematics and PCB design files are not currently published.</p>
+        <p>Mechanical CAD downloads are available on the <a href="/products/u1/">opentag U1 product page</a>. Schematics and PCB design files are not currently published.</p>
         <p><a href="https://github.com/open-tags">Browse opentags repositories</a> · <a href="https://www.ti.com/product/TCAN1044-Q1">TCAN1044-Q1 product page</a></p>
         <div class="docs-next"><a href="/docs/quickstart/">&larr; Quickstart</a><a href="/docs/firmware-build/">Firmware build &rarr;</a></div>
       </article>
     </main>
-    <footer><div class="footer-row"><span>&copy; 2026 opentags</span><a href="mailto:hello@open-tags.com">hello@open-tags.com</a></div></footer><script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/highlight.min.js" defer></script><script src="/assets/docs.js" defer></script><script type="module" src="/assets/site.js?v=6"></script>
+    <footer><div class="footer-row"><span>&copy; 2026 opentags</span><a href="mailto:hello@open-tags.com">hello@open-tags.com</a></div></footer><script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/highlight.min.js" defer></script><script src="/assets/docs.js" defer></script><script type="module" src="/assets/site.js?v=7"></script>
   </body>
 </html>

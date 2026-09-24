@@ -1,11 +1,11 @@
 # opentags
 
-> Precise localization, built for robots. opentags is working to make advanced localization practical, starting with opentag one: a UWB development platform for distance and indoor position. Its mission is to make the best localization practical. Current performance evidence and source availability are described below; the mission is not a claim of demonstrated state-of-the-art performance.
+> Accurate tracking. Built for robotics. Our mission: Make accurate tracking accessible to people building robots. U1 is our current UWB development platform; U2, L1, and S1 are in development. Product claims must be read with their validation status.
 
 Key facts:
 
-- Product: opentag one, a UWB distance and indoor location tag in a PETG enclosure with clear lid
-- Kits: Distance kit (2 tags, $199) gives live point-to-point distance; Location kit (5 tags, $499) provides indoor location hardware with 4 fixed anchors plus 1 mobile tag
+- Product: opentag U1, a UWB distance and indoor location tag in a PETG enclosure with clear lid
+- Kits: U1 Distance Kit (2 tags, $199) gives live point-to-point distance; U1 Location Kit (5 tags, $499) provides indoor location hardware with 4 fixed anchors plus 1 mobile tag
 - Engineering targets pending ground-truthed validation: ±10 cm TWR ranging accuracy, ±20 cm TDOA position accuracy, 50 Hz update rate, 60 m line-of-sight range
 - Preliminary TWR evidence from one pair and the original 50 Hz profile: P95 absolute error was 28.0 mm at the 1 m calibration point, 77.9 mm at 3 m, and 77.3 mm at 5 m; these short indoor line-of-sight runs are not a finished benchmark
 - Interfaces: USB-C serial stream, CAN and CAN FD; powered over USB-C or a 6–24V input with reverse-polarity protection
@@ -18,10 +18,19 @@ Key facts:
 - Policies: 30-day returns, 1-year limited warranty; sold as a development kit for evaluation (not certified as a finished consumer product)
 - Contact: hello@open-tags.com
 
+## Coming Soon
+
+- U2: planned UWB platform with an IMU and OWM3000 module with separate clock and sync ports. Sensor-fusion scope and S1 compatibility remain to be validated.
+- L1: LoRa-band synchronized receiver hardware for distributed sensing and tracking research; first milestone is raw signal capture for computer processing.
+- S1 (Sync 1): clock and synchronization distribution intended for U2 and L1; support for both remains in development.
+- U2, L1, and S1 are not available to order. Specifications and release dates are not finalized.
+
 ## Pages
 
-- [Home](https://open-tags.com/): localization mission, product introduction, and robot integration
-- [opentag one](https://open-tags.com/one/): product page — kit selection and pricing, ranging modes, hardware specs, CAD downloads, source availability, and integration links
+- [Products](https://open-tags.com/products/): current platform and development roadmap
+- [Brand guidelines](https://open-tags.com/branding/): naming, voice, evidence, and visual rules
+- [Home](https://open-tags.com/): tracking mission, product family, and robot integration
+- [opentag U1](https://open-tags.com/products/u1/): product page — kit selection and pricing, ranging modes, hardware specs, CAD downloads, source availability, and integration links
 - [Documentation](https://open-tags.com/docs/): developer overview and current capability status
 - [Quickstart](https://open-tags.com/docs/quickstart/): browser-based flashing, connection, calibration, and static testing
 - [Location quickstart](https://open-tags.com/docs/location/): anchor survey, 2D/3D configuration, flashing, calibration, and validation limitations
@@ -41,4 +50,4 @@ Key facts:
 
 - TWR (two-way ranging): one tag pings, the other replies; distance is computed from round-trip time
 - TDOA (time-difference of arrival): one mobile tag pings, multiple fixed anchors listen; 3D position is computed from arrival-time deltas
-- UWB (ultra-wideband): short-pulse radio that timestamps signal arrival precisely, making it far more accurate for positioning than Bluetooth or Wi-Fi signal strength
+- UWB (ultra-wideband): short-pulse radio that timestamps signal arrival precisely, used for ranging and positioning; performance depends on the implementation and environment

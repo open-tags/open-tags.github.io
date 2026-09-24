@@ -291,7 +291,7 @@ function insertPrintHtml(mode, packedBy, timestamp, modules, qrDataUrl) {
         <main class="sheet">
           <div class="blank" aria-hidden="true"></div>
           <section class="content">
-            <header><span class="kicker">opentag one</span><h1>${escapeHtml(insert.title)}</h1></header>
+            <header><span class="kicker">opentag U1</span><h1>${escapeHtml(insert.title)}</h1></header>
             <div class="setup">
               <div><strong>Quickstart</strong><span class="url">${escapeHtml(insert.url.replace("https://", ""))}</span></div>
               <div class="qr"><img src="${qrDataUrl}" alt="QR code to the ${escapeHtml(insert.title)} console"></div>

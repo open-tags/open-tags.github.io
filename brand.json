@@ -1,0 +1,139 @@
+{
+  "company": "opentags",
+  "mission": "Make accurate tracking accessible to people building robots.",
+  "headline": "Accurate tracking. Built for robotics.",
+  "description": "We build tracking hardware and integration tools to help robot developers measure position and motion.",
+  "principles": [
+    {
+      "title": "Simple by default.",
+      "text": "Make setup, calibration, and integration understandable. Explain the complete system a developer needs, including its cost and limitations."
+    },
+    {
+      "title": "Clear about capabilities.",
+      "text": "Support accuracy claims with measurements and stated test conditions. Distinguish measured results, development targets, and planned capabilities. Name the resources actually available."
+    }
+  ],
+  "products": [
+    {
+      "id": "U1",
+      "name": "opentag U1",
+      "descriptor": "UWB ranging and localization",
+      "status": "",
+      "description": "Measure distance and develop indoor positioning with UWB hardware, calibration tools, and robot integration guides.",
+      "url": "/products/u1/",
+      "action": "Explore U1"
+    },
+    {
+      "id": "U2",
+      "name": "opentag U2",
+      "descriptor": "UWB with inertial measurements",
+      "status": "Coming Soon",
+      "description": "Planned with an onboard IMU and the OWM3000 module, our custom counterpart to DWM3000, with separate clock and sync ports."
+    },
+    {
+      "id": "L1",
+      "name": "opentag L1",
+      "descriptor": "LoRa sensing research hardware",
+      "status": "Coming Soon",
+      "description": "Receiver hardware for synchronized signal capture and research into distributed localization and motion sensing."
+    },
+    {
+      "id": "S1",
+      "name": "opentag S1",
+      "descriptor": "Shared synchronization hardware",
+      "status": "Coming Soon",
+      "description": "Sync 1 is intended to distribute clock and synchronization signals to U2 and L1 receiver setups."
+    }
+  ],
+  "navigation": [
+    {
+      "label": "Products",
+      "url": "/products/",
+      "prefixes": [
+        "/products/",
+        "/one/"
+      ]
+    },
+    {
+      "label": "Performance",
+      "url": "/validation/",
+      "prefixes": [
+        "/validation/"
+      ]
+    },
+    {
+      "label": "Developers",
+      "url": "/docs/",
+      "prefixes": [
+        "/docs/",
+        "/start/"
+      ]
+    },
+    {
+      "label": "Console",
+      "url": "/firmware/",
+      "prefixes": [
+        "/firmware/"
+      ]
+    }
+  ],
+  "rules": {
+    "Naming": [
+      "Write the company as opentags: lowercase, plural, one word. Use open-tags only in existing URLs and account names.",
+      "Use singular opentag for product names, with uppercase family letters and generation numbers: opentag U1, U2, L1, S1. Pair short names with a useful descriptor.",
+      "Name packages U1 Distance Kit and U1 Location Kit. Keep PCB revision numbers separate from product generations.",
+      "Preserve historical identifiers, firmware commands, asset filenames, and published data. Redirect retired page URLs and retain section links."
+    ],
+    "Voice and evidence": [
+      "Lead with tracking for robotics. Explain UWB and LoRa within the relevant product, rather than defining the whole company by a radio technology.",
+      "Use concrete language and useful details. Avoid unsupported superlatives and vague claims of precision.",
+      "Describe measured performance with its setup, conditions, and limitations on the relevant product and performance pages. Label goals as targets and future features as planned.",
+      "Use Coming Soon beside each upcoming product. Omit status labels for available products. Keep product cards concise: name, descriptor, description, and Coming Soon where applicable, without extra caveats beneath the card or product grid. Do not offer a purchase action for an unreleased product.",
+      "Describe public resources individually. Do not promise that all hardware or firmware is open source. Hardware design files are not currently published; this is not a declaration of future licensing policy."
+    ],
+    "Typography": [
+      "Use Editorial New for major marketing headlines and short titles over product photography.",
+      "Use system sans for navigation, body text, section headings, labels, controls, and specifications.",
+      "Monospace is allowed for code, logs, commands, and identifiers when it improves readability."
+    ],
+    "Color and interface": [
+      "Use the shared monochrome palette for branding. Reuse the shared CSS tokens for fonts, color, spacing, content width, and four-pixel control corners.",
+      "Use thin borders and generous spacing. Let the hardware and measured evidence carry the page.",
+      "Functional colors are allowed for warnings, errors, success, and measurement series. Pair color with labels, shapes, or other cues; never communicate status through color alone.",
+      "Dark instrument panels, circular data markers, and technical diagrams are functional exceptions. Review keyboard focus, contrast, and mobile layout."
+    ],
+    "Imagery": [
+      "Show real hardware, connections, and use contexts. Clearly label illustrations and simulated data.",
+      "Keep image titles short and readable. Use a subtle neutral gradient where a title overlays photography.",
+      "Identify the pictured product correctly. Do not present U1 photographs as images of U2, L1, or S1."
+    ],
+    "Maintenance": [
+      "Edit brand.json, then run python3 scripts/sync_brand.py. BRAND.md, shared tokens, navigation, the brand-page content, and product listings are generated from that specification.",
+      "Run python3 scripts/sync_brand.py --check and python3 -B -m unittest discover -s tests -v before publication.",
+      "Review current public prose and metadata for naming and claims. Historical records, third-party code, technical identifiers, and private business notes are outside copy-renaming scope.",
+      "Keep private business notes, contacts, and correspondence out of this public repository and its deployment artifact."
+    ]
+  },
+  "tokens": {
+    "ink": "#111111",
+    "paper": "#ffffff",
+    "muted": "#666666",
+    "soft": "#f7f7f7",
+    "line": "#dddddd",
+    "line-strong": "#c4c4c4",
+    "hover": "#303030",
+    "disabled": "#868686",
+    "error": "#b00020",
+    "warning": "#9b5500",
+    "success": "#247a3d",
+    "font-body": "system-ui, -apple-system, \"Segoe UI\", Roboto, Helvetica, Arial, sans-serif",
+    "font-editorial": "\"Editorial New\", \"Iowan Old Style\", Georgia, serif",
+    "font-code": "ui-monospace, SFMono-Regular, Consolas, monospace",
+    "radius": "4px",
+    "content-width": "1120px",
+    "gutter": "20px",
+    "space-sm": "16px",
+    "space-md": "32px",
+    "space-lg": "64px"
+  }
+}

@@ -20,38 +20,40 @@
     <link rel="canonical" href="https://open-tags.com/branding/" />
     <link rel="icon" type="image/png" href="/favicon.png?v=3" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png?v=2" />
-    <link rel="stylesheet" href="/assets/site.css?v=9" />
+    <link rel="stylesheet" href="/assets/brand.css?v=1" />
+    <link rel="stylesheet" href="/assets/site.css?v=10" />
+    <link rel="stylesheet" href="/assets/storefront.css?v=17" />
     <style>
-      .brand-page { color: #111; background: #fff; }
-      .brand-page main { width: min(1120px, calc(100% - 40px)); }
-      .brand-page article { min-height: 0; border-radius: 0; background: #fff; }
+      .brand-page { color: var(--brand-ink); background: var(--brand-paper); }
+      .brand-page main { width: min(var(--brand-content-width), calc(100% - 2 * var(--brand-gutter))); }
+      .brand-page article { min-height: 0; border-radius: 0; background: var(--brand-paper); }
       .brand-intro {
         display: grid;
         grid-template-columns: minmax(0, 1fr) minmax(260px, 0.45fr);
         gap: 56px;
         align-items: end;
         padding: 96px 0 88px;
-        border-bottom: 1px solid #ddd;
+        border-bottom: 1px solid var(--brand-line);
       }
       .brand-intro h1 {
         max-width: 760px;
-        color: #111;
+        color: var(--brand-ink);
         font-family: var(--font-body);
         font-size: clamp(48px, 7vw, 88px);
         font-weight: 650;
         line-height: 0.98;
         letter-spacing: -0.055em;
       }
-      .brand-intro p:last-child { color: #666; font-size: 17px; line-height: 1.55; }
+      .brand-intro p:last-child { color: var(--brand-muted); font-size: 17px; line-height: 1.55; }
       .brand-kicker {
         margin-bottom: 16px;
-        color: #666;
+        color: var(--brand-muted);
         font-size: 11px;
         font-weight: 600;
         letter-spacing: 0.08em;
         text-transform: uppercase;
       }
-      .brand-section { padding: 84px 0; border-bottom: 1px solid #ddd; }
+      .brand-section { padding: 84px 0; border-bottom: 1px solid var(--brand-line); }
       .brand-heading {
         display: grid;
         grid-template-columns: 180px minmax(0, 640px);
@@ -59,7 +61,7 @@
         margin-bottom: 42px;
       }
       .brand-heading h2 {
-        color: #111;
+        color: var(--brand-ink);
         font-family: var(--font-body);
         font-size: clamp(30px, 4vw, 46px);
         font-weight: 650;
@@ -71,19 +73,19 @@
         grid-template-columns: repeat(2, minmax(0, 1fr));
         gap: 0;
         overflow: hidden;
-        border: 1px solid #ddd;
-        border-radius: 4px;
-        background: #fff;
+        border: 1px solid var(--brand-line);
+        border-radius: var(--brand-radius);
+        background: var(--brand-paper);
       }
       .principle-grid > article + article,
       .name-grid > article + article,
       .type-grid > article + article,
-      .component-grid > article + article { border-left: 1px solid #ddd; }
-      .brand-card { min-height: 220px; padding: 30px; background: #fff; }
+      .component-grid > article + article { border-left: 1px solid var(--brand-line); }
+      .brand-card { min-height: 220px; padding: 30px; background: var(--brand-paper); }
       .brand-card .number, .brand-card .label {
         display: block;
         margin-bottom: 42px;
-        color: #666;
+        color: var(--brand-muted);
         font-size: 11px;
         font-weight: 600;
         letter-spacing: 0.08em;
@@ -91,14 +93,14 @@
       }
       .brand-card h3 {
         margin-bottom: 12px;
-        color: #111;
+        color: var(--brand-ink);
         font-family: var(--font-body);
         font-size: 28px;
         font-weight: 650;
         line-height: 1.05;
         letter-spacing: -0.035em;
       }
-      .brand-card p { max-width: 480px; color: #666; font-size: 14px; line-height: 1.6; }
+      .brand-card p { max-width: 480px; color: var(--brand-muted); font-size: 14px; line-height: 1.6; }
       .name-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
       .name-grid .brand-card { min-height: 250px; }
       .name-value {
@@ -111,41 +113,41 @@
       }
       .voice-sample {
         padding: 62px clamp(26px, 6vw, 72px);
-        border: 1px solid #ddd;
-        border-radius: 4px;
+        border: 1px solid var(--brand-line);
+        border-radius: var(--brand-radius);
         text-align: center;
       }
       .voice-sample strong {
         display: block;
-        color: #111;
-        font-family: "Editorial New", "Iowan Old Style", Georgia, serif;
+        color: var(--brand-ink);
+        font-family: var(--brand-font-editorial);
         font-size: clamp(48px, 7.4vw, 92px);
         font-weight: 800;
         line-height: 0.94;
         letter-spacing: -0.05em;
       }
-      .voice-sample p { max-width: 560px; margin: 28px auto 0; color: #666; font-size: 17px; }
+      .voice-sample p { max-width: 560px; margin: 28px auto 0; color: var(--brand-muted); font-size: 17px; }
       .voice-rules {
         display: grid;
         grid-template-columns: repeat(3, minmax(0, 1fr));
         gap: 22px;
         margin-top: 28px;
       }
-      .voice-rules article { padding: 18px 0 0; border-top: 1px solid #111; }
+      .voice-rules article { padding: 18px 0 0; border-top: 1px solid var(--brand-ink); }
       .voice-rules strong { display: block; margin-bottom: 8px; font-size: 14px; }
-      .voice-rules p { color: #666; font-size: 13px; }
-      .type-card { min-height: 310px; padding: 30px; background: #fff; }
+      .voice-rules p { color: var(--brand-muted); font-size: 13px; }
+      .type-card { min-height: 310px; padding: 30px; background: var(--brand-paper); }
       .type-card .label, .component-card .label {
         display: block;
         margin-bottom: 52px;
-        color: #666;
+        color: var(--brand-muted);
         font-size: 11px;
         font-weight: 600;
         letter-spacing: 0.08em;
         text-transform: uppercase;
       }
       .editorial-specimen {
-        font-family: "Editorial New", "Iowan Old Style", Georgia, serif;
+        font-family: var(--brand-font-editorial);
         font-size: clamp(42px, 5vw, 66px);
         font-weight: 800;
         line-height: 0.94;
@@ -158,12 +160,12 @@
         line-height: 1.2;
         letter-spacing: -0.025em;
       }
-      .type-card p:last-child { margin-top: 28px; color: #666; font-size: 13px; }
+      .type-card p:last-child { margin-top: 28px; color: var(--brand-muted); font-size: 13px; }
       .type-rule {
         margin-top: 26px;
         padding: 20px 22px;
-        border-left: 3px solid #111;
-        background: #f7f7f7;
+        border-left: 3px solid var(--brand-ink);
+        background: var(--brand-soft);
         font-size: 14px;
       }
       .swatches {
@@ -171,17 +173,17 @@
         grid-template-columns: 2fr repeat(4, minmax(120px, 1fr));
         gap: 0;
         overflow: hidden;
-        border: 1px solid #ddd;
-        border-radius: 4px;
-        background: #fff;
+        border: 1px solid var(--brand-line);
+        border-radius: var(--brand-radius);
+        background: var(--brand-paper);
       }
-      .swatch { padding: 0; border-right: 1px solid #ddd; background: #fff; }
+      .swatch { padding: 0; border-right: 1px solid var(--brand-line); background: var(--brand-paper); }
       .swatch:last-child { border-right: 0; }
-      .swatch-color { height: 150px; border-bottom: 1px solid #ddd; }
+      .swatch-color { height: 150px; border-bottom: 1px solid var(--brand-line); }
       .swatch-meta { display: flex; justify-content: space-between; gap: 12px; padding: 14px; font-size: 11px; }
-      .swatch-meta span:last-child { color: #666; }
-      .palette-note { max-width: 650px; margin-top: 24px; color: #666; font-size: 14px; }
-      .component-card { min-height: 230px; padding: 28px; background: #fff; }
+      .swatch-meta span:last-child { color: var(--brand-muted); }
+      .palette-note { max-width: 650px; margin-top: 24px; color: var(--brand-muted); font-size: 14px; }
+      .component-card { min-height: 230px; padding: 28px; background: var(--brand-paper); }
       .component-card .label { margin-bottom: 38px; }
       .component-actions { display: flex; flex-wrap: wrap; gap: 10px; }
       .brand-button {
@@ -189,20 +191,20 @@
         min-height: 46px;
         align-items: center;
         justify-content: center;
-        border: 1px solid #c4c4c4;
-        border-radius: 4px;
+        border: 1px solid var(--brand-line-strong);
+        border-radius: var(--brand-radius);
         padding: 10px 20px;
-        color: #111;
-        background: #fff;
+        color: var(--brand-ink);
+        background: var(--brand-paper);
         font-size: 13px;
         font-weight: 600;
         text-decoration: none;
       }
-      .brand-button.primary { border-color: #111; color: #fff; background: #111; }
+      .brand-button.primary { border-color: var(--brand-ink); color: var(--brand-paper); background: var(--brand-ink); }
       .component-label {
         display: block;
         margin-bottom: 12px;
-        color: #666;
+        color: var(--brand-muted);
         font-size: 11px;
         font-weight: 600;
         letter-spacing: 0.08em;
@@ -213,8 +215,8 @@
         display: inline-block;
         margin-top: 18px;
         padding-bottom: 2px;
-        border-bottom: 1px solid #111;
-        color: #111;
+        border-bottom: 1px solid var(--brand-ink);
+        color: var(--brand-ink);
         font-size: 13px;
         text-decoration: none;
       }
@@ -224,7 +226,7 @@
         height: min(55vw, 600px);
         min-height: 420px;
         margin: 0;
-        border-radius: 4px;
+        border-radius: var(--brand-radius);
         isolation: isolate;
       }
       .image-example::after {
@@ -241,8 +243,8 @@
         right: 38px;
         bottom: 30px;
         left: 38px;
-        color: #fff;
-        font-family: "Editorial New", "Iowan Old Style", Georgia, serif;
+        color: var(--brand-paper);
+        font-family: var(--brand-font-editorial);
         font-size: clamp(46px, 7vw, 86px);
         font-weight: 800;
         line-height: 0.94;
@@ -254,19 +256,19 @@
         gap: 22px;
         margin-top: 24px;
       }
-      .image-note p { padding-top: 14px; border-top: 1px solid #ddd; color: #666; font-size: 13px; }
-      .image-note strong { display: block; margin-bottom: 5px; color: #111; }
+      .image-note p { padding-top: 14px; border-top: 1px solid var(--brand-line); color: var(--brand-muted); font-size: 13px; }
+      .image-note strong { display: block; margin-bottom: 5px; color: var(--brand-ink); }
       @media (max-width: 800px) {
         .brand-intro, .brand-heading { grid-template-columns: 1fr; gap: 24px; }
         .principle-grid, .type-grid, .component-grid, .name-grid { grid-template-columns: 1fr; }
         .principle-grid > article + article,
         .name-grid > article + article,
         .type-grid > article + article,
-        .component-grid > article + article { border-top: 1px solid #ddd; border-left: 0; }
+        .component-grid > article + article { border-top: 1px solid var(--brand-line); border-left: 0; }
         .voice-rules, .image-note { grid-template-columns: 1fr; }
         .swatches { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-        .swatch { border-right: 0; border-bottom: 1px solid #ddd; }
-        .swatch:nth-child(odd) { border-right: 1px solid #ddd; }
+        .swatch { border-right: 0; border-bottom: 1px solid var(--brand-line); }
+        .swatch:nth-child(odd) { border-right: 1px solid var(--brand-line); }
         .swatch:last-child { border-right: 0; border-bottom: 0; }
         .image-example { height: 72vw; min-height: 360px; }
       }
@@ -274,7 +276,7 @@
         .brand-intro { padding: 72px 0 64px; }
         .brand-section { padding: 64px 0; }
         .swatches { grid-template-columns: 1fr; }
-        .swatch, .swatch:nth-child(odd) { border-right: 0; border-bottom: 1px solid #ddd; }
+        .swatch, .swatch:nth-child(odd) { border-right: 0; border-bottom: 1px solid var(--brand-line); }
         .swatch:last-child { border-bottom: 0; }
         .swatch-color { height: 110px; }
         .image-example figcaption { right: 22px; bottom: 20px; left: 22px; }
@@ -285,91 +287,65 @@
     <header class="site-header" data-site-header>
       <a class="brand" href="/" aria-label="opentags home">opentags</a>
       <button class="nav-toggle" type="button" data-nav-toggle aria-label="Open menu" aria-expanded="false"><span class="nav-toggle-icon" aria-hidden="true"></span></button>
-      <nav aria-label="Primary"><a href="/one/">One</a><a href="/validation/">Performance</a><a href="/docs/">Docs</a><a href="/firmware/">Console</a><a href="https://github.com/open-tags" rel="noreferrer">GitHub</a></nav>
+      <nav aria-label="Primary"><a href="/products/">Products</a><a href="/validation/">Performance</a><a href="/docs/">Developers</a><a href="/firmware/">Console</a></nav>
     </header>
 
     <main>
-      <section class="brand-intro">
-        <div><p class="brand-kicker">Brand guidelines</p><h1>A clear system for serious hardware.</h1></div>
-        <p>opentags should feel precise, direct, and easy to work with. The identity is intentionally restrained so the product and its evidence do the talking.</p>
+<section class="brand-intro">
+        <div><p class="brand-kicker">Brand guidelines</p><h1>Accurate tracking.<br />A clear identity.</h1></div>
+        <p>opentags should feel precise, direct, and easy to work with. Our identity makes room for a family of tracking products.</p>
       </section>
-
       <section class="brand-section">
-        <div class="brand-heading"><p class="brand-kicker">Principles</p><h2>Every decision starts here.</h2></div>
-        <div class="principle-grid">
-          <article class="brand-card"><span class="number">01</span><h3>Simple by default.</h3><p>Remove choices, decoration, and terminology until only what helps someone understand or use the product remains.</p></article>
-          <article class="brand-card"><span class="number">02</span><h3>Transparent by design.</h3><p>Publish interfaces, dimensions, source, limitations, and test results. Specific evidence is more useful than broad claims.</p></article>
-        </div>
+        <div class="brand-heading"><p class="brand-kicker">Mission</p><h2>Make accurate tracking accessible to people building robots.</h2></div>
+        <div class="voice-sample"><strong>Accurate tracking. Built for robotics.</strong><p>We build tracking hardware and integration tools to help robot developers measure position and motion.</p></div>
       </section>
+<section class="brand-section"><div class="brand-heading"><p class="brand-kicker">Principles</p><h2>Useful. Understandable. Measured.</h2></div><div class="principle-grid"><article class="brand-card"><span class="number">01</span><h3>Simple by default.</h3><p>Make setup, calibration, and integration understandable. Explain the complete system a developer needs, including its cost and limitations.</p></article><article class="brand-card"><span class="number">02</span><h3>Clear about capabilities.</h3><p>Support accuracy claims with measurements and stated test conditions. Distinguish measured results, development targets, and planned capabilities. Name the resources actually available.</p></article></div></section>
+<section class="brand-section"><div class="brand-heading"><p class="brand-kicker">Products</p><h2>One company. A family of products.</h2></div><div class="product-grid">
+<article class="product-card" data-product="U1">
 
-      <section class="brand-section">
-        <div class="brand-heading"><p class="brand-kicker">Naming</p><h2>One name. One product.</h2></div>
-        <div class="name-grid">
-          <article class="brand-card"><span class="label">Company</span><strong class="name-value">opentags</strong><p>Lowercase, plural, and one word. Use this for the company and manufacturer.</p></article>
-          <article class="brand-card"><span class="label">Product</span><strong class="name-value">opentag one</strong><p>Lowercase. Use “Distance Kit” and “Location Kit” only when distinguishing packages.</p></article>
-          <article class="brand-card"><span class="label">Domain + GitHub</span><strong class="name-value">open-tags</strong><p>The hyphen belongs in URLs and account names, never in normal brand copy.</p></article>
-        </div>
-      </section>
+          <h3>opentag U1</h3>
+          <p class="product-descriptor">UWB ranging and localization</p>
+          <p>Measure distance and develop indoor positioning with UWB hardware, calibration tools, and robot integration guides.</p>
+          <a class="one-text-link" href="/products/u1/">Explore U1 →</a>
+        </article>
+<article class="product-card" data-product="U2">
+          <p class="product-status">Coming Soon</p>
+          <h3>opentag U2</h3>
+          <p class="product-descriptor">UWB with inertial measurements</p>
+          <p>Planned with an onboard IMU and the OWM3000 module, our custom counterpart to DWM3000, with separate clock and sync ports.</p>
 
-      <section class="brand-section">
-        <div class="brand-heading"><p class="brand-kicker">Voice</p><h2>Say exactly what it does.</h2></div>
-        <div class="voice-sample"><strong>Know where your robots are.</strong><p>Simple UWB hardware for distance and indoor positioning.</p></div>
-        <div class="voice-rules">
-          <article><strong>Lead with the outcome.</strong><p>Distance between two points. Position inside a space.</p></article>
-          <article><strong>Use concrete language.</strong><p>Say USB-C, ROS 2, CAN FD, 6–24 V, and 186 × 132 mm when those details matter.</p></article>
-          <article><strong>Earn industrial credibility.</strong><p>Show specifications, protocols, CAD, validation, and limitations. Avoid empty claims like “revolutionary.”</p></article>
-        </div>
-      </section>
+        </article>
+<article class="product-card" data-product="L1">
+          <p class="product-status">Coming Soon</p>
+          <h3>opentag L1</h3>
+          <p class="product-descriptor">LoRa sensing research hardware</p>
+          <p>Receiver hardware for synchronized signal capture and research into distributed localization and motion sensing.</p>
 
-      <section class="brand-section">
-        <div class="brand-heading"><p class="brand-kicker">Typography</p><h2>Editorial for impact. Sans for clarity.</h2></div>
-        <div class="type-grid">
-          <article class="type-card"><span class="label">Editorial New</span><div class="editorial-specimen">Distance or location.</div><p>Use only for major product headlines and white titles placed over product photography.</p></article>
-          <article class="type-card"><span class="label">System sans</span><div class="sans-specimen">Built to integrate. Ready for your robot.</div><p>Use for navigation, section headings, body copy, specifications, labels, buttons, documentation, and code.</p></article>
-        </div>
-        <p class="type-rule"><strong>No monospace type.</strong> Technical content should remain readable and consistent with the rest of the system.</p>
-      </section>
+        </article>
+<article class="product-card" data-product="S1">
+          <p class="product-status">Coming Soon</p>
+          <h3>opentag S1</h3>
+          <p class="product-descriptor">Shared synchronization hardware</p>
+          <p>Sync 1 is intended to distribute clock and synchronization signals to U2 and L1 receiver setups.</p>
 
-      <section class="brand-section">
-        <div class="brand-heading"><p class="brand-kicker">Color</p><h2>Black, white, and neutral gray.</h2></div>
-        <div class="swatches">
-          <article class="swatch"><div class="swatch-color" style="background:#111"></div><div class="swatch-meta"><strong>Ink</strong><span>#111111</span></div></article>
-          <article class="swatch"><div class="swatch-color" style="background:#fff"></div><div class="swatch-meta"><strong>Paper</strong><span>#FFFFFF</span></div></article>
-          <article class="swatch"><div class="swatch-color" style="background:#666"></div><div class="swatch-meta"><strong>Muted</strong><span>#666666</span></div></article>
-          <article class="swatch"><div class="swatch-color" style="background:#f7f7f7"></div><div class="swatch-meta"><strong>Soft</strong><span>#F7F7F7</span></div></article>
-          <article class="swatch"><div class="swatch-color" style="background:#ddd"></div><div class="swatch-meta"><strong>Line</strong><span>#DDDDDD</span></div></article>
-        </div>
-        <p class="palette-note">There is no brand accent color. Links, selected states, buttons, diagrams, and focus treatments stay monochrome. Functional warning colors are reserved for actual system status.</p>
-      </section>
-
-      <section class="brand-section">
-        <div class="brand-heading"><p class="brand-kicker">Interface</p><h2>Quiet controls. Obvious hierarchy.</h2></div>
-        <div class="component-grid">
-          <article class="component-card"><span class="label">Buttons</span><div class="component-actions"><a class="brand-button primary" href="#interface">Primary action</a><a class="brand-button" href="#interface">Secondary action</a></div></article>
-          <article class="component-card" id="interface"><span class="label">Content</span><span class="component-label">Mechanical</span><strong class="component-title">Ready for your robot.</strong><br /><a class="component-link" href="/one/">View product details →</a></article>
-        </div>
-        <div class="voice-rules">
-          <article><strong>Four-pixel corners.</strong><p>Controls and media use restrained corners, never soft pill-shaped decoration.</p></article>
-          <article><strong>Thin rules.</strong><p>Use neutral one-pixel borders to organize information instead of boxed-in card effects.</p></article>
-          <article><strong>Space is structure.</strong><p>Use generous vertical spacing and a 1120 px maximum content width. Avoid dense dashboards on marketing pages.</p></article>
-        </div>
-      </section>
-
-      <section class="brand-section">
-        <div class="brand-heading"><p class="brand-kicker">Photography</p><h2>Show the hardware clearly.</h2></div>
-        <figure class="image-example">
-          <img src="/assets/images/one/site/hero.jpg" alt="Two opentag one devices measuring distance" width="1920" height="960" loading="lazy" decoding="async" />
-          <figcaption>opentag one</figcaption>
-        </figure>
-        <div class="image-note">
-          <p><strong>Use real product imagery.</strong>Show the device, connections, enclosure, and application context without decorative renders.</p>
-          <p><strong>Keep titles short.</strong>Use “opentag one,” “Distance,” or “Location” in white Editorial New over the image.</p>
-          <p><strong>Protect legibility.</strong>Use a subtle black lower gradient. Do not tint imagery with a brand color.</p>
-        </div>
-      </section>
+        </article>
+</div></section>
+<section class="brand-section"><div class="brand-heading"><p class="brand-kicker">Guidelines</p><h2>Naming</h2></div><ul class="brand-rules"><li>Write the company as opentags: lowercase, plural, one word. Use open-tags only in existing URLs and account names.</li><li>Use singular opentag for product names, with uppercase family letters and generation numbers: opentag U1, U2, L1, S1. Pair short names with a useful descriptor.</li><li>Name packages U1 Distance Kit and U1 Location Kit. Keep PCB revision numbers separate from product generations.</li><li>Preserve historical identifiers, firmware commands, asset filenames, and published data. Redirect retired page URLs and retain section links.</li></ul>
+</section>
+<section class="brand-section"><div class="brand-heading"><p class="brand-kicker">Guidelines</p><h2>Voice and evidence</h2></div><ul class="brand-rules"><li>Lead with tracking for robotics. Explain UWB and LoRa within the relevant product, rather than defining the whole company by a radio technology.</li><li>Use concrete language and useful details. Avoid unsupported superlatives and vague claims of precision.</li><li>Describe measured performance with its setup, conditions, and limitations on the relevant product and performance pages. Label goals as targets and future features as planned.</li><li>Use Coming Soon beside each upcoming product. Omit status labels for available products. Keep product cards concise: name, descriptor, description, and Coming Soon where applicable, without extra caveats beneath the card or product grid. Do not offer a purchase action for an unreleased product.</li><li>Describe public resources individually. Do not promise that all hardware or firmware is open source. Hardware design files are not currently published; this is not a declaration of future licensing policy.</li></ul>
+</section>
+<section class="brand-section"><div class="brand-heading"><p class="brand-kicker">Guidelines</p><h2>Typography</h2></div><ul class="brand-rules"><li>Use Editorial New for major marketing headlines and short titles over product photography.</li><li>Use system sans for navigation, body text, section headings, labels, controls, and specifications.</li><li>Monospace is allowed for code, logs, commands, and identifiers when it improves readability.</li></ul>
+<div class="type-grid"><article class="type-card"><span class="label">Editorial New</span><div class="editorial-specimen">Built for robotics.</div></article><article class="type-card"><span class="label">System sans</span><div class="sans-specimen">From setup to useful measurements.</div><p>Code example: <code>ros2 topic echo /opentags/range</code></p></article></div>
+</section>
+<section class="brand-section"><div class="brand-heading"><p class="brand-kicker">Guidelines</p><h2>Color and interface</h2></div><ul class="brand-rules"><li>Use the shared monochrome palette for branding. Reuse the shared CSS tokens for fonts, color, spacing, content width, and four-pixel control corners.</li><li>Use thin borders and generous spacing. Let the hardware and measured evidence carry the page.</li><li>Functional colors are allowed for warnings, errors, success, and measurement series. Pair color with labels, shapes, or other cues; never communicate status through color alone.</li><li>Dark instrument panels, circular data markers, and technical diagrams are functional exceptions. Review keyboard focus, contrast, and mobile layout.</li></ul>
+<div class="swatches"><article class="swatch"><div class="swatch-color" style="background:var(--brand-ink)"></div><div class="swatch-meta"><strong>Ink</strong><span>#111111</span></div></article><article class="swatch"><div class="swatch-color" style="background:var(--brand-paper)"></div><div class="swatch-meta"><strong>Paper</strong><span>#FFFFFF</span></div></article><article class="swatch"><div class="swatch-color" style="background:var(--brand-muted)"></div><div class="swatch-meta"><strong>Muted</strong><span>#666666</span></div></article><article class="swatch"><div class="swatch-color" style="background:var(--brand-soft)"></div><div class="swatch-meta"><strong>Soft</strong><span>#F7F7F7</span></div></article><article class="swatch"><div class="swatch-color" style="background:var(--brand-line)"></div><div class="swatch-meta"><strong>Line</strong><span>#DDDDDD</span></div></article></div>
+</section>
+<section class="brand-section"><div class="brand-heading"><p class="brand-kicker">Guidelines</p><h2>Imagery</h2></div><ul class="brand-rules"><li>Show real hardware, connections, and use contexts. Clearly label illustrations and simulated data.</li><li>Keep image titles short and readable. Use a subtle neutral gradient where a title overlays photography.</li><li>Identify the pictured product correctly. Do not present U1 photographs as images of U2, L1, or S1.</li></ul>
+<figure class="image-example"><img src="/assets/images/one/site/hero.jpg" alt="Two opentag U1 devices measuring distance" width="1920" height="960" loading="lazy" decoding="async" /><figcaption>opentag U1</figcaption></figure>
+</section>
     </main>
 
-    <footer class="site-footer"><div class="footer-row"><span>&copy; 2026 opentags</span><nav aria-label="Footer"><a href="/privacy/">Privacy</a><a href="/terms/">Terms</a><a href="mailto:hello@open-tags.com">Contact</a></nav></div></footer>
-    <script type="module" src="/assets/site.js?v=6"></script>
+    <footer class="site-footer"><div class="footer-row"><span>&copy; 2026 opentags</span><nav aria-label="Footer"><a href="/branding/">Brand</a><a href="https://github.com/open-tags" rel="noreferrer">GitHub</a><a href="/privacy/">Privacy</a><a href="/terms/">Terms</a><a href="mailto:hello@open-tags.com">Contact</a></nav></div></footer>
+    <script type="module" src="/assets/site.js?v=7"></script>
   </body>
 </html>

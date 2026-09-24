@@ -1,0 +1,23 @@
+/* Generated from brand.json. Run python3 scripts/sync_brand.py. */
+:root {
+  --brand-ink: #111111;
+  --brand-paper: #ffffff;
+  --brand-muted: #666666;
+  --brand-soft: #f7f7f7;
+  --brand-line: #dddddd;
+  --brand-line-strong: #c4c4c4;
+  --brand-hover: #303030;
+  --brand-disabled: #868686;
+  --brand-error: #b00020;
+  --brand-warning: #9b5500;
+  --brand-success: #247a3d;
+  --brand-font-body: system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  --brand-font-editorial: "Editorial New", "Iowan Old Style", Georgia, serif;
+  --brand-font-code: ui-monospace, SFMono-Regular, Consolas, monospace;
+  --brand-radius: 4px;
+  --brand-content-width: 1120px;
+  --brand-gutter: 20px;
+  --brand-space-sm: 16px;
+  --brand-space-md: 32px;
+  --brand-space-lg: 64px;
+}
