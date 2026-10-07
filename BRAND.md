@@ -21,19 +21,18 @@ We build tracking hardware and integration tools to help robot developers measur
 | --- | --- | --- |
 | opentag U1 | UWB ranging and localization |  |
 | opentag U2 | UWB with inertial measurements | Coming Soon |
-| opentag L1 | LoRa sensing research hardware | Coming Soon |
 | opentag S1 | Shared synchronization hardware | Coming Soon |
 
 ## Naming
 
 - Write the company as opentags: lowercase, plural, one word. Use open-tags only in existing URLs and account names.
-- Use singular opentag for product names, with uppercase family letters and generation numbers: opentag U1, U2, L1, S1. Pair short names with a useful descriptor.
+- Use singular opentag for product names, with uppercase family letters and generation numbers: opentag U1, U2, S1. Pair short names with a useful descriptor.
 - Name packages U1 Distance Kit and U1 Location Kit. Keep PCB revision numbers separate from product generations.
 - Preserve historical identifiers, firmware commands, asset filenames, and published data. Redirect retired page URLs and retain section links.
 
 ## Voice and evidence
 
-- Lead with tracking for robotics. Explain UWB and LoRa within the relevant product, rather than defining the whole company by a radio technology.
+- Lead with tracking for robotics. Explain UWB within the relevant product, rather than defining the whole company by a radio technology.
 - Use concrete language and useful details. Avoid unsupported superlatives and vague claims of precision.
 - Describe measured performance with its setup, conditions, and limitations on the relevant product and performance pages. Label goals as targets and future features as planned.
 - Use Coming Soon beside each upcoming product. Omit status labels for available products. Keep product cards concise: name, descriptor, description, and Coming Soon where applicable, without extra caveats beneath the card or product grid. Do not offer a purchase action for an unreleased product.
@@ -56,7 +55,7 @@ We build tracking hardware and integration tools to help robot developers measur
 
 - Show real hardware, connections, and use contexts. Clearly label illustrations and simulated data.
 - Keep image titles short and readable. Use a subtle neutral gradient where a title overlays photography.
-- Identify the pictured product correctly. Do not present U1 photographs as images of U2, L1, or S1.
+- Identify the pictured product correctly. Do not present U1 photographs as images of U2 or S1.
 
 ## Maintenance
 

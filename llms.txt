@@ -1,6 +1,6 @@
 # opentags
 
-> Accurate tracking. Built for robotics. Our mission: Make accurate tracking accessible to people building robots. U1 is our current UWB development platform; U2, L1, and S1 are in development. Product claims must be read with their validation status.
+> Accurate tracking. Built for robotics. Our mission: Make accurate tracking accessible to people building robots. U1 is our current UWB development platform; U2 and S1 are in development. Product claims must be read with their validation status.
 
 Key facts:
 
@@ -21,9 +21,8 @@ Key facts:
 ## Coming Soon
 
 - U2: planned UWB platform with an IMU and OWM3000 module with separate clock and sync ports. Sensor-fusion scope and S1 compatibility remain to be validated.
-- L1: LoRa-band synchronized receiver hardware for distributed sensing and tracking research; first milestone is raw signal capture for computer processing.
-- S1 (Sync 1): clock and synchronization distribution intended for U2 and L1; support for both remains in development.
-- U2, L1, and S1 are not available to order. Specifications and release dates are not finalized.
+- S1 (Sync 1): clock and synchronization distribution intended for U2; compatibility remains in development.
+- U2 and S1 are not available to order. Specifications and release dates are not finalized.
 
 ## Pages
 
