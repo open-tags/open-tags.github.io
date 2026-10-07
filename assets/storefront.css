@@ -1118,6 +1118,8 @@
   gap: var(--brand-space-md);
 }
 .product-card {
+  display: flex;
+  flex-direction: column;
   min-width: 0;
   padding: var(--brand-space-md);
   border: 1px solid var(--brand-line);
@@ -1134,11 +1136,18 @@
   letter-spacing: -0.035em;
 }
 .product-card p { line-height: 1.6; }
+.product-card .one-text-link,
 .product-card .product-status {
-  margin: 0 0 var(--brand-space-md);
-  color: var(--brand-muted);
-  font-size: 12px;
-  font-weight: 600;
+  align-self: flex-start;
+  margin: auto 0 0;
+  padding-top: var(--brand-space-sm);
+  font-size: 0.875rem;
+  font-weight: 700;
+  line-height: 1.6;
+}
+.product-card .product-status {
+  color: var(--brand-ink);
+  font-style: italic;
 }
 .product-descriptor { font-weight: 600; }
 .product-card .resource-note { color: var(--brand-muted); font-size: 13px; }

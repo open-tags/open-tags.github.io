@@ -39,11 +39,10 @@ def product_cards(spec, heading=3):
         status = (f'<p class="product-status">{esc(product["status"])}</p>'
                   if product.get("status") else "")
         cards.append(f'''<article class="product-card" data-product="{esc(product['id'])}">
-          {status}
           <h{heading}>{esc(product['name'])}</h{heading}>
           <p class="product-descriptor">{esc(product['descriptor'])}</p>
           <p>{esc(product['description'])}</p>
-          {action}
+          {action or status}
         </article>''')
     return '\n'.join(line.rstrip() for line in ('<div class="product-grid">\n' + '\n'.join(cards) + '\n</div>').splitlines())
 
