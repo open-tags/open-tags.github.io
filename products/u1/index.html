@@ -21,7 +21,7 @@
     <link rel="apple-touch-icon" href="/apple-touch-icon.png?v=2" />
     <link rel="stylesheet" href="/assets/brand.css?v=1" />
     <link rel="stylesheet" href="/assets/site.css?v=10" />
-    <link rel="stylesheet" href="/assets/storefront.css?v=17" />
+    <link rel="stylesheet" href="/assets/storefront.css?v=18" />
   </head>
   <body class="simple-store">
     <header class="site-header" data-site-header>
@@ -120,8 +120,18 @@
               <div><p class="simple-label">U1 Distance Kit</p><h3>Distance between two points.</h3></div>
               <strong class="simple-price">$199</strong>
               <p>Two tags. Read live distance over USB or ROS 2. Start with the distance quickstart, then calibrate for your setup.</p>
-              <a class="simple-button primary" href="https://buy.stripe.com/6oU8wOazx25cbkpgyQg7e0f" rel="noreferrer">Buy U1 Distance Kit · U.S.</a>
-              <a class="simple-button" href="https://buy.stripe.com/9B6aEW23125c605fuMg7e0h" rel="noreferrer">Buy U1 Distance Kit · International</a>
+              <div class="kit-purchase" data-kit-purchase>
+                <div class="kit-shipping-row">
+                  <fieldset class="kit-shipping-toggle" hidden>
+                    <legend>Shipping destination for U1 Distance Kit</legend>
+                    <label><input type="radio" name="distance-shipping" value="us" checked /><span>U.S.</span></label>
+                    <label><input type="radio" name="distance-shipping" value="global" /><span>Global</span></label>
+                  </fieldset>
+                  <p class="kit-shipping-note" data-shipping-note aria-live="polite">Free U.S. shipping</p>
+                </div>
+                <a class="simple-button primary" href="https://buy.stripe.com/6oU8wOazx25cbkpgyQg7e0f" data-buy-link data-us-url="https://buy.stripe.com/6oU8wOazx25cbkpgyQg7e0f" data-global-url="https://buy.stripe.com/9B6aEW23125c605fuMg7e0h" data-kit-name="U1 Distance Kit" data-us-total="199" data-global-total="249" rel="noreferrer">Buy U1 Distance Kit · $199</a>
+                <noscript><a href="https://buy.stripe.com/9B6aEW23125c605fuMg7e0h" rel="noreferrer">Global checkout · $249 including shipping</a></noscript>
+              </div>
             </div>
           </article>
 
@@ -134,12 +144,21 @@
               <div><p class="simple-label">U1 Location Kit</p><h3>Position inside a space.</h3></div>
               <strong class="simple-price">$499</strong>
               <p>Four anchors and one mobile tag for 2D or 3D positioning development. Anchor survey and calibration required; position benchmarking is still in progress.</p>
-              <a class="simple-button primary" href="https://buy.stripe.com/5kQ14m5fdcJQagleqIg7e0g" rel="noreferrer">Buy U1 Location Kit · U.S.</a>
-              <a class="simple-button" href="https://buy.stripe.com/4gM8wO4b9bFM4W1aasg7e0i" rel="noreferrer">Buy U1 Location Kit · International</a>
+              <div class="kit-purchase" data-kit-purchase>
+                <div class="kit-shipping-row">
+                  <fieldset class="kit-shipping-toggle" hidden>
+                    <legend>Shipping destination for U1 Location Kit</legend>
+                    <label><input type="radio" name="location-shipping" value="us" checked /><span>U.S.</span></label>
+                    <label><input type="radio" name="location-shipping" value="global" /><span>Global</span></label>
+                  </fieldset>
+                  <p class="kit-shipping-note" data-shipping-note aria-live="polite">Free U.S. shipping</p>
+                </div>
+                <a class="simple-button primary" href="https://buy.stripe.com/5kQ14m5fdcJQagleqIg7e0g" data-buy-link data-us-url="https://buy.stripe.com/5kQ14m5fdcJQagleqIg7e0g" data-global-url="https://buy.stripe.com/4gM8wO4b9bFM4W1aasg7e0i" data-kit-name="U1 Location Kit" data-us-total="499" data-global-total="549" rel="noreferrer">Buy U1 Location Kit · $499</a>
+                <noscript><a href="https://buy.stripe.com/4gM8wO4b9bFM4W1aasg7e0i" rel="noreferrer">Global checkout · $549 including shipping</a></noscript>
+              </div>
             </div>
           </article>
         </div>
-        <p class="resource-note">International shipping is $50 USD per order. China is excluded; available destinations are listed at checkout. Any applicable import duties, taxes, and carrier clearance fees are payable by the recipient. Delivery depends on the destination and customs clearance.</p>
       </section>
 
       <section class="one-section">
@@ -202,6 +221,7 @@
       }
     </script>
     <script type="module" src="/assets/site.js?v=7"></script>
+    <script type="module" src="/assets/kit-shipping.js?v=1"></script>
     <script type="module" src="/assets/cad-viewer.js?v=2"></script>
   </body>
 </html>
