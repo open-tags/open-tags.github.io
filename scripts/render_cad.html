@@ -140,26 +140,6 @@
         return holder;
       }
 
-      // Soft blurred footprint under the model, in place of a shadow map.
-      function contactShadow(size) {
-        const canvas = document.createElement("canvas");
-        canvas.width = canvas.height = 512;
-        const ctx = canvas.getContext("2d");
-        ctx.filter = "blur(36px)";
-        ctx.fillStyle = "rgba(0, 0, 0, 0.55)";
-        ctx.beginPath();
-        ctx.roundRect(116, 116, 280, 280, 48);
-        ctx.fill();
-        const texture = new THREE.CanvasTexture(canvas);
-        texture.colorSpace = THREE.SRGBColorSpace;
-        const plane = new THREE.Mesh(
-          new THREE.PlaneGeometry(size.x * 1.75, size.y * 1.75),
-          new THREE.MeshBasicMaterial({ map: texture, transparent: true, depthWrite: false, toneMapped: false })
-        );
-        plane.position.z = 0.01;
-        return plane;
-      }
-
       async function render() {
         const occt = await window.occtimportjs();
         const meshes = [];
@@ -212,7 +192,6 @@
         rim.position.set(-radius * 3, radius * 3, radius * 2);
         scene.add(rim);
 
-        scene.add(contactShadow(size));
 
         const camera = new THREE.PerspectiveCamera(24, width / height, radius / 100, radius * 100);
         camera.up.set(0, 0, 1);

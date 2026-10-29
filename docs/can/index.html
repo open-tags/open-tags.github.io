@@ -78,9 +78,9 @@ bash flash.sh responder twr_resp_can-node2.bin</code></pre>
         <p>The frame uses standard ID <code>0x100</code>, 64-byte DLC, FD format, and bit-rate switching. The receiver reports sequence gaps and aggregate payload throughput. Its “one-way latency” is meaningful only when both boards share a synchronized tick epoch; otherwise treat that field as a diagnostic, not a calibrated latency measurement.</p>
 
         <h2 id="bring-up">Two-board bring-up</h2>
-        <p>This requires the <a href="/docs/firmware-build/">current source checkout and an SWD probe</a>. The CAN test programs replace the ranging image and use RTT logs; they are not extra modes in the USB distance console. Keep separate power supplies separate—do not join J2 power pins merely to connect the CAN bus.</p>
+        <p>This requires the <a href="/docs/firmware-build/">firmware source and an SWD probe</a>. The CAN test programs replace the ranging image and use RTT logs; they are not extra modes in the USB distance console. Keep separate power supplies separate—do not join J2 power pins merely to connect the CAN bus.</p>
         <ol class="docs-steps"><li>Power both tags and connect J2 pin 1 to pin 1, pin 2 to pin 2, and pin 4 to pin 4.</li><li>Enable SW3 termination only at the two physical bus ends. With two tags as the complete bus, enable both.</li><li>Flash <code>can_tx</code> to one board and <code>can_rx</code> to the other over SWD.</li><li>Confirm the TX log receives ID <code>0x456</code> echoes with matching sequence bytes.</li><li>Repeat with <code>can_fd_tx</code> and <code>can_fd_rx</code>, then inspect sequence gaps and throughput.</li></ol>
-        <pre class="docs-code"><code class="language-bash">cd firmware/rust_bringup/stm32g4
+        <pre class="docs-code"><code class="language-bash">cd opentag-U1/firmware/stm32g4
 DEFMT_LOG=info cargo run --release --bin can_rx
 # In a second checkout / terminal with the other probe:
 DEFMT_LOG=info cargo run --release --bin can_tx</code></pre>
@@ -89,12 +89,12 @@ DEFMT_LOG=info cargo run --release --bin can_tx</code></pre>
         <h2 id="faults">Fault isolation</h2>
         <table class="docs-table"><thead><tr><th>Symptom</th><th>Check first</th></tr></thead><tbody><tr><td>No frames, no bus activity</td><td>Common ground, CANH/CANL polarity, SWD image, transceiver supply</td></tr><tr><td>TX retries or no acknowledgement</td><td>A second active CAN node at the same nominal bit rate</td></tr><tr><td>Works at 500 kbit/s, fails in FD</td><td>Data-phase timing, BRS support, topology, cable length, termination</td></tr><tr><td>High sequence loss</td><td>RTT logging overhead, receiver servicing, wiring reflections, error counters</td></tr></tbody></table>
         <h2 id="source">Source access</h2>
-        <p>To build the CAN-enabled responder from the current firmware checkout, use the dedicated size-optimized profile below. RTT logging is disabled to fit the existing flash layout; USB output and INFO diagnostics remain available. The regular <code>twr_resp</code> build remains USB-only. No firmware source is added to the public website repository by this change.</p>
-        <pre class="docs-code"><code class="language-bash">cd firmware/rust_bringup/stm32g4
+        <p>To build the CAN-enabled responder from the <a href="https://github.com/open-tags/opentag-U1" rel="noreferrer">opentag-U1 firmware</a>, use the dedicated size-optimized profile below. RTT logging is disabled to fit the existing flash layout; USB output and INFO diagnostics remain available. The regular <code>twr_resp</code> build remains USB-only.</p>
+        <pre class="docs-code"><code class="language-bash">cd opentag-U1/firmware/stm32g4
 mkdir -p out
 DEFMT_LOG=off cargo objcopy --profile can-release --features range-can --bin twr_resp -- \
   -O binary out/twr_resp_can.bin</code></pre>
-        <p>In the supplied checkout, the complete examples are <code>can_tx.rs</code>, <code>can_rx.rs</code>, <code>can_fd_tx.rs</code>, and <code>can_fd_rx.rs</code> under <code>firmware/rust_bringup/stm32g4/src/bin/</code>. No current public source download is linked. Follow the <a href="/docs/firmware-build/">source-access and build prerequisites</a> before attempting these commands.</p>
+        <p>The complete examples are <code>can_tx.rs</code>, <code>can_rx.rs</code>, <code>can_fd_tx.rs</code>, and <code>can_fd_rx.rs</code> under <code>firmware/stm32g4/src/bin/</code>. See <a href="/docs/firmware-build/">Firmware build</a> for the toolchain.</p>
         <div class="docs-next"><a href="/docs/protocol/">&larr; USB serial</a><a href="/docs/rust/">Rust examples &rarr;</a></div>
       </article>
     </main><footer><div class="footer-row"><span>&copy; 2026 opentags</span><a href="mailto:hello@open-tags.com">hello@open-tags.com</a></div></footer><script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/highlight.min.js" defer></script><script src="/assets/docs.js" defer></script><script type="module" src="/assets/site.js?v=7"></script>

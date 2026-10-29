@@ -36,7 +36,7 @@ We build tracking hardware and integration tools to help robot developers measur
 - Use concrete language and useful details. Avoid unsupported superlatives and vague claims of precision.
 - Describe measured performance with its setup, conditions, and limitations on the relevant product and performance pages. Label goals as targets and future features as planned.
 - Place Coming Soon at the bottom of each upcoming product card, aligned with available-product links, and style it bold and italic. Use bold text for product-card links. Omit status labels for available products. Keep product cards concise: name, image, a one-line description, and Coming Soon where applicable, without subtitles, image labels, or extra caveats beneath the card or product grid. Make an available product's whole card open its page. Do not offer a purchase action for an unreleased product.
-- Describe public resources individually. Do not promise that all hardware or firmware is open source. Hardware design files are not currently published; this is not a declaration of future licensing policy.
+- Describe public resources individually. opentag U1 hardware design files, firmware, enclosure CAD, and tools are open source under the MIT License at github.com/open-tags/opentag-U1; the ROS 2 packages are Apache-2.0. Do not describe U2 or S1 as open source until their files are published.
 
 ## Units
 

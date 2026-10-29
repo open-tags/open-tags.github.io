@@ -11,7 +11,7 @@ Key facts:
 - Interfaces: USB-C serial stream, CAN and CAN FD; powered over USB-C or a 6–24V input with reverse-polarity protection
 - MCU: STM32 Cortex-M4 at 170 MHz, 256K flash, 128K RAM; radio: Qorvo DWM3000
 - Firmware: Rust (Embassy framework); prebuilt roles can be flashed and their serial output monitored in the browser via WebUSB / Web Serial, with no local toolchain. Building the current firmware requires a supplied source checkout; no current public source release is linked.
-- Available files: mechanical CAD (STEP) for the full assembly, case, and lid; prebuilt role binaries; Python distance tools; ROS 2 driver and message source packages under Apache-2.0. Current schematics/PCB files are not published.
+- Available files: mechanical CAD (STEP) for the full assembly, case, and lid; prebuilt role binaries; Python distance tools; ROS 2 driver and message source packages under Apache-2.0. Schematics, PCB design and fabrication files, firmware source, and enclosure CAD are open source under the MIT License at https://github.com/open-tags/opentag-U1.
 - Use cases: indoor robot navigation, drone flight without a motion-capture rig, docking and follow-me between machines, UWB anchor network bring-up, asset-tracking prototypes, RF field testing
 - Integration: parse live TWR distance and TDOA position from USB serial; ROS 2 publishes range, position, events, and diagnostics
 - Availability: ships in about 1 week from San Diego, CA, USA
@@ -43,6 +43,7 @@ Key facts:
 - [Firmware console](https://open-tags.com/firmware/): flash firmware, log data, plot live distance, and calibrate from the browser over WebUSB / Web Serial
 - [Privacy](https://open-tags.com/privacy/): website and order privacy policy
 - [Terms](https://open-tags.com/terms/): product, ordering, returns, and warranty terms
+- [opentag U1 source](https://github.com/open-tags/opentag-U1): MIT-licensed KiCad design, Rust firmware, host tools, enclosure CAD, and bench test notes
 - [Website source](https://github.com/open-tags/open-tags.github.io): public documentation, distributed binaries, host tools, ROS 2 packages, and the Missing things checklist
 
 ## Glossary

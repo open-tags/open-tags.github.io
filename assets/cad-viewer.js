@@ -1,5 +1,6 @@
 let THREE;
 let OrbitControls;
+let RoomEnvironment;
 
 const viewerEls = [...document.querySelectorAll(".cad-viewer")];
 
@@ -27,13 +28,15 @@ if (viewerEls.length) {
 }
 
 async function initCadViewers() {
-  const [threeModule, controlsModule] = await Promise.all([
+  const [threeModule, controlsModule, environmentModule] = await Promise.all([
     import("three"),
     import("three/addons/controls/OrbitControls.js"),
+    import("three/addons/environments/RoomEnvironment.js"),
     loadOcctScript()
   ]);
   THREE = threeModule;
   OrbitControls = controlsModule.OrbitControls;
+  RoomEnvironment = environmentModule.RoomEnvironment;
 
   const occt = await window.occtimportjs();
   await Promise.all(viewerEls.map((viewer) => initViewer(viewer, occt)));
@@ -66,9 +69,13 @@ async function initViewer(viewer, occt) {
   const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
   renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
   renderer.outputColorSpace = THREE.SRGBColorSpace;
+  renderer.toneMapping = THREE.ACESFilmicToneMapping;
+  renderer.toneMappingExposure = 1.05;
   canvasHost.appendChild(renderer.domElement);
 
+  // Same studio lighting as scripts/render_cad.html.
   const scene = new THREE.Scene();
+  scene.environment = new THREE.PMREMGenerator(renderer).fromScene(new RoomEnvironment(renderer), 0.04).texture;
   const camera = new THREE.PerspectiveCamera(38, 1, 0.01, 100000);
   camera.up.set(0, 0, 1);
 
@@ -78,15 +85,13 @@ async function initViewer(viewer, occt) {
   controls.autoRotate = true;
   controls.autoRotateSpeed = 0.65;
 
-  scene.add(new THREE.HemisphereLight(0xffffff, 0x171717, 2.4));
-
-  const key = new THREE.DirectionalLight(0xffffff, 2.4);
-  key.position.set(3, -4, 6);
+  const key = new THREE.DirectionalLight(0xffffff, 2.2);
+  key.position.set(1.5, -2.5, 5);
   scene.add(key);
 
-  const fill = new THREE.DirectionalLight(0xb8ff36, 0.8);
-  fill.position.set(-5, 4, 3);
-  scene.add(fill);
+  const rim = new THREE.DirectionalLight(0xffffff, 1.2);
+  rim.position.set(-3, 3, 2);
+  scene.add(rim);
 
   const model = await loadStepModel(stepUrl, occt, transparentMode, loader);
   scene.add(model);
@@ -134,14 +139,7 @@ async function loadStepModel(url, occt, transparentMode, loader) {
   const group = new THREE.Group();
 
   for (const resultMesh of result.meshes) {
-    const mesh = buildMesh(resultMesh, transparentMode);
-    group.add(mesh);
-
-    const edges = new THREE.LineSegments(
-      new THREE.EdgesGeometry(mesh.geometry, 32),
-      new THREE.LineBasicMaterial({ color: 0x050505, transparent: true, opacity: 0.38 })
-    );
-    group.add(edges);
+    group.add(buildMesh(resultMesh, transparentMode));
   }
 
   return group;
@@ -168,22 +166,45 @@ function buildMesh(resultMesh, transparentMode) {
   geometry.computeBoundingSphere();
 
   const isTransparent = shouldMakeTransparent(resultMesh, transparentMode);
-  const color = resultMesh.color
-    ? new THREE.Color(resultMesh.color[0], resultMesh.color[1], resultMesh.color[2])
-    : new THREE.Color(0x4a4a4a);
+  const name = partName(resultMesh);
 
-  return new THREE.Mesh(
-    geometry,
-    new THREE.MeshStandardMaterial({
-      color,
-      metalness: 0.12,
-      roughness: 0.52,
-      transparent: isTransparent,
-      opacity: isTransparent ? 0.28 : 1,
-      depthWrite: !isTransparent,
-      side: THREE.DoubleSide
-    })
-  );
+  if (isTransparent) {
+    // Clear acrylic, matching scripts/render_cad.html.
+    return new THREE.Mesh(
+      geometry,
+      new THREE.MeshPhysicalMaterial({
+        color: 0xffffff,
+        roughness: 0.02,
+        metalness: 0,
+        transmission: 1,
+        thickness: 0.4,
+        ior: 1.49,
+        specularIntensity: 0.15
+      })
+    );
+  }
+
+  // Materials match scripts/render_cad.html; STEP colors are sRGB.
+  let material;
+  if (name.includes("pcb")) {
+    material = new THREE.MeshStandardMaterial({ color: 0x111315, roughness: 0.85, metalness: 0, envMapIntensity: 0.25 });
+  } else if (name.includes("case")) {
+    material = new THREE.MeshPhysicalMaterial({ color: 0x1c1c1e, roughness: 0.62, metalness: 0, clearcoat: 0.15 });
+  } else if (name.includes("screw")) {
+    material = new THREE.MeshStandardMaterial({ color: 0x9a9da2, roughness: 0.32, metalness: 1 });
+  } else {
+    const color = resultMesh.color
+      ? new THREE.Color().setRGB(...resultMesh.color, THREE.SRGBColorSpace)
+      : new THREE.Color(0x111315);
+    material = new THREE.MeshStandardMaterial({ color, roughness: 0.5, metalness: 0.05 });
+  }
+  material.side = THREE.DoubleSide;
+  return new THREE.Mesh(geometry, material);
+}
+
+function partName(resultMesh) {
+  return [resultMesh.name, resultMesh.brep_name, resultMesh.product_name]
+    .filter(Boolean).join(" ").toLowerCase();
 }
 
 function shouldMakeTransparent(resultMesh, transparentMode) {

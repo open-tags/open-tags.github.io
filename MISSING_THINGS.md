@@ -29,13 +29,9 @@ Writing instructions or compiling code does not complete a hardware acceptance t
 
 ## P0 — complete before calling setup fully self-service
 
-- [ ] **Decide how to distribute the current MCU firmware source.** The current firmware checkout is private;
-  the public opentag repository contains older material and does not supply the documented
-  STM32/Embassy packages. The ROS 2 packages are now public under `ros2/` in the website repository.
-  Publish a reviewed, firmware-only release with licenses and
-  versioned download links, or establish an explicit source-access process. Do not publish the
-  private hardware/business checkout as a shortcut. Acceptance: a new customer can obtain the
-  documented package without guessing a repository or missing dependency.
+- [x] **Decide how to distribute the current MCU firmware source.** Published in
+  [opentag-U1](https://github.com/open-tags/opentag-U1) under the MIT License with the KiCad design, enclosure CAD, and host
+  tools; Embassy is pinned in `Cargo.toml`. The ROS 2 packages stay under `ros2/` here.
 - [ ] **Run the quickstarts on fresh systems.** Record OS/browser versions, DFU permissions,
   serial permissions, both role IDs, firmware, and expected output. Cover desktop Chrome/Edge
   on the supported operating systems; write the exact Windows DFU and Linux permission steps

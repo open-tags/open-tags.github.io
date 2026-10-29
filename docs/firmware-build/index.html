@@ -11,11 +11,11 @@
     <main class="docs-shell"><aside class="docs-sidebar" aria-label="Documentation navigation"><a class="docs-home" href="/docs/">opentag U1</a><span>Get started</span><a href="/docs/">Overview</a><a href="/docs/quickstart/">Distance quickstart</a><a href="/docs/location/">Location quickstart</a><span>Integrate</span><a href="/docs/scripts/">Python scripts</a><a href="/docs/ros2/">ROS 2 driver</a><span>Reference</span><a href="/docs/hardware/">Hardware</a><a href="/docs/protocol/">USB serial</a><span>Advanced</span><a aria-current="page" href="/docs/firmware-build/">Firmware build</a><a href="/docs/can/">CAN / CAN FD</a><a href="/docs/rust/">Rust examples</a><span>Test</span><a href="/docs/calibration/">Calibration</a><a href="/validation/">Performance</a><a href="/firmware/">Browser console</a></aside>
       <article class="docs-page">
         <p class="docs-breadcrumb">Documentation / Platform / Firmware build</p><h1>Firmware build</h1><p class="docs-lead">Compile and run the Rust firmware on opentag U1 V2 with the repository-pinned Embassy tree.</p>
-        <div class="docs-callout"><strong>Current source checkout required.</strong><p>The current STM32 firmware is not in the public website repository. Request source access from <a href="mailto:hello@open-tags.com">hello@open-tags.com</a>. A supplied checkout must include <code>firmware/rust_bringup/stm32g4</code> and the pinned <code>firmware/embassy</code> dependency. For normal setup, use the <a href="/docs/quickstart/">browser quickstart</a>; building is optional.</p></div>
+        <div class="docs-callout"><strong>Open source.</strong><p>The firmware is in <a href="https://github.com/open-tags/opentag-U1" rel="noreferrer">opentag-U1 on GitHub</a> under the MIT License. For normal setup, use the <a href="/docs/quickstart/">browser quickstart</a>; building is optional.</p></div>
         <h2 id="toolchain">Toolchain</h2>
-        <p>Install Rust first. From the supplied checkout's root, initialize the required submodule and enter the firmware package:</p>
-        <pre class="docs-code"><code class="language-bash">git submodule update --init --recursive firmware/embassy
-cd firmware/rust_bringup/stm32g4
+        <p>Install Rust, then clone the repository and enter the firmware package. Cargo fetches Embassy at the commit pinned in <code>Cargo.toml</code>.</p>
+        <pre class="docs-code"><code class="language-bash">git clone https://github.com/open-tags/opentag-U1.git
+cd opentag-U1/firmware/stm32g4
 rustup target add thumbv7em-none-eabi
 rustup component add llvm-tools-preview
 cargo install cargo-binutils --locked</code></pre>

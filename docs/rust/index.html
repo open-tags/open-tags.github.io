@@ -10,7 +10,7 @@
     </header>
     <main class="docs-shell"><aside class="docs-sidebar" aria-label="Documentation navigation"><a class="docs-home" href="/docs/">opentag U1</a><span>Get started</span><a href="/docs/">Overview</a><a href="/docs/quickstart/">Distance quickstart</a><a href="/docs/location/">Location quickstart</a><span>Integrate</span><a href="/docs/scripts/">Python scripts</a><a href="/docs/ros2/">ROS 2 driver</a><span>Reference</span><a href="/docs/hardware/">Hardware</a><a href="/docs/protocol/">USB serial</a><span>Advanced</span><a href="/docs/firmware-build/">Firmware build</a><a href="/docs/can/">CAN / CAN FD</a><a aria-current="page" href="/docs/rust/">Rust examples</a><span>Test</span><a href="/docs/calibration/">Calibration</a><a href="/validation/">Performance</a><a href="/firmware/">Browser console</a></aside>
       <article class="docs-page">
-        <p class="docs-breadcrumb">Documentation / Integrate / Rust examples</p><h1>Rust examples</h1><p class="docs-lead">CAN snippets for the supplied STM32G474 firmware checkout. These are excerpts, not standalone programs.</p>
+        <p class="docs-breadcrumb">Documentation / Integrate / Rust examples</p><h1>Rust examples</h1><p class="docs-lead">CAN snippets from the <a href="https://github.com/open-tags/opentag-U1" rel="noreferrer">opentag U1 firmware</a>. These are excerpts, not standalone programs.</p>
         <p>First follow the <a href="/docs/firmware-build/">source-access and toolchain setup</a>. Full targets include imports, clock setup, and interrupt bindings. They use the pinned Embassy revision; these snippets are not a replacement for those files.</p>
 
         <h2 id="classic-config">Configure classical CAN</h2>
@@ -98,11 +98,11 @@ can.write_fd(&frame).await;</code></pre>
         <p class="source-link"><a href="/docs/firmware-build/">Source-access and build instructions</a></p>
 
         <h2 id="build">Check every CAN target</h2>
-        <pre class="docs-code"><code class="language-bash">cd firmware/rust_bringup/stm32g4
+        <pre class="docs-code"><code class="language-bash">cd opentag-U1/firmware/stm32g4
 cargo check --release \
   --bin can_tx --bin can_rx \
   --bin can_fd_tx --bin can_fd_rx</code></pre>
-        <div class="docs-note"><strong>API stability</strong><p>These examples use the Embassy revision pinned by the repository submodule. Upstream Embassy CAN APIs may differ, so build against the checkout rather than copying the snippets into an unrelated dependency version.</p></div>
+        <div class="docs-note"><strong>API stability</strong><p>These examples use the Embassy revision pinned in the firmware's <code>Cargo.toml</code>. Upstream Embassy CAN APIs may differ, so build against the checkout rather than copying the snippets into an unrelated dependency version.</p></div>
         <div class="docs-next"><a href="/docs/can/">&larr; CAN / CAN FD</a><a href="/docs/calibration/">Calibration &rarr;</a></div>
       </article>
     </main><footer><div class="footer-row"><span>&copy; 2026 opentags</span><a href="mailto:hello@open-tags.com">hello@open-tags.com</a></div></footer><script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/highlight.min.js" defer></script><script src="/assets/docs.js" defer></script><script type="module" src="/assets/site.js?v=7"></script>
