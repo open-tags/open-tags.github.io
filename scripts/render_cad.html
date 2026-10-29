@@ -1,0 +1,249 @@
+<!doctype html>
+<!--
+  Studio renders of opentag CAD, using the same three.js and STEP importer as
+  assets/cad-viewer.js. Serve the site locally and open:
+    /scripts/render_cad.html?step=/assets/cad/opentag_one_v2_full_assembly.step&view=hero
+  Repeat step= to combine files (for example an enclosure and a board export).
+  A .glb from `kicad-cli pcb export glb --user-origin 0x0mm` keeps KiCad's colors.
+  Views: hero, front, top. Optional: width, height (output pixels), spin (degrees
+  about the vertical axis), pcb and module (hex colors for the main board and the
+  UWB module board, e.g. pcb=f4f4f1&module=111315).
+  The finished PNG is shown below the controls and exposed as window.renderResult.
+-->
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="robots" content="noindex" />
+    <title>CAD render</title>
+    <link rel="stylesheet" href="/assets/brand.css?v=1" />
+    <link rel="stylesheet" href="/assets/site.css?v=10" />
+    <style>
+      .render-main { width: min(var(--brand-content-width), calc(100% - 2 * var(--brand-gutter))); margin: var(--brand-space-md) auto; }
+      .render-main img { display: block; max-width: 100%; margin-top: var(--brand-space-sm); border: 1px solid var(--brand-line); border-radius: var(--brand-radius); }
+    </style>
+    <script type="importmap">
+      {
+        "imports": {
+          "three": "https://cdn.jsdelivr.net/npm/three@0.160.1/build/three.module.js",
+          "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.1/examples/jsm/"
+        }
+      }
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/occt-import-js@0.0.23/dist/occt-import-js.js"></script>
+  </head>
+  <body>
+    <header class="site-header" data-site-header>
+      <a class="brand" href="/" aria-label="opentags home">opentags</a>
+      <button class="nav-toggle" type="button" data-nav-toggle aria-label="Open menu" aria-expanded="false"><span class="nav-toggle-icon" aria-hidden="true"></span></button>
+      <nav aria-label="Primary"><a href="/products/">Products</a><a href="/validation/">Performance</a><a href="/docs/">Docs</a><a href="/firmware/">Console</a></nav>
+    </header>
+    <main class="render-main">
+      <p id="status">Loading…</p>
+      <a id="download" hidden>Download PNG</a>
+      <img id="output" alt="" hidden />
+    </main>
+    <script type="module">
+      import * as THREE from "three";
+      import { RoomEnvironment } from "three/addons/environments/RoomEnvironment.js";
+      import { mergeVertices } from "three/addons/utils/BufferGeometryUtils.js";
+      import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
+
+      const params = new URLSearchParams(location.search);
+      const stepUrls = params.getAll("step");
+      if (!stepUrls.length) stepUrls.push("/assets/cad/opentag_one_v2_full_assembly.step");
+      const view = params.get("view") || "hero";
+      const width = Number(params.get("width")) || 2400;
+      const height = Number(params.get("height")) || 1600;
+      const spin = Number(params.get("spin")) || 0;
+      const pcbColor = params.get("pcb");
+      const moduleColor = params.get("module");
+      const status = document.getElementById("status");
+
+      // Camera direction (model space, Z up) and framing distance per view.
+      const VIEWS = {
+        hero: { direction: new THREE.Vector3(1.05, -1.35, 0.95), distance: 0.92 },
+        front: { direction: new THREE.Vector3(0.35, -1.6, 0.55), distance: 0.95 },
+        top: { direction: new THREE.Vector3(0.45, -0.7, 1.9), distance: 1.2 }
+      };
+
+      const PALETTE = {
+        case: { color: 0x1c1c1e, roughness: 0.62, metalness: 0.0, clearcoat: 0.15 },
+        screw: { color: 0x9a9da2, roughness: 0.32, metalness: 1.0 },
+        board: { color: 0x111315, roughness: 0.85, metalness: 0.0, envMapIntensity: 0.25 }
+      };
+
+      function partName(mesh) {
+        return [mesh.name, mesh.brep_name, mesh.product_name].filter(Boolean).join(" ").toLowerCase();
+      }
+
+      function materialFor(mesh) {
+        const name = partName(mesh);
+        if (name.includes("lid")) {
+          return new THREE.MeshPhysicalMaterial({
+            // Clear cast acrylic: refractive transmission, no haze.
+            color: 0xffffff,
+            roughness: 0.02,
+            metalness: 0,
+            transmission: 1,
+            thickness: 0.4,
+            ior: 1.49,
+            specularIntensity: 0.15,
+            envMapIntensity: 0.5,
+            side: THREE.FrontSide
+          });
+        }
+        if (name.includes("pcb")) {
+          return new THREE.MeshStandardMaterial({ ...PALETTE.board, ...(pcbColor && { color: new THREE.Color(`#${pcbColor}`), roughness: 0.7 }) });
+        }
+        if (moduleColor && name.includes("dwm")) {
+          return new THREE.MeshStandardMaterial({ ...PALETTE.board, color: new THREE.Color(`#${moduleColor}`) });
+        }
+        if (name.includes("case")) return new THREE.MeshPhysicalMaterial(PALETTE.case);
+        if (name.includes("screw") || name.includes("bolt") || name.includes("iso")) {
+          return new THREE.MeshStandardMaterial(PALETTE.screw);
+        }
+        // STEP colors are sRGB.
+        const color = mesh.color
+          ? new THREE.Color().setRGB(...mesh.color, THREE.SRGBColorSpace)
+          : new THREE.Color(PALETTE.board.color);
+        return new THREE.MeshStandardMaterial({ color, roughness: 0.5, metalness: 0.05 });
+      }
+
+      function buildMesh(resultMesh) {
+        let geometry = new THREE.BufferGeometry();
+        geometry.setAttribute("position", new THREE.Float32BufferAttribute(resultMesh.attributes.position.array, 3));
+        geometry.setIndex(new THREE.BufferAttribute(Uint32Array.from(resultMesh.index.array), 1));
+        if (resultMesh.attributes.normal) {
+          geometry.setAttribute("normal", new THREE.Float32BufferAttribute(resultMesh.attributes.normal.array, 3));
+        } else {
+          geometry = mergeVertices(geometry, 1e-4);
+          geometry.computeVertexNormals();
+        }
+        const mesh = new THREE.Mesh(geometry, materialFor(resultMesh));
+        return mesh;
+      }
+
+      // KiCad GLB: metres, Y up. Convert to the STEP frame (mm, Z up, y = -KiCad y)
+      // and give the green solder mask the board finish.
+      async function loadKicadGlb(url) {
+        const gltf = await new GLTFLoader().loadAsync(url);
+        gltf.scene.traverse((o) => {
+          if (!o.isMesh) return;
+          const c = o.material.color;
+          if (c.g > c.r * 1.2 && c.g > c.b * 1.05) {
+            o.material = new THREE.MeshStandardMaterial({ ...PALETTE.board, ...(pcbColor && { color: new THREE.Color(`#${pcbColor}`), roughness: 0.7 }) });
+          }
+        });
+        const holder = new THREE.Group().add(gltf.scene);
+        holder.rotation.x = Math.PI / 2;
+        holder.scale.setScalar(1000);
+        return holder;
+      }
+
+      // Soft blurred footprint under the model, in place of a shadow map.
+      function contactShadow(size) {
+        const canvas = document.createElement("canvas");
+        canvas.width = canvas.height = 512;
+        const ctx = canvas.getContext("2d");
+        ctx.filter = "blur(36px)";
+        ctx.fillStyle = "rgba(0, 0, 0, 0.55)";
+        ctx.beginPath();
+        ctx.roundRect(116, 116, 280, 280, 48);
+        ctx.fill();
+        const texture = new THREE.CanvasTexture(canvas);
+        texture.colorSpace = THREE.SRGBColorSpace;
+        const plane = new THREE.Mesh(
+          new THREE.PlaneGeometry(size.x * 1.75, size.y * 1.75),
+          new THREE.MeshBasicMaterial({ map: texture, transparent: true, depthWrite: false, toneMapped: false })
+        );
+        plane.position.z = 0.01;
+        return plane;
+      }
+
+      async function render() {
+        const occt = await window.occtimportjs();
+        const meshes = [];
+        const extras = [];
+        for (const stepUrl of stepUrls) {
+          if (/\.glb$/i.test(stepUrl)) {
+            status.textContent = `Loading ${stepUrl}`;
+            extras.push(await loadKicadGlb(stepUrl));
+            continue;
+          }
+          status.textContent = `Fetching ${stepUrl}`;
+          const buffer = new Uint8Array(await (await fetch(stepUrl)).arrayBuffer());
+          status.textContent = `Parsing ${stepUrl}`;
+          const result = occt.ReadStepFile(buffer, null);
+          if (!result?.meshes?.length) throw new Error(`No meshes in ${stepUrl}`);
+          meshes.push(...result.meshes);
+        }
+
+        const parts = new THREE.Group();
+        meshes.forEach((m) => parts.add(buildMesh(m)));
+        extras.forEach((g) => parts.add(g));
+        const model = new THREE.Group().add(parts);
+        model.updateMatrixWorld(true);
+
+        // Center the model and rest it on the ground plane.
+        const box = new THREE.Box3().setFromObject(model);
+        const center = box.getCenter(new THREE.Vector3());
+        const size = box.getSize(new THREE.Vector3());
+        model.position.set(-center.x, -center.y, -box.min.z);
+        const radius = size.length() / 2;
+
+        const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true, preserveDrawingBuffer: true });
+        renderer.setPixelRatio(1);
+        renderer.setSize(width, height, false);
+        renderer.outputColorSpace = THREE.SRGBColorSpace;
+        renderer.toneMapping = THREE.ACESFilmicToneMapping;
+        renderer.toneMappingExposure = 1.05;
+
+        const scene = new THREE.Scene();
+        scene.background = new THREE.Color(0xffffff); // --brand-paper
+        const pmrem = new THREE.PMREMGenerator(renderer);
+        scene.environment = pmrem.fromScene(new RoomEnvironment(renderer), 0.04).texture;
+        scene.add(model);
+
+        const key = new THREE.DirectionalLight(0xffffff, 2.2);
+        key.position.set(radius * 1.5, -radius * 2.5, radius * 5);
+        scene.add(key);
+
+        const rim = new THREE.DirectionalLight(0xffffff, 1.2);
+        rim.position.set(-radius * 3, radius * 3, radius * 2);
+        scene.add(rim);
+
+        scene.add(contactShadow(size));
+
+        const camera = new THREE.PerspectiveCamera(24, width / height, radius / 100, radius * 100);
+        camera.up.set(0, 0, 1);
+        const target = new THREE.Vector3(0, 0, size.z * 0.42);
+        const shot = VIEWS[view] || VIEWS.hero;
+        const distance = radius / Math.sin(THREE.MathUtils.degToRad(camera.fov / 2)) * shot.distance;
+        // Orbit the camera rather than the model so framing and shadow stay put.
+        const direction = shot.direction.clone().normalize().applyAxisAngle(new THREE.Vector3(0, 0, 1), THREE.MathUtils.degToRad(-spin));
+        camera.position.copy(target).addScaledVector(direction, distance);
+        camera.lookAt(target);
+
+        status.textContent = "Rendering";
+        renderer.render(scene, camera);
+
+        const dataUrl = renderer.domElement.toDataURL("image/png");
+        window.renderResult = dataUrl;
+        const output = document.getElementById("output");
+        output.src = dataUrl;
+        output.hidden = false;
+        const link = document.getElementById("download");
+        link.href = dataUrl;
+        link.download = `${stepUrls[0].split("/").pop().replace(/\.step$/i, "")}-${view}.png`;
+        link.hidden = false;
+        status.textContent = `Done: ${meshes.length} parts, ${width}×${height}`;
+        window.renderParts = meshes.map(partName);
+      }
+
+      render().catch((error) => {
+        status.textContent = `Render failed: ${error.message}`;
+        window.renderError = error.message;
+      });
+    </script>
+  </body>
+</html>

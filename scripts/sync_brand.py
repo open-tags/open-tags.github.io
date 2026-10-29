@@ -38,9 +38,11 @@ def product_cards(spec, heading=3):
                   if product.get('url') else '')
         status = (f'<p class="product-status">{esc(product["status"])}</p>'
                   if product.get("status") else "")
+        image = (f'''
+          <img class="product-card-media" src="{esc(product['image'])}" alt="{esc(product['image_alt'])}" width="1500" height="1000" loading="lazy" />'''
+                 if product.get('image') else '')
         cards.append(f'''<article class="product-card" data-product="{esc(product['id'])}">
-          <h{heading}>{esc(product['name'])}</h{heading}>
-          <p class="product-descriptor">{esc(product['descriptor'])}</p>
+          <h{heading}>{esc(product['name'])}</h{heading}>{image}
           <p>{esc(product['description'])}</p>
           {action or status}
         </article>''')

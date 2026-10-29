@@ -35,7 +35,7 @@ We build tracking hardware and integration tools to help robot developers measur
 - Lead with tracking for robotics. Explain UWB within the relevant product, rather than defining the whole company by a radio technology.
 - Use concrete language and useful details. Avoid unsupported superlatives and vague claims of precision.
 - Describe measured performance with its setup, conditions, and limitations on the relevant product and performance pages. Label goals as targets and future features as planned.
-- Place Coming Soon at the bottom of each upcoming product card, aligned with available-product links, and style it bold and italic. Use bold text for product-card links. Omit status labels for available products. Keep product cards concise: name, descriptor, description, and Coming Soon where applicable, without extra caveats beneath the card or product grid. Do not offer a purchase action for an unreleased product.
+- Place Coming Soon at the bottom of each upcoming product card, aligned with available-product links, and style it bold and italic. Use bold text for product-card links. Omit status labels for available products. Keep product cards concise: name, image, a one-line description, and Coming Soon where applicable, without subtitles, image labels, or extra caveats beneath the card or product grid. Make an available product's whole card open its page. Do not offer a purchase action for an unreleased product.
 - Describe public resources individually. Do not promise that all hardware or firmware is open source. Hardware design files are not currently published; this is not a declaration of future licensing policy.
 
 ## Units
