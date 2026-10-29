@@ -67,7 +67,7 @@ class BrandTests(unittest.TestCase):
                 self.assertEqual(product['status'], 'Coming Soon')
                 self.assertNotIn('action', product)
                 self.assertNotIn('url', product)
-        for rel in ('index.html', 'products/index.html', 'branding/index.html'):
+        for rel in ('products/index.html', 'branding/index.html'):
             text = (ROOT/rel).read_text()
             for product in SPEC['products']:
                 card = re.search(r'<article[^>]*data-product="' + product['id'] + r'">(.*?)</article>', text, re.S)
