@@ -38,6 +38,11 @@ We build tracking hardware and integration tools to help robot developers measur
 - Place Coming Soon at the bottom of each upcoming product card, aligned with available-product links, and style it bold and italic. Use bold text for product-card links. Omit status labels for available products. Keep product cards concise: name, descriptor, description, and Coming Soon where applicable, without extra caveats beneath the card or product grid. Do not offer a purchase action for an unreleased product.
 - Describe public resources individually. Do not promise that all hardware or firmware is open source. Hardware design files are not currently published; this is not a declaration of future licensing policy.
 
+## Units
+
+- Use centimeters and meters as the main units in public copy, charts, tables, and the console: 2.1 cm, 4.28 m. Round to what the measurement supports.
+- Keep millimeters only in raw data files, CSV columns, firmware commands, and command-line flags such as --true-mm, and say so where readers download them.
+
 ## Typography
 
 - Use Editorial New for major marketing headlines and short titles over product photography.

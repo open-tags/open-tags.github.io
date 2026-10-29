@@ -35,12 +35,12 @@
           <li>Keep both tags powered with clear line of sight. The responder log should show changing <code>D</code> records and <strong>Live Distance</strong> should update.</li>
         </ol>
         <pre class="docs-code"><code class="language-plaintext">D 42 1000 16174 -748</code></pre>
-        <p>This example reports 1,000 mm (1 m). The graph is fixed at 0–5 m; a trace outside those bounds is clipped, but the numeric reading and CSV retain the measurement. The current distance firmware targets 40 Hz; this is not a delivery guarantee.</p>
+        <p>This example reports 1 m. The graph is fixed at 0–5 m; a trace outside those bounds is clipped, but the numeric reading and CSV retain the measurement. The current distance firmware targets 40 Hz; this is not a delivery guarantee.</p>
 
         <h2 id="calibrate">3. Calibrate the pair</h2>
         <ol class="docs-steps">
           <li>Fix both tags at a measured separation, using consistent antenna reference points and orientation. Start with 1 m in clear line of sight.</li>
-          <li>Under <strong>Pair Calibration</strong>, enter <strong>1000 mm</strong>, choose responder slot <strong>B</strong>, and collect at least 100 samples with <strong>Start calibration</strong>.</li>
+          <li>Under <strong>Pair Calibration</strong>, enter <strong>100 cm</strong>, choose responder slot <strong>B</strong>, and collect at least 100 samples with <strong>Start calibration</strong>.</li>
           <li>Wait for the result and verify the responder acknowledges <code>OK CALIB</code>. Record both device IDs and the offset.</li>
         </ol>
         <div class="docs-warning"><strong>Keep the same calibration for the distance sweep.</strong><p>The active offset is in RAM. The browser saves a copy for that responder on this browser and site; another computer, Python, or ROS 2 does not automatically share it. See <a href="/docs/calibration/#persistence">calibration persistence</a>.</p></div>

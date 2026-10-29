@@ -42,7 +42,7 @@ let testStartPerf = 0;
 let testStartWall = null;
 let testTargetMs = 0;
 let testInputDistance = 0;
-let testInputUnit = "ft";
+let testInputUnit = "m";
 let testTrueMm = 0;
 let testSamples = [];
 let testLastSummary = null;
@@ -459,9 +459,9 @@ function updateStats() {
   const xs = samples.map((s) => s.mm);
   const mean = xs.reduce((a, b) => a + b, 0) / xs.length;
   const variance = xs.reduce((a, b) => a + (b - mean) ** 2, 0) / xs.length;
-  $("#stat-last").textContent = xs[xs.length - 1].toFixed(0);
-  $("#stat-mean").textContent = mean.toFixed(0);
-  $("#stat-std").textContent = Math.sqrt(variance).toFixed(0);
+  $("#stat-last").textContent = (xs[xs.length - 1] / 1000).toFixed(3);
+  $("#stat-mean").textContent = (mean / 1000).toFixed(3);
+  $("#stat-std").textContent = (Math.sqrt(variance) / 10).toFixed(1);
   const elapsedMs = samples[xs.length - 1].t - samples[0].t;
   const rateHz = elapsedMs > 0 ? (samples.length - 1) * 1000 / elapsedMs : NaN;
   $("#stat-rate").textContent = formatMetric(rateHz, 1);
@@ -604,7 +604,7 @@ function distanceInputMm() {
 
 function updateTestDistanceDisplay() {
   const mm = distanceInputMm();
-  $("#test-dist-mm").textContent = Number.isFinite(mm) ? mm.toFixed(0) : "-";
+  $("#test-dist-mm").textContent = Number.isFinite(mm) ? (mm / 1000).toFixed(3) : "-";
 }
 
 async function startStaticTest() {
@@ -678,8 +678,8 @@ function finishStaticTest(reason) {
   }
   setTestStatus(
     reason,
-    `${prefix}: N=${testLastSummary.n}  Mean error=${formatMetric(testLastSummary.meanErrorMm)} mm  ` +
-      `Stdev=${formatMetric(testLastSummary.stdevMm)} mm`
+    `${prefix}: N=${testLastSummary.n}  Mean error=${formatMetric(testLastSummary.meanErrorMm / 10)} cm  ` +
+      `Stdev=${formatMetric(testLastSummary.stdevMm / 10)} cm`
   );
 }
 
@@ -760,7 +760,7 @@ function updateTestStatus() {
     ? (stats.n - 1) * 1000 / (testLastSamplePerf - testFirstSamplePerf)
     : NaN;
   const body = stats?.n
-    ? `N=${stats.n}  Mean error=${formatMetric(stats.mean)} mm  Stdev=${formatMetric(stdev)} mm  Rate=${formatMetric(rate)} Hz  Missing=${testMissingSamples}`
+    ? `N=${stats.n}  Mean error=${formatMetric(stats.mean / 10)} cm  Stdev=${formatMetric(stdev / 10)} cm  Rate=${formatMetric(rate)} Hz  Missing=${testMissingSamples}`
     : "N=0  Waiting for distance samples";
   setTestStatus(
     "running",
@@ -861,7 +861,7 @@ async function startCalibration() {
     return;
   }
 
-  calibTarget = parseInt($("#cal-dist").value, 10);
+  calibTarget = Math.round(parseFloat($("#cal-dist").value) * 10); // cm input, mm internally
   calibNeeded = parseInt($("#cal-n").value, 10);
   if (!isFinite(calibTarget) || calibTarget <= 0 || !isFinite(calibNeeded) || calibNeeded < 10) {
     setCalStatus("error", "Bad inputs");
@@ -890,7 +890,7 @@ function finishCalibration() {
 
   setCalStatus(
     "done",
-    `Slot ${calibRespSlot}: Mean=${mean.toFixed(1)} mm  True=${calibTarget} mm  ` +
+    `Slot ${calibRespSlot}: Mean=${(mean / 10).toFixed(1)} cm  True=${(calibTarget / 10).toFixed(1)} cm  ` +
       `Δ=${delta.toFixed(1)} dtu  →  calib=${newOffset} (was ${resp.calib})`
   );
   resp.send(`CALIB ${newOffset}`);

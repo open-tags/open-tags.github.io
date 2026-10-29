@@ -121,9 +121,9 @@
           <button id="clear" disabled>Clear</button>
           <button id="export" disabled>Export Chart CSV</button>
           <span class="stats">
-            Last: <code id="stat-last">-</code> mm /
-            Mean: <code id="stat-mean">-</code> mm /
-            Stdev: <code id="stat-std">-</code> mm /
+            Last: <code id="stat-last">-</code> m /
+            Mean: <code id="stat-mean">-</code> m /
+            Stdev: <code id="stat-std">-</code> cm /
             Rate: <code id="stat-rate">-</code> Hz /
             Missing: <code id="stat-missing">0</code> /
             RSSI: <code id="stat-rssi">-</code> dBm /
@@ -137,16 +137,15 @@
         <h2>Static Test</h2>
         <div class="row">
           <label>True Distance
-            <input id="test-dist" type="number" value="5" min="0" step="any" />
+            <input id="test-dist" type="number" value="1.5" min="0" step="any" />
             <select id="test-unit">
-              <option value="ft" selected>ft</option>
-              <option value="in">in</option>
-              <option value="m">m</option>
+              <option value="m" selected>m</option>
               <option value="cm">cm</option>
-              <option value="mm">mm</option>
+              <option value="ft">ft</option>
+              <option value="in">in</option>
             </select>
           </label>
-          <span class="stats">Ground truth: <code id="test-dist-mm">1524</code> mm</span>
+          <span class="stats">Ground truth: <code id="test-dist-mm">1.500</code> m</span>
           <label>Duration
             <input id="test-duration" type="number" value="10" min="0.01" step="0.1" /> min
           </label>
@@ -168,7 +167,7 @@
         </p>
         <div class="row">
           <label>True Distance
-            <input id="cal-dist" type="number" value="3048" min="1" /> mm
+            <input id="cal-dist" type="number" value="300" min="1" step="any" /> cm
           </label>
           <label>Samples
             <input id="cal-n" type="number" value="100" min="10" max="1000" />

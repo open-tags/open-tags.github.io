@@ -7,7 +7,7 @@ Key facts:
 - Product: opentag U1, a UWB distance and indoor location tag in a PETG enclosure with clear lid
 - Kits: U1 Distance Kit (2 tags, $199) gives live point-to-point distance; U1 Location Kit (5 tags, $499) provides indoor location hardware with 4 fixed anchors plus 1 mobile tag
 - Engineering targets pending ground-truthed validation: ±10 cm TWR ranging accuracy, ±20 cm TDOA position accuracy, 50 Hz update rate, 60 m line-of-sight range
-- Preliminary TWR evidence from one pair and the original 50 Hz profile: P95 absolute error was 28.0 mm at the 1 m calibration point, 77.9 mm at 3 m, and 77.3 mm at 5 m; these short indoor line-of-sight runs are not a finished benchmark
+- Measured TWR, October 2026 (one U1 PCB V2 pair, website twr-5 firmware, indoor line of sight): over one hour at 4.28 m the mean error was −0.3 cm with a 2.1 cm standard deviation; 12 of 14 one-minute runs from 0.57 m to 5.66 m averaged within ±10 cm. Details and raw data: https://open-tags.com/validation/
 - Interfaces: USB-C serial stream, CAN and CAN FD; powered over USB-C or a 6–24V input with reverse-polarity protection
 - MCU: STM32 Cortex-M4 at 170 MHz, 256K flash, 128K RAM; radio: Qorvo DWM3000
 - Firmware: Rust (Embassy framework); prebuilt roles can be flashed and their serial output monitored in the browser via WebUSB / Web Serial, with no local toolchain. Building the current firmware requires a supplied source checkout; no current public source release is linked.

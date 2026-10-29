@@ -1148,10 +1148,225 @@
   font-size: 0.875rem;
 }
 
+.performance-mode {
+  display: inline-grid;
+  grid-template-columns: repeat(2, minmax(0, auto));
+  gap: 4px;
+  padding: 4px;
+  border: 1px solid var(--store-line);
+  border-radius: var(--brand-radius);
+}
+
+.performance-mode button {
+  min-width: 132px;
+  padding: 10px 18px;
+  border: 0;
+  border-radius: var(--brand-radius);
+  background: none;
+  color: var(--store-ink);
+  font: inherit;
+  font-weight: 600;
+}
+
+.performance-mode button[aria-pressed="true"] {
+  background: var(--store-ink);
+  color: var(--brand-paper);
+}
+
+.performance-mode button:disabled {
+  color: var(--brand-disabled);
+  cursor: not-allowed;
+}
+
+.performance-mode small {
+  margin-left: 6px;
+  font-size: 0.75rem;
+  font-style: italic;
+  font-weight: 700;
+}
+
+.twr-run-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 5fr) minmax(0, 8fr);
+  align-items: center;
+  gap: 32px;
+  margin: 32px 0 8px;
+}
+
+.twr-run-grid svg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.twr-run svg text {
+  fill: var(--store-muted);
+  font-family: var(--brand-font-body);
+  font-size: 12px;
+}
+
+.twr-run svg text.label {
+  fill: var(--store-ink);
+  font-weight: 600;
+}
+
+.twr-setup .tripod line {
+  stroke: var(--store-ink);
+  stroke-width: 2;
+  stroke-linecap: round;
+}
+
+.twr-setup .board {
+  fill: var(--store-ink);
+}
+
+.twr-setup .floor {
+  stroke: var(--brand-line-strong);
+  stroke-width: 1.5;
+}
+
+.twr-setup .dim {
+  stroke: var(--store-muted);
+  stroke-width: 1;
+}
+
+.twr-chart .grid {
+  stroke: var(--brand-line);
+}
+
+.twr-chart .zero {
+  stroke: var(--brand-line-strong);
+  stroke-width: 1.5;
+}
+
+.twr-chart .target {
+  stroke: var(--store-muted);
+  stroke-dasharray: 4 4;
+}
+
+.twr-chart .spread {
+  fill: var(--brand-line);
+}
+
+.twr-chart .mean {
+  fill: none;
+  stroke: var(--store-ink);
+  stroke-width: 2;
+  stroke-linejoin: round;
+}
+
+.twr-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 24px;
+}
+
+.twr-legend > span {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.twr-legend svg {
+  width: 18px;
+  height: 12px;
+  overflow: visible;
+}
+
+.twr-run .key-line,
+.twr-run .whisker {
+  stroke: var(--store-ink);
+  stroke-width: 2;
+}
+
+.twr-run .key-band {
+  fill: var(--brand-line);
+}
+
+.twr-run .pt-a {
+  fill: var(--store-ink);
+}
+
+.twr-run .pt-b {
+  fill: var(--store-soft);
+  stroke: var(--store-ink);
+  stroke-width: 2;
+}
+
+.twr-run .hist-a {
+  fill: var(--brand-line);
+  stroke: var(--store-ink);
+  stroke-width: 1.5;
+  stroke-linejoin: round;
+}
+
+.twr-run .hist-b {
+  fill: none;
+  stroke: var(--store-ink);
+  stroke-width: 2;
+  stroke-dasharray: 5 3;
+  stroke-linejoin: round;
+}
+
+.twr-setup .spot,
+.twr-setup .arrow-head {
+  fill: var(--store-ink);
+}
+
+.twr-setup .board-ghost {
+  fill: none;
+  stroke: var(--store-muted);
+  stroke-dasharray: 3 2;
+}
+
+.twr-setup .door {
+  fill: var(--brand-line);
+  stroke: var(--brand-line-strong);
+}
+
+.twr-setup .board-top {
+  fill: var(--store-soft);
+  stroke: var(--store-ink);
+  stroke-width: 1.5;
+}
+
+.twr-setup .arrow,
+.twr-setup .turn {
+  fill: none;
+  stroke: var(--store-ink);
+  stroke-width: 2;
+}
+
+.twr-setup .turn {
+  stroke: var(--store-muted);
+  stroke-width: 1.5;
+}
+
+.twr-test .stat-row strong {
+  font-size: clamp(20px, 2.6vw, 30px);
+}
+
 @media (max-width: 820px) {
   .one-hero,
   .localization-pillars {
     grid-template-columns: 1fr;
+  }
+
+  .twr-run-grid {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+
+  .twr-setup {
+    max-width: 420px;
+  }
+
+  .twr-run .twr-chart text {
+    font-size: 20px;
+  }
+
+  .twr-run .twr-setup text {
+    font-size: 15px;
   }
 
   .localization-pillars {
