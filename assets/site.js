@@ -42,3 +42,20 @@ if (docsSidebar && activeDocsLink && window.matchMedia("(max-width: 800px)").mat
     );
   });
 }
+
+// Muted inline video should autoplay, but some browsers (iOS Low Power Mode,
+// data saver) block it; retry on load and on the first interaction.
+document.querySelectorAll("video[data-autoplay]").forEach((video) => {
+  const play = () => video.play().catch(() => {});
+  video.muted = true;
+  if (video.paused) play();
+  const resume = () => {
+    if (video.paused) play();
+  };
+  ["touchstart", "pointerdown", "scroll", "keydown"].forEach((type) =>
+    window.addEventListener(type, resume, { once: true, passive: true })
+  );
+  document.addEventListener("visibilitychange", () => {
+    if (!document.hidden) resume();
+  });
+});
